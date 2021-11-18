@@ -1,14 +1,15 @@
 FROM ubuntu
 
-COPY . /opt/source
-WORKDIR /opt/source
+COPY . /var/www/source
+WORKDIR /var/www/source
 
 RUN \
     apt-get update && \
-    apt-get install -y nodejs && \
-    apt-get install -y npm
+    apt-get install -y \
+    nodejs \
+    npm
 
-EXPOSE 8080
+EXPOSE 80
 
 RUN npm install --production
 

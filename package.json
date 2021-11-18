@@ -1,10 +1,10 @@
 {
-  "name": "Media-Streaming-Server",
+  "name": "media-streaming-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "docker:create-pg-volume": "docker volume create postgres_data"
   },
   "keywords": [],
   "author": "",
