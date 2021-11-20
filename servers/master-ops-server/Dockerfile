@@ -1,19 +1,13 @@
-FROM ubuntu
+FROM node
 
-COPY . /var/www/source
-WORKDIR /var/www/source
-
-RUN \
-    apt-get update && \
-    apt-get install -y \
-    nodejs \
-    npm
+WORKDIR /var/app/
+COPY . /var/app
 
 EXPOSE 80
 
-RUN npm install --production
+RUN \
+    npm install && \
+    npm install -g nodemon
 
-ENTRYPOINT ["npm"]
-
-CMD ["start"]
+ENTRYPOINT ["npm", "run", "dev"]
 

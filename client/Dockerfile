@@ -1,18 +1,13 @@
-FROM ubuntu
+FROM node  
+
+WORKDIR /var/app/
+COPY . /var/app/ 
 
 RUN \
-    apt-get update && \
-    apt-get install -y \
-    nginx \
-    nodejs \ 
-    npm && \
-    ufw allow 'Nginx HTTP' && \
-    ufw enable
+    npm install 
 
-RUN \
-    npm install --production && \
-    npm run build
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
-EXPOSE 80
+EXPOSE 3000
 
-COPY build /var/www/html/
+ENTRYPOINT [ "npm","start" ]

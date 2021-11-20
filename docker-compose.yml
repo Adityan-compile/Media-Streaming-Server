@@ -34,11 +34,13 @@ services:
       PORT: 80
       NODE_ENV: production
     ports:
-      - 8080:80
+      - 8081:80
     depends_on:
       - postgres
       - redis
     restart: unless-stopped
+    volumes:
+      - ./servers/master-ops-server/:/var/app/
     networks:
       - frontend
       - backend
@@ -49,10 +51,12 @@ services:
     environment:
       PORT: 80
     ports:
-      - 8081:80
+      - 8082:80
     depends_on:
       - postgres
     restart: unless-stopped
+    volumes:
+      - ./servers/auth-server/:/var/app/
     networks:
       - frontend
       - backend
@@ -61,10 +65,12 @@ services:
     image: streaming-server
     build: ./servers/streaming-server
     ports:
-      - 8082:80
+      - 8083:80
     depends_on:
       - postgres
     restart: unless-stopped
+    volumes:
+      - ./servers/streaming-server/:/var/app/
     networks:
       - frontend
       - backend
@@ -73,12 +79,14 @@ services:
     image: client-app
     build: ./client
     ports:
-      - 8083:80
+      - 8084:3000
     depends_on:
       - auth-server
       - streaming-server
       - master-ops-server
     restart: unless-stopped
+    volumes:
+      - ./client/:/var/app/
     networks:
       - frontend
 

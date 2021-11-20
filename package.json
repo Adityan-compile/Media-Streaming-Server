@@ -2,9 +2,8 @@
   "name": "media-streaming-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "docker:create-pg-volume": "docker volume create postgres_data"
+    "server":"docker-compose up --build"
   },
   "keywords": [],
   "author": "",
