@@ -75,7 +75,7 @@ services:
       - frontend
       - backend
 
-  client-app:
+  client:
     image: client-app
     build: ./client
     ports:
