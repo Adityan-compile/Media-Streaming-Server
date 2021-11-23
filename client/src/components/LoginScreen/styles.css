@@ -10,21 +10,42 @@
   margin: auto;
 }
 
-.input {
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.616);
-}
-
 .login-form {
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
+.heading {
+  text-align: center;
+  font-family: "Dancing Script", cursive;
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  margin: 20px;
+}
+
+.input {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.616);
+  align-self: flex-start;
+  margin: 2px;
+}
+
 .link {
   text-decoration: none;
-  color: #366fff;
-  font-weight: bold;
+  color: #0022ff;
+}
+
+.btn-container {
+  margin-left: 145px;
+}
+
+.footer {
+  margin-top: 30px;
+  text-align: center;
 }
