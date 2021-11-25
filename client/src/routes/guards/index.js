@@ -9,7 +9,7 @@ export const RouteGuard = ({ children, user }) => {
 
 export const AuthGuard = ({ children, user }) => {
   if (user.authenticated === true) {
-    return <Navigate to={"/dashboard"} />;
+    return <Navigate to={"/"} />;
   }
   return children;
 };

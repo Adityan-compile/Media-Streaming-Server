@@ -31,7 +31,7 @@ function Header() {
           <div className="p-col-12 p-md-4">
             <div className="p-inputgroup">
               <InputText placeholder="Keyword" />
-              <Button label="Search" />
+              <Button icon="pi pi-search" />
             </div>
           </div>
         </div>

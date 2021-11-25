@@ -1,0 +1,22 @@
+.card {
+  height: 20rem;
+  width: 15rem;
+  margin: 30px;
+  border-radius: 10px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.overlay {
+  display: none;
+}
+
+.overlay:hover {
+  display: block;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  transition: all 0.5s;
+}

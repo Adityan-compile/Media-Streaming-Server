@@ -1,9 +1,9 @@
-const storage = localStorage;
+import storage from "../../storage";
 
 const auth = {
   getAuthStatus: () => {
     return new Promise((resolve, reject) => {
-      const user = storage.getItem("USER");
+      const user = storage.get("USER");
       if (user === null || user === undefined) {
         return resolve({
           authenticated: false,
