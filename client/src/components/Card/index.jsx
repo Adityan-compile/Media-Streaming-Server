@@ -1,11 +1,12 @@
 import "./styles.css";
 
-import React, { useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 
+import Context from "../../store/";
 import { ContextMenu } from "primereact/contextmenu";
 
 function Card() {
-  const contextMenu = useRef(null);
+  const { contextMenu } = useContext(Context);
 
   const [backgroundImage, setBackgroundImage] = useState([
     "https://www.themoviedb.org/t/p/original/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg",
@@ -18,38 +19,36 @@ function Card() {
     "https://www.themoviedb.org/t/p/original/96MUCdrr6Plc5W4mTiQWtBlnN8L.jpg",
     "https://www.themoviedb.org/t/p/original/kchu0regBPDjWORUzvTblyoA5aE.jpg",
   ]);
+  const items = [
+    {
+      label: "Play",
+      icon: "pi pi-play",
+    },
+    {
+      separator: true,
+    },
+    {
+      label: "Info",
+      icon: "pi pi-info",
+    },
+    {
+      separator: true,
+    },
+    {
+      label: "Edit",
+      icon: "pi pi-pencil",
+    },
+    {
+      separator: true,
+    },
+    {
+      label: "Delete",
+      icon: "pi pi-trash",
+    },
+  ];
   return (
     <div>
-      <ContextMenu
-        model={[
-          {
-            label: "Play",
-            icon: "pi pi-play",
-          },
-          {
-            separator: true,
-          },
-          {
-            label: "Info",
-            icon: "pi pi-info",
-          },
-          {
-            separator: true,
-          },
-          {
-            label: "Edit",
-            icon: "pi pi-pencil",
-          },
-          {
-            separator: true,
-          },
-          {
-            label: "Delete",
-            icon: "pi pi-trash",
-          },
-        ]}
-        ref={contextMenu}
-      />
+      <ContextMenu model={items} ref={contextMenu} />
       <div
         style={{
           backgroundImage: `url('${
@@ -60,7 +59,11 @@ function Card() {
         }}
         className="card"
         onContextMenu={(e) => contextMenu.current.show(e)}
-      ></div>
+      >
+        <div className="overlay">
+          <i className="pi pi-play"></i>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,22 +1,32 @@
 .card {
-  height: 20rem;
-  width: 15rem;
+  height: 16rem;
+  width: 11rem;
   margin: 30px;
-  border-radius: 10px;
+  margin-left: 40px;
+  border-radius: 5px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  transition: all 2s ease-in-out;
 }
 
 .overlay {
-  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  height: 100%;
 }
 
-.overlay:hover {
-  display: block;
+.card:hover .overlay {
+  opacity: 1;
 }
 
 .card:hover {
   transform: scale(1.1);
-  transition: all 0.5s;
+}
+
+.continue {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }

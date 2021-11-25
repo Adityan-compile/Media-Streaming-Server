@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import AuthProvider from "../store/providers/authProvider";
 import Context from "../store";
@@ -17,6 +17,7 @@ function Routes() {
   const [user, setUser] = useState({
     authenticated: false,
   });
+  const contextMenu = useRef(null);
 
   useEffect(() => {
     AuthProvider.getAuthStatus().then((res) => {
@@ -29,6 +30,7 @@ function Routes() {
       <Context.Provider
         value={{
           ...AuthProvider,
+          contextMenu,
         }}
       >
         {user.authenticated && <Header />}
