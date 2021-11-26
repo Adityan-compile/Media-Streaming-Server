@@ -61,7 +61,7 @@ function Card() {
         onContextMenu={(e) => contextMenu.current.show(e)}
       >
         <div className="overlay">
-          <i className="pi pi-play"></i>
+          <i className="pi pi-play overlay-icon"></i>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ WORKDIR /var/app/
 COPY . /var/app/ 
 
 RUN \
-    npm install 
+    npm i 
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
