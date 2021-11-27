@@ -57,6 +57,11 @@ services:
     build: ./servers/auth-server
     environment:
       PORT: 80
+      PG_DATABASE: media_server
+      PG_USER: postgres
+      PG_PASSWORD: 1234
+      PG_HOST: postgres
+      PG_PORT: 5433
     ports:
       - 8082:80
     depends_on:
