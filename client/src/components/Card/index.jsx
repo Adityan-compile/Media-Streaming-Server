@@ -50,7 +50,12 @@ function Card() {
     },
   ];
   return (
-    <div>
+    <div
+      onClick={(e) => {
+        e.preventDefault();
+        navigate("/shows/view");
+      }}
+    >
       <ContextMenu model={items} ref={contextMenu} />
       <div
         style={{
@@ -63,15 +68,11 @@ function Card() {
         className="card"
         onContextMenu={(e) => contextMenu.current.show(e)}
       >
-        <div
+        {/* <div
           className="overlay"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("/shows/view");
-          }}
         >
           <i className="pi pi-play overlay-icon"></i>
-        </div>
+        </div> */}
       </div>
     </div>
   );

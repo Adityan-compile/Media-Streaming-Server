@@ -7,10 +7,10 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  transition: all 2s ease-in-out;
+  transition: all 1.5s ease-in-out;
 }
 
-.overlay {
+/* .overlay {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,7 +26,7 @@
 
 .card:hover .overlay {
   opacity: 1;
-}
+} */
 
 .card:hover {
   transform: scale(1.1);

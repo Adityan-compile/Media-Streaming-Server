@@ -1,6 +1,8 @@
 import "./styles.css";
 
 import { Badge } from "primereact/badge";
+import { Button } from "primereact/button";
+import { Chip } from "primereact/chip";
 import React from "react";
 
 function ShowScreen() {
@@ -20,11 +22,40 @@ function ShowScreen() {
             <h5 className="date">2021</h5>
             <h5 className="time">2h 12min</h5>
           </div>
-          <Badge value="PG-13" />
+          <div className="flex">
+            <Badge className="badge" severity="danger" value="PG-13" />
+            <Badge className="badge" severity="info" value="English" />
+            <Badge
+              className="badge"
+              severity="success"
+              value={
+                <div className="flex">
+                  <i
+                    className="pi pi-star"
+                    style={{
+                      padding: "2.5px",
+                    }}
+                  ></i>
+                  <span>7.2/10</span>
+                </div>
+              }
+            />
+          </div>
+          <p className="tagline"> --- You Can't Outrun Your Destiny</p>
           <p className="overview">
             Shang-Chi must confront the past he thought he left behind when he
             is drawn into the web of the mysterious Ten Rings organization.
           </p>
+          <div className="genres">
+            <h3>Genres</h3>
+            <div className="flex">
+              <Chip className="badge" label="Action" />
+              <Chip className="badge" label="Adventure" />
+              <Chip className="badge" label="Fantasy" />
+              <Chip className="badge" label="Superhero" />
+              <Chip className="badge" label="Science Fiction" />
+            </div>
+          </div>
           <div className="crew-info">
             <h3>Crew</h3>
             <div className="flex">
@@ -49,6 +80,14 @@ function ShowScreen() {
                 <h6>Characters</h6>
               </div>
             </div>
+          </div>
+          <div className="play">
+            <Button
+              label="Play"
+              iconPos="left"
+              icon="pi pi-play"
+              className="p-button-secondary p-button-outlined btn-play"
+            ></Button>
           </div>
           <div className="trailer">
             <h3 className="trailer-title">Trailer</h3>

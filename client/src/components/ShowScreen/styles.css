@@ -47,11 +47,42 @@
   margin: 20px;
 }
 
+.tagline {
+  margin: 10px;
+  color: rgba(255, 255, 255, 0.781);
+}
+
+.btn-play {
+  border-radius: 2px;
+  margin: 5px;
+  box-shadow: 0px 2px 26px -7px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 2px 26px -7px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 2px 26px -7px rgba(0, 0, 0, 0.75);
+  transition: all 1s ease-in-out;
+}
+
+.btn-play:hover {
+  transform: scale(1.2);
+  font-weight: bold;
+}
+
 .crew {
   margin: 10px;
   font-size: 20px;
 }
 
+.crew-info {
+  margin: 10px;
+}
+
+.badge {
+  margin: 5px;
+}
+
 .trailer-title {
   margin: 10px;
+}
+
+.genres {
+  margin: 5px;
 }
