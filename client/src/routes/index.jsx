@@ -9,9 +9,10 @@ import { useEffect, useRef, useState } from "react";
 import AuthProvider from "../store/providers/authProvider";
 import Context from "../store";
 import Header from "../components/Header";
-import Home from "../screens/Home";
-import Login from "../screens/Login";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
 import React from "react";
+import ViewShow from "../pages/ViewShow";
 
 function Routes() {
   const [user, setUser] = useState({
@@ -35,7 +36,6 @@ function Routes() {
       >
         {user.authenticated && <Header />}
         <Switch>
-          {"Login Route"}
           <Route
             path={"/login"}
             element={
@@ -44,12 +44,19 @@ function Routes() {
               </AuthGuard>
             }
           />
-          {"Private Routes"}
           <Route
             path={"/"}
             element={
               <RouteGuard user={user}>
                 <Home />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path={"/shows/view"}
+            element={
+              <RouteGuard user={user}>
+                <ViewShow />
               </RouteGuard>
             }
           />

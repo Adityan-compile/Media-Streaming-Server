@@ -5,12 +5,18 @@ import { InputText } from "primereact/inputtext";
 import { Link } from "react-router-dom";
 import { Menubar } from "primereact/menubar";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+
   const navItems = [
     {
       label: "Home",
       icon: "pi pi-home",
+      command: () => {
+        navigate("/");
+      },
     },
     {
       label: "Movies",

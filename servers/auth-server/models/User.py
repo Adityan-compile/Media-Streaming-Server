@@ -1,5 +1,4 @@
-from re import S
-from app import db
+from config import db
 import nanoid
 
 

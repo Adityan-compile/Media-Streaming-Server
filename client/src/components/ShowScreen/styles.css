@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
+
+* {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.screen-container {
+  padding: 20px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.poster {
+  height: 26rem;
+  width: 18rem;
+  border-radius: 5px;
+  vertical-align: middle;
+  box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.75);
+}
+
+.title {
+  margin: 5px;
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.date,
+.time {
+  margin: 5px;
+  font-size: 20px;
+}
+
+.overview {
+  margin: 20px;
+}
+
+.crew {
+  margin: 10px;
+  font-size: 20px;
+}
+
+.trailer-title {
+  margin: 10px;
+}

@@ -9,7 +9,7 @@ let state = {
 state.db = new Sequelize(
   env.PG_DATABASE || "postgres",
   env.PG_USER || "postgres",
-  env.PG_PASSWORD || "",
+  env.PG_PASSWORD || 1234,
   {
     host: env.PG_HOST || "localhost",
     port: env.PG_PORT || 5432,

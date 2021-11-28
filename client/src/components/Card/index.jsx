@@ -4,9 +4,12 @@ import React, { useContext, useState } from "react";
 
 import Context from "../../store/";
 import { ContextMenu } from "primereact/contextmenu";
+import { useNavigate } from "react-router-dom";
 
 function Card() {
   const { contextMenu } = useContext(Context);
+
+  const navigate = useNavigate();
 
   const [backgroundImage, setBackgroundImage] = useState([
     "https://www.themoviedb.org/t/p/original/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg",
@@ -60,7 +63,13 @@ function Card() {
         className="card"
         onContextMenu={(e) => contextMenu.current.show(e)}
       >
-        <div className="overlay">
+        <div
+          className="overlay"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/shows/view");
+          }}
+        >
           <i className="pi pi-play overlay-icon"></i>
         </div>
       </div>

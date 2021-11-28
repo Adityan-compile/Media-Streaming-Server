@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server":"docker-compose up --build"
+    "app:up":"docker-compose up",
+    "docker:build": "docker-compose build"
   },
   "keywords": [],
-  "author": "",
+  "author": "Adityan",
   "license": "ISC"
 }
