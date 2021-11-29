@@ -54,7 +54,9 @@ function Header() {
             Streamflix
           </Link>
         }
-        end={<Button icon="pi pi-user" />}
+        end={
+          <Button icon="pi pi-user" onClick={() => navigate("/dashboard")} />
+        }
       ></Menubar>
     </div>
   );

@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 
 import AuthProvider from "../store/providers/authProvider";
 import Context from "../store";
+import Dashboard from "../pages/Dashboard";
 import Header from "../components/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -57,6 +58,14 @@ function Routes() {
             element={
               <RouteGuard user={user}>
                 <ViewShow />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path={"/dashboard"}
+            element={
+              <RouteGuard user={user}>
+                <Dashboard />
               </RouteGuard>
             }
           />

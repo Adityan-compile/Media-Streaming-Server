@@ -1,9 +1,9 @@
 import "./styles.css";
 
-import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
 import { Chip } from "primereact/chip";
 import React from "react";
+import { Tag } from "primereact/tag";
 
 function ShowScreen() {
   return (
@@ -23,22 +23,13 @@ function ShowScreen() {
             <h5 className="time">2h 12min</h5>
           </div>
           <div className="flex">
-            <Badge className="badge" severity="danger" value="PG-13" />
-            <Badge className="badge" severity="info" value="English" />
-            <Badge
+            <Tag className="badge" severity="danger" value="PG-13" />
+            <Tag className="badge" severity="info" value="English" />
+            <Tag
               className="badge"
               severity="success"
-              value={
-                <div className="flex">
-                  <i
-                    className="pi pi-star"
-                    style={{
-                      padding: "2.5px",
-                    }}
-                  ></i>
-                  <span>7.2/10</span>
-                </div>
-              }
+              icon="pi pi-star"
+              value={7.2}
             />
           </div>
           <p className="tagline"> --- You Can't Outrun Your Destiny</p>
