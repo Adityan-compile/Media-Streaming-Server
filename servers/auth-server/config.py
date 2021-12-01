@@ -12,7 +12,7 @@ DB_URI = \
     "@"+getenv('PG_HOST')+"/"+getenv("PG_DATABASE")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.secret_key = getenv('SECRET_KEY')
 

@@ -5,7 +5,9 @@ COPY . /var/app/
 
 EXPOSE 80
 
-RUN pip3 install -r requirements.txt
+RUN \
+    apt install libpq-dev &&\
+    pip3 install -r requirements.txt
 
 
 ENTRYPOINT ["flask", "run", "--host", "0.0.0.0"]
