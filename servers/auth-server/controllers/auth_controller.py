@@ -12,9 +12,10 @@ auth = Blueprint('auth_controller', __name__)
 def login():
     if request.method == 'POST':
         body = request.form
-        found_user = User.query.filter_by(name=body.name).first()
+        print(body['name'])
+        found_user = User.query.filter_by(name=body['name']).first()
         if found_user is not None:
-            if bcrypt.check_password_hash(found_user.password, body.password):
+            if bcrypt.check_password_hash(found_user.password, body['password']):
                 return jsonify(
                     {
                         "status": 200,
@@ -28,6 +29,15 @@ def login():
             })
     else:
         return 405
+
+
+@auth.route('/users/count', methods=['GET'])
+def get_users():
+    user_count = User.query.count()
+    return jsonify({
+        "status": 200,
+        "count": user_count,
+    }), 200
 
 
 @auth.route('/setup', methods=['GET'])
