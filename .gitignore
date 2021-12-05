@@ -26,6 +26,7 @@ chrome-user-data
 *.swp
 *.swo
 .env
+default.env
 
 .ipynb_checkpoints
 __pycache__
