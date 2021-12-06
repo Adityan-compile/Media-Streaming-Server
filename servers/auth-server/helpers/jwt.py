@@ -5,6 +5,9 @@
 import jwt
 from datetime import datetime, timedelta
 import os
+from functools import wraps
+from flask import abort
+import base64
 
 ACCESS_TOKEN_KEY = os.getenv('ACCESS_TOKEN_KEY')
 REFRESH_TOKEN_KEY = os.getenv('REFRESH_TOKEN_KEY')
@@ -20,15 +23,20 @@ def generate_access_token(id):
         payload = {
             'exp': datetime.utcnow() + timedelta(hours=1),
             'iat': datetime.utcnow(),
-            'sub': id
+            'payload': id,
         }
         return jwt.encode(
             payload,
-            ACCESS_TOKEN_KEY,
-            algorithm='HS256'
+            ACCESS_TOKEN_KEY or 'SECRET_KEY',
+            algorithm='HS256',
+            headers={
+                "alg": "HS256",
+                "typ": "JWT"
+            }
         )
     except Exception as e:
         return e
+
 
 '''
 * Name: generate_refresh_token
@@ -40,15 +48,20 @@ def generate_refresh_token(id):
     try:
         payload = {
             'iat': datetime.utcnow(),
-            'sub': id
+            'payload': id
         }
         return jwt.encode(
             payload,
-            REFRESH_TOKEN_KEY,
-            algorithm='HS256'
+            REFRESH_TOKEN_KEY or "SECRET_KEY",
+            algorithm='HS256',
+            headers={
+                "alg": "HS256",
+                "typ": "JWT"
+            }
         )
     except Exception as e:
         return e
+
 
 '''
 * Name: verify_token
@@ -56,9 +69,35 @@ def generate_refresh_token(id):
 * Params: token:String
 * Return: Object/Dict
 '''
-def verify_token(token):
+def verify_token(token, type='r'):
     try:
-        decoded = jwt.decode(token, ACCESS_TOKEN_KEY)
+        decoded = jwt.decode(
+            token, REFRESH_TOKEN_KEY if type == "r" else ACCESS_TOKEN_KEY)
         return decoded
     except Exception as e:
-        return e
+        raise e
+
+
+'''
+* Name: authenticate
+* Description: Authenticate User 
+* Params: Function
+* Return: Function
+'''
+def authenticate(handler):
+    @wraps(handler)
+    def wrapper(*args, **kwargs):
+        if not 'Authorization' in request.headers:
+            abort(401)
+        user = None
+        header = request.headers['Authorization'].encode('ascii', 'ignore')
+        token = str.replace(str(header), 'Bearer ', '')
+
+        try:
+            user = verify_token(token, 'a')
+        except Exception as e:
+            abort(401)
+
+        return handler(user, *args, **kwargs)
+
+    return wrapper

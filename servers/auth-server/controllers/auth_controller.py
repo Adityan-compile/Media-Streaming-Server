@@ -8,7 +8,7 @@ from flask import request
 from config import db, bcrypt
 from models.User import User
 from models.Token import Token
-from helpers.jwt import generate_access_token, generate_refresh_token
+from helpers.jwt import generate_access_token, generate_refresh_token, authenticate
 
 auth = Blueprint('auth_controller', __name__)
 
@@ -121,5 +121,6 @@ def logout():
 
 
 @auth.route('/users/add', methods=['GET'])
-def add_user():
+@authenticate
+def add_user(user):
     return 'Hello', 200
