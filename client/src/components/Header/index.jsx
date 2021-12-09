@@ -1,14 +1,25 @@
 import "./styles.css";
 
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Link } from "react-router-dom";
 import { Menubar } from "primereact/menubar";
-import React from "react";
-import { useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
+
+  const [visible,setVisible] = useState(true);
+
+  const location = useLocation();
+
+  useEffect(()=>{
+    if(location.pathname === '/player'){
+      setVisible(false);
+    }
+  },[location]);
 
   const navItems = [
     {
@@ -44,22 +55,26 @@ function Header() {
       ),
     },
   ];
-  return (
-    <div>
-      <Menubar
-        model={navItems}
-        className="nav"
-        start={
-          <Link to={"/"} className="brand">
-            Streamflix
-          </Link>
-        }
-        end={
-          <Button icon="pi pi-user" onClick={() => navigate("/dashboard")} />
-        }
-      ></Menubar>
-    </div>
-  );
+  if(visible){
+    return (
+      <div>
+        <Menubar
+          model={navItems}
+          className="nav"
+          start={
+            <Link to={"/"} className="brand">
+              Streamflix
+            </Link>
+          }
+          end={
+            <Button icon="pi pi-user" onClick={() => navigate("/dashboard")} />
+          }
+        ></Menubar>
+      </div>
+    );
+  }else{
+    return null;
+  }
 }
 
 export default Header;

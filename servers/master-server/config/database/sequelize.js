@@ -6,12 +6,13 @@ let state = {
   db: null,
 };
 
+
 state.db = new Sequelize(
   env.PG_DATABASE || "postgres",
   env.PG_USER || "postgres",
   env.PG_PASSWORD || 1234,
   {
-    host: env.PG_HOST || "localhost",
+    host: env.PG_HOST || "postgres",
     port: env.PG_PORT || 5432,
     dialect: "postgres",
     dialectOptions: {

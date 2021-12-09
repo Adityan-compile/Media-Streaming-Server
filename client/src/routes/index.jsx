@@ -12,6 +12,7 @@ import Dashboard from "../pages/Dashboard";
 import Header from "../components/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import Player from "../pages/Player";
 import React from "react";
 import ViewShow from "../pages/ViewShow";
 
@@ -19,6 +20,7 @@ function Routes() {
   const [user, setUser] = useState({
     authenticated: false,
   });
+  const [header,setHeader]= useState(true);
   const contextMenu = useRef(null);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ function Routes() {
           contextMenu,
         }}
       >
-        {user.authenticated && <Header />}
+        {(user.authenticated && header) && <Header />}
         <Switch>
           <Route
             path={"/login"}
@@ -66,6 +68,14 @@ function Routes() {
             element={
               <RouteGuard user={user}>
                 <Dashboard />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path={"/player"}
+            element={
+              <RouteGuard user={user}>
+                <Player />
               </RouteGuard>
             }
           />

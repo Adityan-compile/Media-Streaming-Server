@@ -4,8 +4,12 @@ import { Button } from "primereact/button";
 import { Chip } from "primereact/chip";
 import React from "react";
 import { Tag } from "primereact/tag";
+import { useNavigate } from "react-router-dom";
 
 function ShowScreen() {
+
+  const navigate = useNavigate();
+  
   return (
     <div className="screen-container">
       <div className="info-grid">
@@ -78,6 +82,7 @@ function ShowScreen() {
               iconPos="left"
               icon="pi pi-play"
               className="p-button-secondary p-button-outlined btn-play"
+              onClick={()=>navigate('/player')}
             ></Button>
           </div>
           <div className="trailer">
