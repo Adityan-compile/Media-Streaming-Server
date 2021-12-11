@@ -32,6 +32,8 @@ __pycache__
 /dist/
 /*.egg-info
 
+servers/master-server/public/uploads/*
+
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
 packages/react-devtools-extensions/chrome/*.crx
