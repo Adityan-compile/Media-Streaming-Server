@@ -1,5 +1,5 @@
 import React from "react";
-import VideoPlayerScreen from "../components/VideoPlayerScreen.jsx";
+import VideoPlayerScreen from "../components/VideoPlayerScreen";
 
 function Player() {
   return <VideoPlayerScreen />;
