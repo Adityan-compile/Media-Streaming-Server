@@ -1,16 +1,22 @@
-.player-container{
+.player-screen-container{
     position: relative;
     width: 100%;
     height: 100%;
 }
 
 .overlay-btn,
-.player{
+.player-container{
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.player{
+    height: 100vh;
+    width: 100%;    
+    background-color: #171513;
 }
 
 .overlay-btn{ 
@@ -19,6 +25,10 @@
 }
 
 .btn{
+    transition: all 1.5s ease-in-out;
+}
+
+.btn:hover{
+    transform: scale(1.1);
     font-weight: bold;
-    color: #fff;
 }

@@ -34,6 +34,8 @@ __pycache__
 
 servers/master-server/public/uploads/*
 
+client/src/assets/sample.mp4
+
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
 packages/react-devtools-extensions/chrome/*.crx
