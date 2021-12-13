@@ -18,6 +18,8 @@ function Header() {
   useEffect(()=>{
     if(location.pathname === '/player'){
       setVisible(false);
+    }else{
+      setVisible(true);
     }
   },[location]);
 

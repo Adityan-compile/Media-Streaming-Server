@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "app:up":"docker-compose up",
+    "app:up": "docker-compose up",
     "build": "docker-compose build"
   },
   "keywords": [],
   "author": "Adityan",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {}
 }

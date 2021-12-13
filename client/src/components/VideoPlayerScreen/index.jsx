@@ -1,44 +1,58 @@
 import "./styles.css";
-import "video.js/dist/video-js.css";
+import "video-react/dist/video-react.css";
+
+import {
+  ControlBar,
+  ForwardControl,
+  LoadingSpinner,
+  PlayToggle,
+  PlaybackRateMenuButton,
+  Player,
+  ReplayControl,
+  VolumeMenuButton
+} from "video-react";
 
 import { Button } from "primereact/button";
 import React from "react";
-import ReactPlayer from "react-player";
 import sample from "../../assets/sample.mp4";
 import { useNavigate } from "react-router-dom";
-import videojs from "video.js";
 
 function VideoPlayerScreen() {
   const navigate = useNavigate();
+
   return (
-    <div className="player-screen-container">
+    <div className="player-container">
       <div className="overlay-btn">
         <Button
           icon="pi pi-arrow-left"
           className="p-button-rounded p-button-outlined p-button-secondary btn"
-          onClick={()=>{
-            navigate('/shows/view');
+          onClick={() => {
+            navigate("/shows/view");
           }}
         />
       </div>
 
-      <div className="player-container">
-        {/* <ReactPlayer
-          url="https://youtu.be/SmqeO5mj0ec"
-          playing={true}
+      <div className="player">
+        <Player
+          className="video-player"
+          autoPlay={true}
+          fluid={true}
           controls={true}
-          height="100vh"
-          width="100%"
-          pip={true}
-        /> */}
-        <video
+          onEnd={() => {
+            setTimeout(() => navigate("/shows/view"), 1000);
+          }}
           src={sample}
-          autoPlay
-          controls
-          className="player"
-          controlsList="nodownload"
-          onEnded={()=>navigate('/shows/view')}
-        ></video>
+        >
+          <ControlBar autoHide={true}>
+            <PlayToggle />
+            <ReplayControl seconds={10} order={1.1} />
+            <ForwardControl seconds={10} order={1.1} />
+            <VolumeMenuButton vertical />
+            <PlaybackRateMenuButton
+              rates={[0.25, 0.5, 1, 1.25, 1.5, 1.75, 2]}
+            />
+          </ControlBar>
+        </Player>
       </div>
     </div>
   );
