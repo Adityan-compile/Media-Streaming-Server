@@ -5,7 +5,7 @@ const { nanoid } = require("nanoid");
 
 class Movie extends Model {}
 
-MOvie.init(
+Movie.init(
   {
     id: {
       type: DataTypes.STRING,
@@ -67,10 +67,11 @@ MOvie.init(
     },
   },
   {
-    modelName: "user",
+    tableName: "movies",
+    modelName: "movie",
     sequelize: db.get(),
     timestamps: true,
   }
 );
 
-module.exports = User;
+module.exports = Movie;

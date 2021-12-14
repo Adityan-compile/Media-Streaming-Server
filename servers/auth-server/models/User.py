@@ -1,6 +1,6 @@
 from config import db
+from helpers.bcrypt import hash_password
 import nanoid
-
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -8,7 +8,10 @@ class User(db.Model):
     name = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
 
-    def __init__(self, name, password):
-        self.id = nanoid.generate(size=20)
+    def __init__(self, name, password,id=""):
+        if len(id) == 0:
+           self.id = nanoid.generate(size=20)
+        else:
+            self.id = id
         self.name = name
-        self.password = password
+        self.password = hash_password(password)

@@ -2,9 +2,9 @@ const ffmpeg = require("fluent-ffmpeg");
 const fs = require("fs");
 const path = require("path");
 
-exports.transcodeVideo = async (filename, filepath) => {
+exports.transcodeVideo = async (filename) => {
   return new Promise((resolve, reject) => {
-    let fileStream = fs.createReadStream(path.resolve(filepath));
+    let fileStream = fs.createReadStream(path.resolve(`../public/uploads/${filename}`));
     ffmpeg()
       .input(fileStream)
       .videoCodec("libx264")

@@ -24,6 +24,7 @@ User.init(
     },
   },
   {
+    tableName: "users",
     modelName: "user",
     sequelize: db.get(),
     timestamps: true,
