@@ -8,7 +8,7 @@ from flask import request
 from config import db, bcrypt
 from models.User import User
 from models.Token import Token
-from helpers.jwt import generate_access_token, generate_refresh_token, authenticate
+from utils.jwt import generate_access_token, generate_refresh_token, authenticate
 
 auth = Blueprint('auth_controller', __name__)
 

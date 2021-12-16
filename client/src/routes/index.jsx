@@ -1,4 +1,4 @@
-import { AuthGuard, RouteGuard } from "./guards";
+import { AuthGuard, RouteGuard, SetupGuard } from "./guards";
 import {
   Route,
   BrowserRouter as Router,
@@ -14,19 +14,22 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Player from "../pages/Player";
 import React from "react";
+import Setup from "../pages/Setup";
 import ViewShow from "../pages/ViewShow";
 
 function Routes() {
   const [user, setUser] = useState({
     authenticated: false,
   });
-  const [header,setHeader]= useState(true);
+  const [userCount, setUserCount] = useState(0);
+
   const contextMenu = useRef(null);
 
   useEffect(() => {
     AuthProvider.getAuthStatus().then((res) => {
       setUser(res);
     });
+    AuthProvider.getUserCount().then(res=>setUserCount(res)).catch(e=>setUserCount(0));
   }, []);
 
   return (
@@ -35,22 +38,32 @@ function Routes() {
         value={{
           ...AuthProvider,
           contextMenu,
+          userCount,
+          user
         }}
       >
-        {(user.authenticated && header) && <Header />}
+        {user.authenticated && <Header />}
         <Switch>
           <Route
             path={"/login"}
             element={
-              <AuthGuard user={user}>
+              <AuthGuard>
                 <Login />
               </AuthGuard>
             }
           />
           <Route
+            path={"/setup"}
+            element={
+              <SetupGuard>
+                <Setup />
+              </SetupGuard>
+            }
+          />
+          <Route
             path={"/"}
             element={
-              <RouteGuard user={user}>
+              <RouteGuard>
                 <Home />
               </RouteGuard>
             }
@@ -58,7 +71,7 @@ function Routes() {
           <Route
             path={"/shows/view"}
             element={
-              <RouteGuard user={user}>
+              <RouteGuard>
                 <ViewShow />
               </RouteGuard>
             }
@@ -66,7 +79,7 @@ function Routes() {
           <Route
             path={"/dashboard"}
             element={
-              <RouteGuard user={user}>
+              <RouteGuard>
                 <Dashboard />
               </RouteGuard>
             }
@@ -74,7 +87,7 @@ function Routes() {
           <Route
             path={"/player"}
             element={
-              <RouteGuard user={user}>
+              <RouteGuard>
                 <Player />
               </RouteGuard>
             }

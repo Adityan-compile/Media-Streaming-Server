@@ -1,3 +1,4 @@
+import axios from './axios';
 import storage from "../../storage";
 
 const auth = {
@@ -15,6 +16,15 @@ const auth = {
       });
     });
   },
+  getUserCount: ()=>{
+    return new Promise((resolve,reject)=>{
+      axios.get('/auth/users/count').then(({data})=>{
+        resolve(data.count);
+      }).catch(err=>{
+        reject(err);
+      });
+    });
+  }
 };
 
 export default auth;

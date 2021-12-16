@@ -1,6 +1,6 @@
 import pytest
 from models.User import User
-from helpers.bcrypt import compare_passsword
+from utils.bcrypt import compare_passsword
 import nanoid
 
 

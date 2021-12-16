@@ -1,5 +1,5 @@
 from config import db
-from helpers.bcrypt import hash_password
+from utils.bcrypt import hash_password
 import nanoid
 
 class User(db.Model):
