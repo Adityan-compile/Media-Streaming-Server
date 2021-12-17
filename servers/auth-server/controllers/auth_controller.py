@@ -8,6 +8,7 @@ from flask import request
 from config import db, bcrypt
 from models.User import User
 from models.Token import Token
+from models.Server import Server
 from utils.jwt import generate_access_token, generate_refresh_token, authenticate
 
 auth = Blueprint('auth_controller', __name__)
@@ -38,11 +39,13 @@ def setup():
 
     if user_count == 0:
         new_user = User(name=body['name'], password=body['password'])
+        server_info = Server(name=body['serverName'], tmdbKey=body['tmdbKey'], videoQuality=body['videoQuality'], audioQuality=body['audioQuality'])
         access_token = generate_access_token(new_user.id)
         refresh_token = generate_refresh_token(new_user.id)
         token_obj = Token(token=refresh_token)
         db.session.add_all([
             new_user,
+            server_info,
             token_obj
         ])
         db.session.commit()

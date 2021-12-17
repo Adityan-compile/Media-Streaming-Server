@@ -1,45 +1,132 @@
 import "./styles.css";
 
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import React from "react";
-import { SelectButton } from 'primereact/selectbutton';
+import React, { useCallback, useState } from "react";
+
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { SelectButton } from "primereact/selectbutton";
 
 function SetupScreen() {
-    const uploadQuality = [
-        {
-            name: "720p",
-            value: "1280x?"
-        },
-        {
-            name: "1080p",
-            value: "1920x?"
-        }
-    ];
+    const [name, setName] = useState();
+    const [tmdbKey, setTmdbKey] = useState();
+    const [password, setPassword] = useState();
+    const [videoQuality, setVideoQuality] = useState(null);
+    const [audioQuality, setAudioQuality] = useState(null);
+    const [serverName, setServerName] = useState("Streamflix");
+
+  const videoQualityList = [
+    {
+      name: "720p",
+      value: "1280x?",
+    },
+    {
+      name: "1080p",
+      value: "1920x?",
+    },
+    {
+      name: "2k",
+      value: "2560x?",
+    },
+  ];
+
+  const audioQualityList = [
+    {
+      name: "128k",
+      value: "128k",
+    },
+    {
+      name: "256k",
+      value: "256k",
+    },
+    {
+      name: "328k",
+      value: "328k",
+    },
+  ];
+
+  const setupHandler = useCallback(()=>{
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('tmdbKey', tmdbKey);
+      formData.append('password', password);
+      formData.append('serverName', serverName);
+      formData.append('videoQuality', videoQuality);
+      formData.append('audioQuality', audioQuality);
+  });
+
   return (
     <div className="setup-screen">
-        <div className="setup-container">
-            <h1 className="heading">Streamflix Setup</h1>
-            <div className="form-grid">
-                     <span className="p-float-label form-control">
-                         <InputText id="name" className="input" />
-                         <label htmlFor="name">Username</label>
-                     </span>
-                     <span className="p-float-label form-control">
-                         <InputText id="password" type="password" className="input" />
-                         <label htmlFor="password">Password</label>
-                     </span>
-                     <span className="p-float-label form-control">
-                         <InputText id="api-key" type="password" className="input" />
-                         <label htmlFor="api-key">TMDB API Key</label>
-                     </span>
-                     <span className="p-float-label form-control">
-                         <InputText id="server-name" className="input" />
-                         <label htmlFor="server-name">Server Name</label>
-                     </span>
-                     <SelectButton options={uploadQuality} optionLabel="name" className="form-control" />
-            </div>
+      <div className="setup-container">
+        <h1 className="heading">Streamflix Setup</h1>
+        <div className="form-grid">
+          <span className="p-float-label form-control">
+            <InputText
+              id="name"
+              className="input"
+              value={name}
+              onChange={(e) => setName(e.value)}
+            />
+            <label htmlFor="name">Username</label>
+          </span>
+          <span className="p-float-label p-input-icon-left form-control">
+            <i className="pi pi-lock"></i>
+            <InputText
+              id="password"
+              type="password"
+              className="input"
+              value={password}
+              onChange={(e) => setPassword(e.value)}
+            />
+            <label htmlFor="password">Password</label>
+          </span>
+          <span className="p-float-label form-control">
+            <InputText
+              id="api-key"
+              type="password"
+              className="input"
+              value={tmdbKey}
+              onChange={(e) => setTmdbKey(e.value)}
+            />
+            <label htmlFor="api-key">TMDB API Key</label>
+          </span>
+          <span className="p-float-label form-control">
+            <InputText
+              id="server-name"
+              className="input"
+              value={serverName}
+              onChange={(e) => setServerName(e.value)}
+            />
+            <label htmlFor="server-name">Server Name</label>
+          </span>
+          <span>
+            <label className="form-control" htmlFor="video-quality">
+              Upload Quality
+            </label>
+            <SelectButton
+              id="video-quality"
+              value={videoQuality}
+              options={videoQualityList}
+              onChange={(e) => setVideoQuality(e.value)}
+              optionLabel="name"
+              className="form-control"
+            />
+          </span>
+          <span>
+            <label className="form-control" htmlFor="audio-quality">
+              Audio Quality
+            </label>
+            <SelectButton
+              id="audio-quality"
+              value={audioQuality}
+              options={audioQualityList}
+              onChange={(e) => setAudioQuality(e.value)}
+              optionLabel="name"
+              className="form-control"
+            />
+          </span>
+            <span><Button label="Complete Setup" className="form-control" onClick={()=>setupHandler()} /></span>
         </div>
+      </div>
     </div>
   );
 }
