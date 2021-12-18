@@ -45,13 +45,14 @@ function SetupScreen() {
   ];
 
   const setupHandler = useCallback(()=>{
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('tmdbKey', tmdbKey);
-      formData.append('password', password);
-      formData.append('serverName', serverName);
-      formData.append('videoQuality', videoQuality);
-      formData.append('audioQuality', audioQuality);
+      const form = {
+        name,
+        password,
+        tmdbKey,
+        serverName,
+        videoQuality,
+        audioQuality
+      };
   });
 
   return (

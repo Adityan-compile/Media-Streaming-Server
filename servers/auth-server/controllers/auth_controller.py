@@ -9,7 +9,7 @@ from config import db, bcrypt
 from models.User import User
 from models.Token import Token
 from models.Server import Server
-from utils.jwt import generate_access_token, generate_refresh_token, authenticate
+from utils.jwt import generate_access_token, generate_refresh_token, authenticate, verify_token
 
 auth = Blueprint('auth_controller', __name__)
 
@@ -18,6 +18,8 @@ auth = Blueprint('auth_controller', __name__)
 * Method: GET
 * Description: COunt the Number of Users in Database Table
 '''
+
+
 @auth.route('/users/count', methods=['GET'])
 def get_users():
     user_count = User.query.count()
@@ -32,6 +34,8 @@ def get_users():
 * Method: POST
 * Description: Setup the First User 
 '''
+
+
 @auth.route('/setup', methods=['POST'])
 def setup():
     body = request.form
@@ -39,7 +43,8 @@ def setup():
 
     if user_count == 0:
         new_user = User(name=body['name'], password=body['password'])
-        server_info = Server(name=body['serverName'], tmdbKey=body['tmdbKey'], videoQuality=body['videoQuality'], audioQuality=body['audioQuality'])
+        server_info = Server(name=body['serverName'], tmdbKey=body['tmdbKey'],
+                             videoQuality=body['videoQuality'], audioQuality=body['audioQuality'])
         access_token = generate_access_token(new_user.id)
         refresh_token = generate_refresh_token(new_user.id)
         token_obj = Token(token=refresh_token)
@@ -49,12 +54,17 @@ def setup():
             token_obj
         ])
         db.session.commit()
-        return jsonify({
+        new_user.password = None
+        res = jsonify({
             "status": 200,
             "message": "Setup Success",
-            "accessToken": access_token,
-            "refreshToken": refresh_token
+            "user": new_user
         }), 200
+        res.set_cookie('accessToken', access_token, max_age=60*60,
+                       httponly=True, secure=True, samesite="Strict")
+        res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
+                       max_age=60*60, httponly=True, secure=True, samesite="Strict")
+        return res
     else:
         return jsonify({
             "status": 406,
@@ -67,6 +77,8 @@ def setup():
 * Method: POST
 * Description: Find User Compare Password and Login 
 '''
+
+
 @auth.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
@@ -80,12 +92,16 @@ def login():
                 token_obj = Token(token=refresh_token)
                 db.session.add(token_obj)
                 db.session.commit()
-                return jsonify({
+                res = jsonify({
                     "status": 200,
                     "message": "Login Success",
-                    "accessToken": access_token,
-                    "refreshToken": refresh_token
-                }), 200
+                    "user": found_user
+                })
+                res.set_cookie('accessToken', access_token, max_age=60*60,
+                               httponly=True, secure=True, samesite="Strict")
+                res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
+                               max_age=60*60, httponly=True, secure=True, samesite="Strict")
+                return res, 200
         else:
             return jsonify({
                 "status": 404,
@@ -103,6 +119,8 @@ def login():
 * Method: DELETE
 * Description: Find Refresh Token and Delete Token
 '''
+
+
 @auth.route('/logout', methods=['DELETE'])
 def logout():
     body = request.get_json()
@@ -112,15 +130,53 @@ def logout():
     if found_token is not None:
         db.session.delete(found_token)
         db.session.commit()
-        return jsonify({
+        res = jsonify({
             "status": 205,
             "message": "Logout Success"
-        }), 205
+        })
+        res.set_cookie('accessToken', "", expire=0,
+                       httponly=True, secure=True, samesite="Strict")
+        res.set_cookie('refreshToken', "", expire=0, path="/api/auth/tokens/refresh",
+                       httponly=True, secure=True, samesite="Strict")
+        return res, 205
     else:
         return jsonify({
             "status": 400,
             "message": "Token to Delete not Found"
         }), 400
+
+
+'''
+* Path: /tokens/refresh
+* Method: POST
+* Description: Find Refresh Token, Verify and Generate new Access Token
+'''
+
+
+@auth.route("/tokens/refresh", methods=['POST'])
+def refresh_token():
+    refresh_token = request.cookies.get("refreshToken")
+    saved_token = Token.query.filter_by(refresh_token=refresh_token)
+    if saved_token:
+        decoded = verify_token(refresh_token)
+        access_token = generate_access_token(decoded.payload)
+        res = jsonify({
+            "status": 200,
+            "message": "Token Refreshed",
+        })
+        res.set_cookie('accessToken', access_token, max_age=60*60,
+                       httponly=True, secure=True, samesite="Strict")
+        return res, 200
+    else:
+        res = jsonify({
+            "status": 400,
+            "message": "Token not Found"
+        })
+        res.set_cookie('accessToken', "", expire=0,
+                       httponly=True, secure=True, samesite="Strict")
+        res.set_cookie('refresh_token', expire=0, path="/api/auth/tokens/refresh",
+                       httponly=True, secure=True, samesite="Strict")
+        return res, 401
 
 
 @auth.route('/users/add', methods=['GET'])

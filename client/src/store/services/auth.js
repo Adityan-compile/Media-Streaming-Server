@@ -24,6 +24,15 @@ const auth = {
         reject(err);
       });
     });
+  },
+  serverSetup: (data)=>{
+    return new Promise((resolve,reject)=>{
+      axios.post('/auth/setup', data).then(({data})=>{
+        resolve({
+          user: data.user
+        })
+      }).catch(e=>reject(e));
+    });
   }
 };
 
