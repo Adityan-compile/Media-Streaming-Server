@@ -32,7 +32,7 @@ def get_users():
 '''
 * Path: /setup
 * Method: POST
-* Description: Setup the First User 
+* Description: Setup the First User
 '''
 
 
@@ -75,7 +75,7 @@ def setup():
 '''
 * Path: /login
 * Method: POST
-* Description: Find User Compare Password and Login 
+* Description: Find User Compare Password and Login
 '''
 
 
@@ -134,9 +134,9 @@ def logout():
             "status": 205,
             "message": "Logout Success"
         })
-        res.set_cookie('accessToken', "", expire=0,
+        res.set_cookie('accessToken', "", max_age=0,
                        httponly=True, secure=True, samesite="Strict")
-        res.set_cookie('refreshToken', "", expire=0, path="/api/auth/tokens/refresh",
+        res.set_cookie('refreshToken', "", max_age=0, path="/api/auth/tokens/refresh",
                        httponly=True, secure=True, samesite="Strict")
         return res, 205
     else:
@@ -172,9 +172,9 @@ def refresh_token():
             "status": 400,
             "message": "Token not Found"
         })
-        res.set_cookie('accessToken', "", expire=0,
+        res.set_cookie('accessToken', "", max_age=0,
                        httponly=True, secure=True, samesite="Strict")
-        res.set_cookie('refresh_token', expire=0, path="/api/auth/tokens/refresh",
+        res.set_cookie('refreshToken', "",max_age=0, path="/api/auth/tokens/refresh",
                        httponly=True, secure=True, samesite="Strict")
         return res, 401
 

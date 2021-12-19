@@ -28,6 +28,7 @@ const auth = {
   serverSetup: (data)=>{
     return new Promise((resolve,reject)=>{
       axios.post('/auth/setup', data).then(({data})=>{
+        storage.set('USER', data.user);
         resolve({
           user: data.user
         })

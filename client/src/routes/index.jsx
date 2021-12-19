@@ -28,8 +28,10 @@ function Routes() {
   useEffect(() => {
     AuthProvider.getAuthStatus().then((res) => {
       setUser(res);
+      if(!res.authenticated){
+        AuthProvider.getUserCount().then(res=>setUserCount(res)).catch(e=>setUserCount(0));
+      }
     });
-    AuthProvider.getUserCount().then(res=>setUserCount(res)).catch(e=>setUserCount(0));
   }, []);
 
   return (
