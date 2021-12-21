@@ -27,12 +27,22 @@ const auth = {
   },
   serverSetup: (data)=>{
     return new Promise((resolve,reject)=>{
-      axios.post('/auth/setup', data).then(({data})=>{
-        storage.set('USER', data.user);
+      axios.post('/auth/setup', data).then(({data:res})=>{
+        storage.set('USER', res.user);
         resolve({
-          user: data.user
+          user: res.user
         })
       }).catch(e=>reject(e));
+    });
+  },
+  loginUser: (data)=>{
+    return new Promise((resolve, reject)=>{
+      axios.post('/auth/login',data).then(({data:res})=>{
+        storage.set('USER', res.user);
+        resolve({
+          user: res.user
+        })
+      }).catch(e=>reject(e))
     });
   }
 };

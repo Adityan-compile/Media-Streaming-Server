@@ -59,12 +59,12 @@ def setup():
             "status": 200,
             "message": "Setup Success",
             "user": new_user
-        }), 200
+        })
         res.set_cookie('accessToken', access_token, max_age=60*60,
                        httponly=True, secure=True, samesite="Strict")
         res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
                        max_age=60*60, httponly=True, secure=True, samesite="Strict")
-        return res
+        return res, 200
     else:
         return jsonify({
             "status": 406,
@@ -174,12 +174,32 @@ def refresh_token():
         })
         res.set_cookie('accessToken', "", max_age=0,
                        httponly=True, secure=True, samesite="Strict")
-        res.set_cookie('refreshToken', "",max_age=0, path="/api/auth/tokens/refresh",
+        res.set_cookie('refreshToken', "", max_age=0, path="/api/auth/tokens/refresh",
                        httponly=True, secure=True, samesite="Strict")
         return res, 401
 
 
-@auth.route('/users/add', methods=['GET'])
+'''
+* Path: /users/add
+* Method: POST
+* Description: Authenticate Current User and Add new User
+'''
+
+
+@auth.route('/users/add', methods=['POST'])
 @authenticate
 def add_user(user):
-    return 'Hello', 200
+    body = request.body
+    new_user = User(name=body['name'], password=body['password'])
+    db.session.add(new_user)
+    db.session.commit()
+
+    new_user.password = None
+
+    res = jsonify({
+        "status": 200,
+        "message": "Setup Success",
+        "user": new_user
+    })
+
+    return res, 200

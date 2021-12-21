@@ -87,11 +87,10 @@ def verify_token(token, type='r'):
 def authenticate(handler):
     @wraps(handler)
     def wrapper(*args, **kwargs):
-        if not 'Authorization' in request.headers:
+        token = request.cookies.get('accessToken')
+        if not token:
             abort(401)
         user = None
-        header = request.headers['Authorization'].encode('ascii', 'ignore')
-        token = str.replace(str(header), 'Bearer ', '')
 
         try:
             user = verify_token(token, 'a')

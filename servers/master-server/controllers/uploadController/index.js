@@ -1,12 +1,35 @@
-const multer = require("../../config/multer");
 const Movie = require("../../models/movie");
 const transcode = require("../../utils/transcode");
+
+exports.addMovie = async(req,res)=>{
+  const body = req.body;
+  if(!body || Object.keys(body).length === 0){
+    return res.status(400).json({
+      status: 400,
+      message: "Bad Request",
+    });
+  }
+
+  try{
+    const newMovie = await Movie.create(body);
+    res.status(201).json({
+      status: 201,
+      message: "Movie Created Successfully",
+      movie: newMovie.toJSON()
+    });
+  }catch(e){
+    res.status(500).json({
+      status: 500,
+      message: "Cannot Create Movie"
+    })
+  }
+};
 
 exports.uploadFile = (req, res) => {
   const body = req.body;
   const file = req.file;
 
-  if (!body || Object.keys(body) === 0 || !file) {
+  if (!body || Object.keys(body).length === 0 || !file) {
     return res.status(400).json({
       status: 400,
       message: "Bad Request",

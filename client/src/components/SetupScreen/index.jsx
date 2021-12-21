@@ -7,6 +7,7 @@ import Context from "../../store";
 import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
 import { Toast } from "primereact/toast";
+import { isEmpty } from '../../utils';
 import { useNavigate } from "react-router-dom";
 
 function SetupScreen() {
@@ -53,9 +54,6 @@ function SetupScreen() {
     },
   ];
 
-  const isEmpty = (val) => {
-    return !val || val.length === 0;
-  };
 
   const setupHandler = useCallback(() => {
     const formData = {
@@ -66,7 +64,6 @@ function SetupScreen() {
       videoQuality,
       audioQuality,
     };
-    console.table(formData);
 
     if (
       isEmpty(name) ||
@@ -109,7 +106,7 @@ function SetupScreen() {
       <div className="setup-container">
         <Toast ref={toastRef} />
         <h1 className="heading">Streamflix Setup</h1>
-        <div className="form-grid">
+        <form className="form-grid">
           <span className="p-float-label form-control">
             <InputText
               id="name"
@@ -182,7 +179,24 @@ function SetupScreen() {
               onClick={() => setupHandler()}
             />
           </span>
-        </div>
+        </form>
+        <div className="footer">
+        Photo by{" "}
+          <a
+            className="link"
+            href="https://unsplash.com/@jeremyyappy?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+          >
+            Jeremy Yap
+          </a>{" "}
+          on{" "}
+          <a
+            className="link"
+            href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+          >
+            Unsplash
+          </a>
+        </div> 
+  
       </div>
     </div>
   );
