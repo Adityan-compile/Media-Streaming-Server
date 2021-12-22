@@ -49,7 +49,7 @@ function VideoPlayerScreen() {
             <ForwardControl seconds={10} order={1.1} />
             <VolumeMenuButton vertical />
             <PlaybackRateMenuButton
-              rates={[0.25, 0.5, 1, 1.25, 1.5, 1.75, 2]}
+              rates={[0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]}
             />
           </ControlBar>
         </Player>

@@ -1,13 +1,10 @@
 import "./styles.css";
 
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
-import Context from "../../store/";
-import { ContextMenu } from "primereact/contextmenu";
 import { useNavigate } from "react-router-dom";
 
-function Card() {
-  const { contextMenu } = useContext(Context);
+function Card({admin=false}) {
 
   const navigate = useNavigate();
 
@@ -22,60 +19,50 @@ function Card() {
     "https://www.themoviedb.org/t/p/original/96MUCdrr6Plc5W4mTiQWtBlnN8L.jpg",
     "https://www.themoviedb.org/t/p/original/kchu0regBPDjWORUzvTblyoA5aE.jpg",
   ]);
-  const items = [
-    {
-      label: "Play",
-      icon: "pi pi-play",
-    },
-    {
-      separator: true,
-    },
-    {
-      label: "Info",
-      icon: "pi pi-info",
-    },
-    {
-      separator: true,
-    },
-    {
-      label: "Edit",
-      icon: "pi pi-pencil",
-    },
-    {
-      separator: true,
-    },
-    {
-      label: "Delete",
-      icon: "pi pi-trash",
-    },
-  ];
-  return (
-    <div
-      onClick={(e) => {
-        e.preventDefault();
-        navigate("/shows/view");
-      }}
-    >
-      <ContextMenu model={items} ref={contextMenu} />
+  
+  if(admin){
+    return (
       <div
-        style={{
-          backgroundImage: `url('${
-            backgroundImage[
-              Math.round(Math.random() * (backgroundImage.length - 1) + 0)
-            ]
-          }')`,
+        onClick={(e) => {
+          e.preventDefault();
+          navigate(`/shows/edit`);
         }}
-        className="card"
-        onContextMenu={(e) => contextMenu.current.show(e)}
       >
-        {/* <div
-          className="overlay"
+        <div
+          style={{
+            backgroundImage: `url('${
+              backgroundImage[
+                Math.round(Math.random() * (backgroundImage.length - 1) + 0)
+              ]
+            }')`,
+          }}
+          className="card"
         >
-          <i className="pi pi-play overlay-icon"></i>
-        </div> */}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }else{
+    return (
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("/shows/view");
+        }}
+      >
+        <div
+          style={{
+            backgroundImage: `url('${
+              backgroundImage[
+                Math.round(Math.random() * (backgroundImage.length - 1) + 0)
+              ]
+            }')`,
+          }}
+          className="card"
+        >
+        </div>
+      </div>
+    );    
+  }
 }
 
 export default Card;

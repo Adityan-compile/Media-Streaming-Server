@@ -1,0 +1,35 @@
+- Add: - Manage Content Component
+- Add: - Server Settings Model in Master Server Start: - Working on Dashboard for Client
+- Add: - Login Logic For Client - New User Creation Code for Auth Server - Show Creation Code - Show Model
+- Add Setup Logic For Frontend App
+- Add Refresh Token Refresh Code and Set-Cookie Code
+- Finish Working on Setup UI Design, Add Model for Server Settings and Adapt Setup Route Method With the New Model
+- Start Working on Setup Screen
+- Add Test Case in Auth-Server and Add Code for File Upload in Master Server
+- FIle Navbar Error in UI and Start Working on Upload Controller
+- Add Function to Nav Button in Video Player
+- Add Method to Transcode Video Files
+- Setup and Configure Multer for File upload
+- Change App Architecture and Start Working on Video Player Screen
+- Add Authentication Decorator for Auth Server
+- Add Authentication Middleware to Master Server and Move Environment Variables to env file
+- Add Authentication Methods and Docs to Auth Server
+- Add User Count Method for auth server and fix nginx proxy issue
+- Add Nginx Reverse Proxy
+- Add Connection Check and Jwt Helpers to Auth Server
+- Start Working on Dashboard
+- Finish Designing Show Screen
+- Start Working on View Show/Movie UI
+- Connect Auth Server to Database
+- Start Working on Stream Server
+- Add Database Connection for Master Server and Add Database Test
+- Start Working on Card Overlay
+- Start Working on HomePage and Cards
+- Finish Login Page Design
+- Start Working on Login Page
+- Migrate from Material-ui to Prime-ui Finish Working on Navbar
+- Cleanup and configure Client App
+- Configure Dockerfiles
+- Fix Errors in Docker Compose and Dockerfiles
+- Add Docker file to Stream & Auth Server
+- Init App

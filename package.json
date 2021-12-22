@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "app:up": "docker-compose up",
-    "build": "docker-compose build"
+    "build": "docker-compose build",
+    "gen:change-log": "git log --pretty=\"- %s\" > CHANGELOG.md"
   },
   "keywords": [],
   "author": "Adityan",

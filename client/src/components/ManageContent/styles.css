@@ -1,0 +1,15 @@
+.manage{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.btn{
+    margin-left: 20px;
+}
+
+.content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;    
+}
