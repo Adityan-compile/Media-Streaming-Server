@@ -1,7 +1,32 @@
 const Movie = require("../../models/movie");
+const Show = require("../../models/show");
 const transcode = require("../../utils/transcode");
 
 exports.addMovie = async(req,res)=>{
+  const body = req.body;
+  if(!body || Object.keys(body).length === 0){
+    return res.status(400).json({
+      status: 400,
+      message: "Bad Request",
+    });
+  }
+
+  try{
+    const newShow = await Show.create(body);
+    res.status(201).json({
+      status: 201,
+      message: "Show Created Successfully",
+      movie: newShow.toJSON()
+    });
+  }catch(e){
+    res.status(500).json({
+      status: 500,
+      message: "Cannot Create Show"
+    })
+  }
+};
+
+exports.addShow = async(req,res)=>{
   const body = req.body;
   if(!body || Object.keys(body).length === 0){
     return res.status(400).json({
@@ -24,6 +49,7 @@ exports.addMovie = async(req,res)=>{
     })
   }
 };
+
 
 exports.uploadFile = (req, res) => {
   const body = req.body;
@@ -81,9 +107,7 @@ exports.uploadFile = (req, res) => {
       });
   } else if (body.mediaType === "show") {
     //Add TV Show File Upload Code
-  } else if (body.mediaType === "generic") {
-    //Add Generic Media Upload Code
-  } else {
+  }else {
     return res.status(400).json({
       status: 400,
       message: "Bad or Unsupported Media Type",
