@@ -5,10 +5,11 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "test": "jest",
+    "test": "jest --watchAll --verbose --coverage",
     "migrate": "node ./config/database/migrate.js"
   },
   "dependencies": {
+    "@types/jest": "^27.0.3",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",

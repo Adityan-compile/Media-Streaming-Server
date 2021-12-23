@@ -1,17 +1,27 @@
-const User = require("../models/user");
+const Movie = require("../models/movie");
 const db = require("../config/database/sequelize");
 
-beforeAll(async () => {
-  await db.get().sync();
-});
-
-test("Create User", async () => {
-  expect.assertions(3);
-  const user = await User.create({
-    name: "test",
-    password: "test",
+describe("Database Tests", () => {
+  beforeAll(async () => {
+    await db.get().sync();
   });
-  expect(user.id.toString().length).toBe(20);
-  expect(user.name).toBe("test");
-  expect(user.password).toBe("test");
+
+  test("Can Create Movie", async () => {
+    expect.assertions(5);
+    const movie = await Movie.create({
+      name: "test",
+      tagline: "test",
+      description: "test",
+      lang: "en",
+    });
+    expect(movie.id.toString().length).toBe(20);
+    expect(movie.name).toBe("test");
+    expect(movie.tagline).toBe("test");
+    expect(movie.description).toBe("test");
+    expect(movie.lang).toBe("en");
+
+  });
+
+  test.todo("Can Create Show");
+  test.todo("Can Create Server");
 });

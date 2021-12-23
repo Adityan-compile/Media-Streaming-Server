@@ -39,4 +39,4 @@ Server.init(
   }
 );
 
-module.exports = Movie;
+module.exports = Server;

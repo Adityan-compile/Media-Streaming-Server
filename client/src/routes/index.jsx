@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import AuthProvider from "../store/providers/authProvider";
 import Context from "../store";
 import Dashboard from "../pages/Dashboard";
+import EditShow from "../pages/EditShow";
 import Header from "../components/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -28,8 +29,10 @@ function Routes() {
   useEffect(() => {
     AuthProvider.getAuthStatus().then((res) => {
       setUser(res);
-      if(!res.authenticated){
-        AuthProvider.getUserCount().then(res=>setUserCount(res)).catch(e=>setUserCount(0));
+      if (!res.authenticated) {
+        AuthProvider.getUserCount()
+          .then((res) => setUserCount(res))
+          .catch((e) => setUserCount(0));
       }
     });
   }, []);
@@ -41,7 +44,7 @@ function Routes() {
           ...AuthProvider,
           contextMenu,
           userCount,
-          user
+          user,
         }}
       >
         {user.authenticated && <Header />}
@@ -75,6 +78,14 @@ function Routes() {
             element={
               <RouteGuard>
                 <ViewShow />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path={"/shows/edit"}
+            element={
+              <RouteGuard>
+                <EditShow />
               </RouteGuard>
             }
           />
