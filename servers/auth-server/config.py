@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from os import getenv
 from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
 
 
 app = Flask(__name__)
@@ -19,5 +20,5 @@ app.secret_key = getenv('SECRET_KEY')
 CORS(app)
 
 db = SQLAlchemy(app)
-
+migrate = Migrate(db,app)
 bcrypt = Bcrypt(app)

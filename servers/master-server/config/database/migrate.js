@@ -1,16 +1,15 @@
 const db = require("./sequelize");
 
-function migrate(options = {}) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await db.get().sync(options);
-      console.log("Migration Successful");
-    } catch (e) {
-      throw new Error("Migration Failed" + "\n" + e);
-    }
-  });
-}
-
-migrate();
+const migrate = async(callback) => {
+  try {
+    console.info("Running Migrations");
+    await db.get().sync({
+      alter: true
+      });
+    return callback(null);
+  } catch (e) {
+    return callback(e)
+  }
+};
 
 module.exports = migrate;

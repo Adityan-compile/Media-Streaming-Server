@@ -1,8 +1,19 @@
-from typing import Text
 from config import *
 from controllers.auth_controller import auth
 from controllers.error_controller import err_controller
 from sqlalchemy.sql import text
+import os 
+
+from utils.migrate import init_migrations, run_migrations
+
+migrations_dir_exists = os.path.isdir(os.path.join(os.getcwd(), "migrations"))
+
+if(migrations_dir_exists):
+    pass
+else: 
+    init_migrations()
+
+run_migrations()
 
 try:
     print("Executing Query SELECT 1")

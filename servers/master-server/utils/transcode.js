@@ -1,6 +1,11 @@
 const ffmpeg = require("fluent-ffmpeg");
+var ffprobeStatic = require('ffprobe-static');
+var ffmpegStatic = require('ffmpeg-static');
 const fs = require("fs");
 const path = require("path");
+
+ffmpeg.setFfmpegPath(ffmpegStatic.path);
+ffmpeg.setFfprobePath(ffprobeStatic.path);
 
 exports.transcodeVideo = async (filename) => {
   return new Promise((resolve, reject) => {

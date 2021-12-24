@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const usersRouter = require("./routes/users");
 const indexRouter = require("./routes/index");
 const db = require("./config/database/sequelize");
+const migrate = require("./config/database/migrate");
 const {loadServerSettings} = require("./utils/settings");
 
 app.use(logger("dev"));
@@ -18,13 +19,20 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
-loadServerSettings().then(()=>{
-  console.info("Server Settings Loaded");
-}).catch((e)=>{
-  console.error("Error Loading Server Config");
-  console.error(e);
-  process.exit(1);
+// Run Migrations and Load Server Settings
+migrate((e)=>{
+  if(e){
+    throw new Error("Migration Failed" + "\n" + e);
+  }
+  console.log("Migration Successful");
+  
+  loadServerSettings().then(()=>{
+    return console.info("Server Settings Loaded");
+  }).catch((e)=>{
+    throw new Error("Error Loading Server Config" + "\n" + e);
+  });
 });
+
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
