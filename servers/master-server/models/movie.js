@@ -51,11 +51,11 @@ Movie.init(
       defaultValue: "",
     },
     crew: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.ARRAY(DataTypes.JSON),
       defaultValue: "",
     },
     genres: {
-        type: DataTypes.ARRAY,
+        type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: "",
     },
 
@@ -68,7 +68,7 @@ Movie.init(
   },
   {
     tableName: "movies",
-    modelName: "movie",
+    modelName: "movies",
     sequelize: db.get(),
     timestamps: true,
   }

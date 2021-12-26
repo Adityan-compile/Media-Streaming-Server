@@ -1,4 +1,4 @@
-const Server = require("../models/server");
+const {Server} = require("../models");
 
 exports.loadServerSettings = ()=>{
     return new Promise(async(resolve,reject)=>{

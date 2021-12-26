@@ -22,6 +22,7 @@ app.use(cors({
 // Run Migrations and Load Server Settings
 migrate((e)=>{
   if(e){
+    console.error(e);
     throw new Error("Migration Failed" + "\n" + e);
   }
   console.log("Migration Successful");

@@ -43,11 +43,11 @@ Show.init(
       defaultValue: "",
     },
     crew: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.ARRAY(DataTypes.JSON),
       defaultValue: "",
     },
     genres: {
-        type: DataTypes.ARRAY,
+        type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: "",
     },
 
@@ -60,7 +60,7 @@ Show.init(
   },
   {
     tableName: "shows",
-    modelName: "show",
+    modelName: "shows",
     sequelize: db.get(),
     timestamps: true,
   }

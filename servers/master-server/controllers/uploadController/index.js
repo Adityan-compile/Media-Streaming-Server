@@ -1,5 +1,4 @@
-const Movie = require("../../models/movie");
-const Show = require("../../models/show");
+const {Movie, Show} = require("../../models");
 const transcode = require("../../utils/transcode");
 
 exports.addMovie = async(req,res)=>{

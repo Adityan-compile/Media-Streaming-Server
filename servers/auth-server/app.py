@@ -49,6 +49,7 @@ else:
 with app.app_context():
     print("Running Migrations")
     upgrade()
+db.create_all()
 
 app.register_blueprint(auth, url_prefix='/api/auth')
 app.register_blueprint(err_controller)
