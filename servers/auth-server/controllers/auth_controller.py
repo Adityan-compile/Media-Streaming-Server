@@ -5,7 +5,7 @@
 
 from flask import Blueprint, jsonify
 from flask import request
-from config import db, bcrypt
+from app import db, bcrypt
 from models.User import User
 from models.Token import Token
 from models.Server import Server

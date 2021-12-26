@@ -1,4 +1,4 @@
-from config import db
+from app import db
 import nanoid
 
 class Server(db.Model):

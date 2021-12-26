@@ -1,7 +1,6 @@
-version: '3'
+version: "3"
 
 services:
-
   postgres:
     image: postgres
     env_file:
@@ -47,10 +46,12 @@ services:
       - postgres
     ports:
       - 8086:80
-    env_file:
-      - ./.env
+    environment:
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+      PGADMIN_DEFAULT_EMAIL: "test@test.com"
     restart: unless-stopped
     networks:
+      - frontend
       - backend
 
   master-server:
@@ -83,21 +84,6 @@ services:
       - ./servers/auth-server/:/var/app/
     networks:
       - backend
-
-  # streaming-server:
-  #   image: streaming-server
-  #   build: ./servers/streaming-server
-  #   env_file:
-  #     - ./.env
-  #   ports:
-  #     - 8083:80
-  #   depends_on:
-  #     - postgres
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./servers/streaming-server/:/var/app/
-  #   networks:
-  #     - backend
 
   client:
     image: client-app

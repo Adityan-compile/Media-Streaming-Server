@@ -3,7 +3,7 @@
 '''
 
 from flask import Blueprint, jsonify
-from config import app
+from app import app
 
 err_controller = Blueprint("error_controller", __name__)
 
