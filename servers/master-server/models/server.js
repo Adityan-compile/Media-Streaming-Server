@@ -1,12 +1,15 @@
-const { Model, DataTypes } = require("sequelize");
-const db = require("../config/database/sequelize");
-
+'use strict';
+const {
+  Model
+} = require('sequelize');
 const { nanoid } = require("nanoid");
 
-class Server extends Model {}
-
-Server.init(
-  {
+module.exports = (sequelize, DataTypes) => {
+  class server extends Model {
+    static associate(models) {
+    }
+  };
+  server.init(  {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -34,9 +37,8 @@ Server.init(
   {
     tableName: "server",
     modelName: "server",
-    sequelize: db.get(),
+    sequelize,
     timestamps: true,
-  }
-);
-
-module.exports = Server;
+  });
+  return server;
+};

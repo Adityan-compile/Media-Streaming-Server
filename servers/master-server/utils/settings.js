@@ -1,9 +1,9 @@
-const {Server} = require("../models");
+const {server} = require("../models");
 
 exports.loadServerSettings = ()=>{
     return new Promise(async(resolve,reject)=>{
         try{
-            let settings = await Server.findAll({})[0];
+            let settings = await server.findAll({})[0];
             if(!settings) settings = {};
             process.env.SERVER_NAME = settings.serverName || "Streamflix";
             process.env.TMDB_API_KEY = settings.tmdbKey || "";

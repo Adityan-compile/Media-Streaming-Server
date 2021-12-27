@@ -1,4 +1,4 @@
-const {Movie, Show} = require("../../models");
+const {movie, show} = require("../../models");
 const transcode = require("../../utils/transcode");
 
 exports.addMovie = async(req,res)=>{
@@ -11,7 +11,7 @@ exports.addMovie = async(req,res)=>{
   }
 
   try{
-    const newShow = await Show.create(body);
+    const newShow = await show.create(body);
     res.status(201).json({
       status: 201,
       message: "Show Created Successfully",
@@ -35,7 +35,7 @@ exports.addShow = async(req,res)=>{
   }
 
   try{
-    const newMovie = await Movie.create(body);
+    const newMovie = await movie.create(body);
     res.status(201).json({
       status: 201,
       message: "Movie Created Successfully",
@@ -62,7 +62,7 @@ exports.uploadFile = (req, res) => {
   }
 
   if (body.mediaType === "movie") {
-    Movie.findAndCountAll({
+    movie.findAndCountAll({
       where: {
         id: body.movieId,
       },
@@ -74,7 +74,7 @@ exports.uploadFile = (req, res) => {
             .json({ status: 400, message: "Movie Not Found" });
         }
         transcode.transcodeVideo(file.originalName).then(()=>{
-          Movie.update({
+          movie.update({
             file: file.originalName
           }, {
             where: {

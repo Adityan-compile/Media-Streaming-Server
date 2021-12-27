@@ -1,12 +1,14 @@
-const { Model, DataTypes } = require("sequelize");
-const db = require("../config/database/sequelize");
-
+'use strict';
+const {
+  Model
+} = require('sequelize');
 const { nanoid } = require("nanoid");
-
-class Show extends Model {}
-
-Show.init(
-  {
+module.exports = (sequelize, DataTypes) => {
+  class show extends Model {
+    static associate(models) {
+    }
+  };
+  show.init(  {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -44,11 +46,11 @@ Show.init(
     },
     crew: {
       type: DataTypes.ARRAY(DataTypes.JSON),
-      defaultValue: "",
+      defaultValue: [{}],
     },
     genres: {
         type: DataTypes.ARRAY(DataTypes.STRING),
-        defaultValue: "",
+        defaultValue: [""],
     },
 
     createdAt: {
@@ -61,9 +63,8 @@ Show.init(
   {
     tableName: "shows",
     modelName: "shows",
-    sequelize: db.get(),
+    sequelize,
     timestamps: true,
-  }
-);
-
-module.exports = Show;
+  });
+  return show;
+};
