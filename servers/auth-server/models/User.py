@@ -1,4 +1,4 @@
-from app import db
+from config import db
 from utils.bcrypt import hash_password
 import nanoid
 
