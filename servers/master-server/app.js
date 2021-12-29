@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
-const usersRouter = require("./routes/users");
+const mediaRouter = require("./routes/media");
 const indexRouter = require("./routes/index");
 const db = require("./config/database/sequelize");
 const migrate = require("./config/database/migrate");
@@ -35,8 +35,8 @@ migrate((e)=>{
 });
 
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api/", indexRouter);
+app.use("/api/media", mediaRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

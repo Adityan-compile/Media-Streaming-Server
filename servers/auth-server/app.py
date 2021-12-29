@@ -2,7 +2,6 @@ from controllers.auth_controller import auth
 from controllers.error_controller import err_controller
 from sqlalchemy.sql import text
 from config import app, db 
-from models.Server import Server
 from models.Token import Token
 from models.User import User
 from flask_migrate import upgrade
