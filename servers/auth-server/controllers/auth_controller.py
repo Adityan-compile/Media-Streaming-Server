@@ -171,6 +171,46 @@ def logout():
 
 
 '''
+* Path: /tokens/access/verify
+* Method: POST
+* Description: Verify Access Token
+'''
+
+
+@auth.route("/tokens/access/verify", methods=['POST'])
+def verify_access_token():
+    secret_key = request.headers['SECRET_KEY']
+    access_token = request.get_json().get('token', '')
+    if(secret_key):
+        if(access_token):
+            decoded = verify_token(access_token, type="a")
+            if(decoded):
+                res = jsonify({
+                    "status": 200,
+                    "user": decoded
+                })
+                return res, 200
+
+            res = jsonify({
+                "status": 401,
+                "message": "Unauthorized"
+            })
+            return res, 401
+        else:
+            res = jsonify({
+                "status": 400,
+                "message": "Invalid Access Token"
+            })
+            return res, 400
+    else:
+        res = jsonify({
+            "status": 400,
+            "message": "Invalid Secret Key"
+        })
+        return res, 400
+
+
+'''
 * Path: /tokens/refresh
 * Method: POST
 * Description: Find Refresh Token, Verify and Generate new Access Token

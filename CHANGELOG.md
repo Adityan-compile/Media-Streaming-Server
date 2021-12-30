@@ -1,3 +1,12 @@
+- Move Access Token Verification from Master Server to Auth Server
+- Add: - Code For Redis Connection and Set/Get Operations - Setup Axios for TMDB API - Add Controller Methods for Searching Movies or Shows by Name
+- Move Server Configuration Logic from Auth Server to Master Server
+- Fix Migration Errors in Master Server
+- Move from 'db.sync()' to Migrations
+- Fix Sequelize Models Detection Problem
+- Setup PG Admin 4 inside docker
+- Add Static Binaries for ffmpeg and ffprobe
+- Add Logic to Load Server Settings to Environment
 - Add: - Manage Content Component
 - Add: - Server Settings Model in Master Server Start: - Working on Dashboard for Client
 - Add: - Login Logic For Client - New User Creation Code for Auth Server - Show Creation Code - Show Model
