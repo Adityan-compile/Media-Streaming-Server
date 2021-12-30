@@ -1,26 +1,40 @@
-const expressRedisCache = require("express-redis-cache");
+const redis = require("redis");
 
 const env = process.env;
 
-const options = {
-  host: env.REDIS_HOST,
-  port: env.REDIS_PORT,
-  expire: {
-    200: parseInt(env.CACHE_EXPIRY),
-    500: 0,
-    400: 0,
-    xxx: parseInt(env.CACHE_EXPIRY),
-  },
+// const cache = redis.createClient({
+//   port: env.REDIS_PORT,
+//   host: env.REDIS_HOST
+// });
+
+const cache = redis.createClient({url:`redis://${env.REDIS_HOST}:${env.REDIS_PORT}`});
+
+cache.connect().then(async() => {
+  await cache.ping();
+  console.info(`[${new Date().toJSON()}]`, "Redis Cache Connected");
+});
+
+cache.on("error", (e) => {
+  console.error(`Error [${new Date().toJSON()}]`, "Redis Cache Error");
+  console.error(e)
+});
+
+const checkCache = async (key) => {
+  const res = await cache.get(key);
+  if (!res) return null;
+  return res;
 };
 
-const cache = expressRedisCache(options);
+const cacheResponse = async (key, value) => {
+  await cache.set(key, value, {
+    EX: env.CACHE_EXPIRY || 600,
+    NX: true
+  });
+  return null;
+};
 
-cache.on("connected", () => {
-  console.info(`[${new Date().toJSON()}]`, "Cache Connected");
-});
-
-cache.on("disconnected", () => {
-  console.info(`Error [${new Date().toJSON()}]`, "Redis Cache Disconnected");
-});
-
-export default cache;
+module.exports = {
+  checkCache,
+  cacheResponse,
+  redis: cache,
+};

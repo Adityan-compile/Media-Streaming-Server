@@ -7,9 +7,9 @@ const cookieParser = require("cookie-parser");
 const mediaRouter = require("./routes/media");
 const indexRouter = require("./routes/index");
 const db = require("./config/database/sequelize");
+const cache = require("./config/cache");
 const migrate = require("./config/database/migrate");
 const {loadServerSettings} = require("./utils/settings");
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
