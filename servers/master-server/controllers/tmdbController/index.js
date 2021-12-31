@@ -78,3 +78,81 @@ exports.searchShows = async (req, res) => {
        }); 
     }
   };
+
+  exports.getMovie = async (req, res) => {
+    const id = req.query.id;
+  
+    if (!id)
+      return res.status(400).json({
+        status: 400,
+        message: "Bad Request",
+      });
+  
+    if (id.length === 0)
+      return res.status(422).json({
+        status: 422,
+        message: "Id Length Insufficient",
+      });
+  
+    const cachedResponse = cache.checkCache(`movie-${id}`);
+  
+    if (!cachedResponse) {
+      try {
+        const results = await axios.get(`movie/${id}`);
+        cache.cacheResponse(`movies-${query}`, results);
+        res.status(200).json({
+          status: 200,
+          results: result
+        }); 
+      } catch (e) {
+        res.status(503).json({
+          status: 503,
+          message: "TMDB Unavailable",
+        });
+      }
+    }else{
+       res.status(200).json({
+           status: 200,
+           results: cachedResponse
+       }); 
+    }
+  };
+  
+  exports.getShow = async (req, res) => {
+      const id = req.query.id;
+    
+      if (!id)
+        return res.status(400).json({
+          status: 400,
+          message: "Bad Request",
+        });
+    
+      if (id.length === 0)
+        return res.status(422).json({
+          status: 422,
+          message: "Query Length Insufficient",
+        });
+    
+      const cachedResponse = cache.checkCache(`show-${id}`);
+    
+      if (!cachedResponse) {
+        try {
+          const results = await axios.get(`/show/${id}`);
+          cache.cacheResponse(`shows-${query}`, results);
+          res.status(200).json({
+            status: 200,
+            results: results
+          }); 
+        } catch (e) {
+          res.status(503).json({
+            status: 503,
+            message: "TMDB Unavailable",
+          });
+        }
+      }else{
+         res.status(200).json({
+             status: 200,
+             results: cachedResponse
+         }); 
+      }
+    };
