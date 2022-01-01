@@ -15,3 +15,12 @@ class User(db.Model):
             self.id = id
         self.name = name
         self.password = hash_password(password)
+    
+    def to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result

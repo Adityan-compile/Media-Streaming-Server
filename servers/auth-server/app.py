@@ -6,7 +6,6 @@ from models.Token import Token
 from models.User import User
 from flask_migrate import upgrade
 
-
 try:
     print("Executing Query SELECT 1")
     db.engine.execute(text("SELECT 1"))

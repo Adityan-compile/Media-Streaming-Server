@@ -10,7 +10,7 @@ from models.User import User
 from models.Token import Token
 from utils.jwt import generate_access_token, generate_refresh_token, authenticate, verify_token
 from utils.server import save_server_settings
-import os
+import json
 
 auth = Blueprint('auth_controller', __name__)
 
@@ -39,25 +39,34 @@ def get_users():
 
 @auth.route('/setup', methods=['POST'])
 def setup():
-    body = request.form
+    body = request.get_json()
     user_count = User.query.count()
-
     if user_count == 0:
         new_user = User(name=body['name'], password=body['password'])
         server_info = dict(name=body['serverName'], tmdbKey=body['tmdbKey'],
                            videoQuality=body['videoQuality'], audioQuality=body['audioQuality'])
         access_token = generate_access_token(new_user.id)
         refresh_token = generate_refresh_token(new_user.id)
-        token_obj = Token(token=refresh_token)
-
+        token_obj = Token(token=refresh_token) 
         try:
-            save_server_settings({
-                "payload": server_info,
-                "headers": {
-                    "SECRET_KEY": os.getenv("SECRET_KEY")
-                }
+            save_server_settings(server_info)
+            db.session.add_all([
+                new_user,
+                token_obj
+            ])
+            db.session.commit()
+            new_user.password = None
+            res = jsonify({
+                "status": 200,
+                "message": "Setup Success",
+                "user": new_user.to_dict()
             })
-        except:
+            res.set_cookie('accessToken', access_token, max_age=60*60,
+                           httponly=True, secure=True, samesite="Strict")
+            res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
+                           max_age=60*60, httponly=True, secure=True, samesite="Strict")
+            return res, 200
+        except Exception as e:
             db.session.add_all([
                 new_user,
                 token_obj
@@ -65,30 +74,14 @@ def setup():
             db.session.commit()
             res = jsonify({
                 "status": 202,
-                "message": "Request Partially Completed"
+                "message": "Request Partially Completed",
+                "user": new_user.to_dict()
             })
             res.set_cookie('accessToken', access_token, max_age=60*60,
                            httponly=True, secure=True, samesite="Strict")
             res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
                            max_age=60*60, httponly=True, secure=True, samesite="Strict")
             return res, 202
-
-        db.session.add_all([
-            new_user,
-            token_obj
-        ])
-        db.session.commit()
-        new_user.password = None
-        res = jsonify({
-            "status": 200,
-            "message": "Setup Success",
-            "user": new_user
-        })
-        res.set_cookie('accessToken', access_token, max_age=60*60,
-                       httponly=True, secure=True, samesite="Strict")
-        res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
-                       max_age=60*60, httponly=True, secure=True, samesite="Strict")
-        return res, 200
     else:
         return jsonify({
             "status": 406,

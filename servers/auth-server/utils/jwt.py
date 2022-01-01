@@ -6,8 +6,7 @@ import jwt
 from datetime import datetime, timedelta
 import os
 from functools import wraps
-from flask import abort
-import base64
+from flask import abort, request
 
 ACCESS_TOKEN_KEY = os.getenv('ACCESS_TOKEN_KEY')
 REFRESH_TOKEN_KEY = os.getenv('REFRESH_TOKEN_KEY')

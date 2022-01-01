@@ -29,10 +29,20 @@ const auth = {
     return new Promise((resolve,reject)=>{
       axios.post('/auth/setup', data).then(({data:res})=>{
         storage.set('USER', res.user);
-        resolve({
-          user: res.user
-        })
-      }).catch(e=>reject(e));
+        if(res.status === 200){
+          resolve({
+            user: res.user
+          })
+        }else{
+          resolve({
+            user:res.user,
+            status: "Partial"
+          })
+        }
+      }).catch(e=>{
+        console.error(e);
+        reject(e)
+      });
     });
   },
   loginUser: (data)=>{

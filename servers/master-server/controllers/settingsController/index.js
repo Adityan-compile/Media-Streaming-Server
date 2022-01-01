@@ -2,9 +2,10 @@ const { server } = require("../../models");
 const { isIncluded } = require("../../utils");
 
 exports.saveServerSettings = async(req, res) => {
-  const secretKey = req.headers["SECRET_KEY"];
+  const secretKey = req.headers["secret_key"];
   const body = req.body;
   const keys = Object.keys(body);
+
 
   if (!secretKey)
     return res.status(401).json({

@@ -83,21 +83,33 @@ function SetupScreen() {
 
     serverSetup(formData)
       .then((res) => {
-        toastRef.current.show({
-          severity: "success",
-          summary: "Success",
-          detail: "Server Setup Conplete",
-          life: 3000,
-        });
-        setTimeout(() => navigate("/"), 3000);
+        if(res.status==="partial"){
+          toastRef.current.show({
+            severity: "warn",
+            summary: "Partially Completed",
+            detail: "The User has been created but you might need to edit the API Keys and Upload Quality Settings Later",
+            life: 3000,
+          });
+          // setTimeout(() => navigate("/"), 3000);
+        }else{
+          toastRef.current.show({
+            severity: "success",
+            summary: "Success",
+            detail: "Server Setup Complete",
+            life: 3000,
+          });
+          // setTimeout(() => navigate("/"), 3000);
+        }
       })
-      .catch((e) =>
+      .catch((e) =>{
+        console.error(e);
         toastRef.current.show({
           severity: "error",
           summary: "Error",
           detail: "Error Setting up Server, Try Again Later",
           life: 3000,
         })
+      }
       );
   });
 
