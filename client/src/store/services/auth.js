@@ -29,12 +29,9 @@ const auth = {
   serverSetup: (data)=>{
     return new Promise((resolve,reject)=>{
       axios.post('/auth/setup', data).then(({data:res})=>{
-        console.log(res);
-        storage.set('USER', res.user);
-        emitter.emit('login');
         if(res.status === 200){
           resolve({
-            user: res.user
+            status: "Completed"
           })
         }else{
           resolve({

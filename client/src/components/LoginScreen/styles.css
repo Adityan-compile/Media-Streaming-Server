@@ -11,7 +11,7 @@
 }
 
 .login-form {
-  height: 90vh;
+  height: 85vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,6 +46,6 @@
 }
 
 .footer {
-  margin-top: 30px;
+  /* margin-top: 10px; */
   text-align: center;
 }

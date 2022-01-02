@@ -1,12 +1,13 @@
 import "./styles.css";
 
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
 import Context from "../../store";
 import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
 import { Toast } from "primereact/toast";
+import emitter from "../../store/services/emitter";
 import { isEmpty } from '../../utils';
 import { useNavigate } from "react-router-dom";
 
@@ -55,7 +56,8 @@ function SetupScreen() {
   ];
 
 
-  const setupHandler = useCallback(() => {
+  const setupHandler = (e) => {
+    e.preventDefault();
     const formData = {
       name,
       password,
@@ -87,18 +89,24 @@ function SetupScreen() {
           toastRef.current.show({
             severity: "warn",
             summary: "Partially Completed",
-            detail: "The User has been created but you might need to edit the API Keys and Upload Quality Settings Later",
+            detail: "The User has been created but you might need to edit the API Keys and Upload Quality Settings after Login",
             life: 3000,
           });
-          // setTimeout(() => navigate("/"), 3000);
+          setTimeout(() => {
+            emitter.emit('setup');
+            navigate("/login")
+          }, 3000);
         }else{
           toastRef.current.show({
             severity: "success",
             summary: "Success",
-            detail: "Server Setup Complete",
+            detail: "Server Setup Complete, You Can Now Login",
             life: 3000,
           });
-          // setTimeout(() => navigate("/"), 3000);
+          setTimeout(() =>{
+            emitter.emit('setup');
+            navigate("/login")
+          } , 3000);
         }
       })
       .catch((e) =>{
@@ -111,7 +119,7 @@ function SetupScreen() {
         })
       }
       );
-  });
+  };
 
   return (
     <div className="setup-screen">
@@ -188,7 +196,7 @@ function SetupScreen() {
             <Button
               label="Complete Setup"
               className="form-control"
-              onClick={() => setupHandler()}
+              onClick={(e) => setupHandler(e)}
             />
           </span>
         </form>

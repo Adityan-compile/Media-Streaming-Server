@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
 import Context from "../../store";
@@ -19,7 +19,7 @@ function LoginScreen() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = useCallback(() => {
+  const login = () => {
     if (isEmpty(name) || isEmpty(password)) {
       return toastRef.current.show({
         severity: "warn",
@@ -46,7 +46,7 @@ function LoginScreen() {
           life: 3000,
         });
       });
-  });
+  };
 
   return (
     <div className="login">
@@ -88,7 +88,6 @@ function LoginScreen() {
             ></Button>
           </span>
         </form>
-
         <div className="footer">
           Photo by{" "}
           <a

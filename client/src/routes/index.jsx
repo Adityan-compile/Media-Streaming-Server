@@ -48,7 +48,13 @@ function Routes() {
     setUser({
       authenticated: false
     })
-  })
+  });
+
+  emitter.on('setup', ()=>{
+    AuthProvider.getUserCount()
+    .then((res) => setUserCount(res))
+    .catch((e) => setUserCount(0));
+  });
 
   return (
     <Router>

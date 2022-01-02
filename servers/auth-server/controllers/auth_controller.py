@@ -59,12 +59,7 @@ def setup():
             res = jsonify({
                 "status": 200,
                 "message": "Setup Success",
-                "user": new_user.to_dict()
             })
-            res.set_cookie('accessToken', access_token, max_age=60*60,
-                           httponly=True, secure=True, samesite="Strict")
-            res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
-                           max_age=60*60, httponly=True, secure=True, samesite="Strict")
             return res, 200
         except Exception as e:
             db.session.add_all([
@@ -75,12 +70,7 @@ def setup():
             res = jsonify({
                 "status": 202,
                 "message": "Request Partially Completed",
-                "user": new_user.to_dict()
             })
-            res.set_cookie('accessToken', access_token, max_age=60*60,
-                           httponly=True, secure=True, samesite="Strict")
-            res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
-                           max_age=60*60, httponly=True, secure=True, samesite="Strict")
             return res, 202
     else:
         return jsonify({
