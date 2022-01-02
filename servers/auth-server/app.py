@@ -7,9 +7,7 @@ from models.User import User
 from flask_migrate import upgrade
 
 try:
-    print("Executing Query SELECT 1")
     db.engine.execute(text("SELECT 1"))
-    print("Query Executed Successfully")
     print("Database Connected !!")
 except Exception as e:
     print("Database Connection Error \n")

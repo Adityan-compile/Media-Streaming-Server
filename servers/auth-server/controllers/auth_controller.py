@@ -17,7 +17,7 @@ auth = Blueprint('auth_controller', __name__)
 '''
 * Path: /users/count
 * Method: GET
-* Description: COunt the Number of Users in Database Table
+* Description: Count the Number of Users in Database Table
 '''
 
 
@@ -47,7 +47,7 @@ def setup():
                            videoQuality=body['videoQuality'], audioQuality=body['audioQuality'])
         access_token = generate_access_token(new_user.id)
         refresh_token = generate_refresh_token(new_user.id)
-        token_obj = Token(token=refresh_token) 
+        token_obj = Token(token=refresh_token)
         try:
             save_server_settings(server_info)
             db.session.add_all([
@@ -98,37 +98,31 @@ def setup():
 
 @auth.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        body = request.form
-        print(body['name'])
-        found_user = User.query.filter_by(name=body['name']).first()
-        if found_user is not None:
-            if bcrypt.check_password_hash(found_user.password, body['password']):
-                access_token = generate_access_token(found_user.id)
-                refresh_token = generate_refresh_token(found_user.id)
-                token_obj = Token(token=refresh_token)
-                db.session.add(token_obj)
-                db.session.commit()
-                res = jsonify({
-                    "status": 200,
-                    "message": "Login Success",
-                    "user": found_user
-                })
-                res.set_cookie('accessToken', access_token, max_age=60*60,
-                               httponly=True, secure=True, samesite="Strict")
-                res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
-                               max_age=60*60, httponly=True, secure=True, samesite="Strict")
-                return res, 200
-        else:
-            return jsonify({
-                "status": 404,
-                "message": "User not Found"
+    body = request.get_json()
+    found_user = User.query.filter_by(name=body['name']).first()
+    if found_user is not None:
+        if bcrypt.check_password_hash(found_user.password, body['password']):
+            access_token = generate_access_token(found_user.id)
+            refresh_token = generate_refresh_token(found_user.id)
+            token_obj = Token(token=refresh_token)
+            db.session.add(token_obj)
+            db.session.commit()
+            found_user.password = None
+            res = jsonify({
+                "status": 200,
+                "message": "Login Success",
+                "user": found_user.to_dict()
             })
+            res.set_cookie('accessToken', access_token, max_age=60*60,
+                           httponly=True, secure=True, samesite="Strict")
+            res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
+                           max_age=60*60, httponly=True, secure=True, samesite="Strict")
+            return res, 200
     else:
         return jsonify({
-            "status": 405,
-            "message": "Method not Allowed"
-        }), 405
+            "status": 404,
+            "message": "User not Found"
+        })
 
 
 '''

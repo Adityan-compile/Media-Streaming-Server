@@ -17,6 +17,7 @@ import Player from "../pages/Player";
 import React from "react";
 import Setup from "../pages/Setup";
 import ViewShow from "../pages/ViewShow";
+import emitter from "../store/services/emitter";
 
 function Routes() {
   const [user, setUser] = useState({
@@ -36,6 +37,18 @@ function Routes() {
       }
     });
   }, []);
+
+  emitter.on('login', ()=>{
+    AuthProvider.getAuthStatus().then((res) => {
+      setUser(res);
+    });
+  });
+
+  emitter.on('logout', ()=>{
+    setUser({
+      authenticated: false
+    })
+  })
 
   return (
     <Router>

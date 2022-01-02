@@ -18,7 +18,8 @@ state.db = new Sequelize(
     dialectOptions: {
       ssl: env.POSTGRES_SSL == "true",
     },
-  }
+    logging: false
+  },
 );
 state.db
   .authenticate()

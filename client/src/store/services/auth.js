@@ -1,4 +1,5 @@
 import axios from './axios';
+import emitter from './emitter';
 import storage from "../../storage";
 
 const auth = {
@@ -28,7 +29,9 @@ const auth = {
   serverSetup: (data)=>{
     return new Promise((resolve,reject)=>{
       axios.post('/auth/setup', data).then(({data:res})=>{
+        console.log(res);
         storage.set('USER', res.user);
+        emitter.emit('login');
         if(res.status === 200){
           resolve({
             user: res.user
@@ -49,6 +52,7 @@ const auth = {
     return new Promise((resolve, reject)=>{
       axios.post('/auth/login',data).then(({data:res})=>{
         storage.set('USER', res.user);
+        emitter.emit('login')
         resolve({
           user: res.user
         })

@@ -5,6 +5,8 @@ const instance = axios.create({
     baseURL: '/api/'
 });
 
+instance.defaults.withCredentials = true;
+
 retry(axios, { 
     retries: 2
 });
