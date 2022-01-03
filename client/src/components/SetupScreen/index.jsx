@@ -192,7 +192,7 @@ function SetupScreen() {
               className="form-control"
             />
           </span>
-          <span>
+          <span className="form-control">
             <Button
               label="Complete Setup"
               className="form-control"
