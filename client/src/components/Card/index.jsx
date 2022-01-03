@@ -8,7 +8,7 @@ function Card({admin=false}) {
 
   const navigate = useNavigate();
 
-  const [backgroundImage, setBackgroundImage] = useState([
+  const [backgroundImage, setBackgroundImage] = useState(  [
     "https://www.themoviedb.org/t/p/original/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg",
     "https://www.themoviedb.org/t/p/original/lYYUrFTl0JtEvqxjQLsodTe4j0S.jpg",
     "https://www.themoviedb.org/t/p/w220_and_h330_face/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg",
@@ -34,7 +34,7 @@ function Card({admin=false}) {
               backgroundImage[
                 Math.round(Math.random() * (backgroundImage.length - 1) + 0)
               ]
-            }')`,
+            }'), url('https://media.comicbook.com/files/img/default-movie.png')`,
           }}
           className="card"
         >

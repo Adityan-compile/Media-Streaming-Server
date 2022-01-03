@@ -45,15 +45,9 @@ def setup():
         new_user = User(name=body['name'], password=body['password'])
         server_info = dict(name=body['serverName'], tmdbKey=body['tmdbKey'],
                            videoQuality=body['videoQuality'], audioQuality=body['audioQuality'])
-        access_token = generate_access_token(new_user.id)
-        refresh_token = generate_refresh_token(new_user.id)
-        token_obj = Token(token=refresh_token)
         try:
             save_server_settings(server_info)
-            db.session.add_all([
-                new_user,
-                token_obj
-            ])
+            db.session.add(new_user)
             db.session.commit()
             new_user.password = None
             res = jsonify({
@@ -62,10 +56,7 @@ def setup():
             })
             return res, 200
         except Exception as e:
-            db.session.add_all([
-                new_user,
-                token_obj
-            ])
+            db.session.add(new_user)
             db.session.commit()
             res = jsonify({
                 "status": 202,
@@ -94,7 +85,7 @@ def login():
         if bcrypt.check_password_hash(found_user.password, body['password']):
             access_token = generate_access_token(found_user.id)
             refresh_token = generate_refresh_token(found_user.id)
-            token_obj = Token(token=refresh_token)
+            token_obj = Token(token=refresh_token.decode('utf8'))
             db.session.add(token_obj)
             db.session.commit()
             found_user.password = None
@@ -105,7 +96,7 @@ def login():
             })
             res.set_cookie('accessToken', access_token, max_age=60*60,
                            httponly=True, secure=True, samesite="Strict")
-            res.set_cookie('refreshToken', refresh_token, path="/api/auth/tokens/refresh",
+            res.set_cookie('refreshToken', refresh_token,
                            max_age=60*60, httponly=True, secure=True, samesite="Strict")
             return res, 200
     else:
@@ -124,9 +115,15 @@ def login():
 
 @auth.route('/logout', methods=['DELETE'])
 def logout():
-    body = request.get_json()
+    cookie = request.cookies['refreshToken']
 
-    found_token = Token.query.filter_by(refresh_token=body['refreshToken'])
+    if cookie is None:
+        return jsonify({
+            "status": 400,
+            "message": "Bad Request"
+        }), 400
+
+    found_token = Token.query.filter_by(refresh_token=cookie).one()
 
     if found_token is not None:
         db.session.delete(found_token)
@@ -137,7 +134,7 @@ def logout():
         })
         res.set_cookie('accessToken', "", max_age=0,
                        httponly=True, secure=True, samesite="Strict")
-        res.set_cookie('refreshToken', "", max_age=0, path="/api/auth/tokens/refresh",
+        res.set_cookie('refreshToken', "", max_age=0,
                        httponly=True, secure=True, samesite="Strict")
         return res, 205
     else:

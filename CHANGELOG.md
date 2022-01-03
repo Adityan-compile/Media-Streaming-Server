@@ -1,3 +1,9 @@
+- Add Login Function to Client and Fix Refresh Token Storage Issue
+- Move Home Screen Layout from Flexbox to Grid Layout
+- Seperate Setup and Login Process
+- Add Event Emitter to client app and Decode password to UTF-8 to prevent Salt Errors in Auth Server
+- Resolve Server to Server Communication Issue and Add Custom Logger Method to Fix Docker Logging Issue for Auth Server
+- Add TMDB Proxy for finding movies and tv by id
 - Move Access Token Verification from Master Server to Auth Server
 - Add: - Code For Redis Connection and Set/Get Operations - Setup Axios for TMDB API - Add Controller Methods for Searching Movies or Shows by Name
 - Move Server Configuration Logic from Auth Server to Master Server

@@ -1,5 +1,5 @@
-import axios from './axios';
-import emitter from './emitter';
+import axios from "./axios";
+import emitter from "./emitter";
 import storage from "../../storage";
 
 const auth = {
@@ -17,45 +17,74 @@ const auth = {
       });
     });
   },
-  getUserCount: ()=>{
-    return new Promise((resolve,reject)=>{
-      axios.get('/auth/users/count').then(({data})=>{
-        resolve(data.count);
-      }).catch(err=>{
-        reject(err);
-      });
-    });
-  },
-  serverSetup: (data)=>{
-    return new Promise((resolve,reject)=>{
-      axios.post('/auth/setup', data).then(({data:res})=>{
-        if(res.status === 200){
-          resolve({
-            status: "Completed"
-          })
-        }else{
-          resolve({
-            user:res.user,
-            status: "Partial"
-          })
-        }
-      }).catch(e=>{
-        console.error(e);
-        reject(e)
-      });
-    });
-  },
-  loginUser: (data)=>{
-    return new Promise((resolve, reject)=>{
-      axios.post('/auth/login',data).then(({data:res})=>{
-        storage.set('USER', res.user);
-        emitter.emit('login')
-        resolve({
-          user: res.user
+  getUserCount: () => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/auth/users/count")
+        .then(({ data }) => {
+          resolve(data.count);
         })
-      }).catch(e=>reject(e))
+        .catch((err) => {
+          reject(err);
+        });
     });
-  }
+  },
+  serverSetup: (data) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/auth/setup", data)
+        .then(({ data: res }) => {
+          if (res.status === 200) {
+            resolve({
+              status: "Completed",
+            });
+          } else {
+            resolve({
+              user: res.user,
+              status: "Partial",
+            });
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          reject(e);
+        });
+    });
+  },
+  loginUser: (data) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/auth/login", data)
+        .then(({ data: res }) => {
+          storage.set("USER", res.user);
+          emitter.emit("login");
+          resolve({
+            user: res.user,
+          });
+        })
+        .catch((e) => reject(e));
+    });
+  },
+  logout: () => {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete("/auth/logout")
+        .then(() => {
+          storage.clear();
+          emitter.emit('logout');
+          resolve(true);
+        })
+        .catch((e) => {
+          if(e.response.status === 400){
+            storage.clear();
+            emitter.emit('logout');
+            resolve(true);
+          }else{
+            reject(e);
+          }
+        });
+    });
+  },
 };
 
 export default auth;
