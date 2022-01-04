@@ -1,9 +1,9 @@
 const {movie} = require("../models");
-const db = require("../config/database/sequelize");
+const migrate = require("../config/database/migrate");
 
 describe("Database Tests", () => {
   beforeAll(async () => {
-    await db.get().sync();
+    await migrate();
   });
 
   test("Can Create Movie", async () => {

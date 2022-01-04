@@ -120,7 +120,7 @@ def logout():
     if cookie is None:
         return jsonify({
             "status": 400,
-            "message": "Bad Request"
+            "message": "Cookie Not Found"
         }), 400
 
     found_token = Token.query.filter_by(refresh_token=cookie).one()
