@@ -1,17 +1,24 @@
+import React, { useState } from "react";
+
+import { AutoComplete } from "primereact/autocomplete";
+import {Button} from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
-import React from "react";
 
 function NewMovie({ visible, setVisible }) {
+  const [query,setQuery] = useState("");
   return (
     <Dialog
       header="New Movie"
       visible={visible}
       onHide={() => setVisible(false)}
     >
-      <div className="p-float-label form-control">
-          <InputText id="searchName" />
-          <label htmlFor="searchName">Movie Name</label>
+      <div className="p-grid p-fluid">
+        <div className="p-col-12 p-md-4">
+          <div className="p-inputgroup">
+            <AutoComplete placeholder="Search Movie" value={query} onChange={(e)=>setQuery(e.value)} />
+            <Button label="Search" />
+          </div>
+        </div>
       </div>
     </Dialog>
   );
@@ -19,7 +26,8 @@ function NewMovie({ visible, setVisible }) {
 
 export default NewMovie;
 
-{/* <div className="modal">
+{
+  /* <div className="modal">
   <div
     className="form-grid modal-content"
     style={{
@@ -52,4 +60,5 @@ export default NewMovie;
     />
     <label htmlFor="desc">Description</label>
   </div>
-</div> */}
+</div> */
+}
