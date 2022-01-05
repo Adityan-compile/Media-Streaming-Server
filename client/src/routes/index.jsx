@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Routes as Switch,
 } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import AuthProvider from "../store/providers/authProvider";
 import Context from "../store";
@@ -13,6 +13,7 @@ import EditShow from "../pages/EditShow";
 import Header from "../components/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import MediaProvider from "../store/providers/mediaProvider";
 import Player from "../pages/Player";
 import React from "react";
 import Setup from "../pages/Setup";
@@ -24,8 +25,6 @@ function Routes() {
     authenticated: false,
   });
   const [userCount, setUserCount] = useState(0);
-
-  const contextMenu = useRef(null);
 
   useEffect(() => {
     AuthProvider.getAuthStatus().then((res) => {
@@ -60,8 +59,8 @@ function Routes() {
     <Router>
       <Context.Provider
         value={{
+          ...MediaProvider,
           ...AuthProvider,
-          contextMenu,
           userCount,
           user,
         }}

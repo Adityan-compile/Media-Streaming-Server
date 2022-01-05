@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
+const createError = require('http-errors')
 const mediaRouter = require("./routes/media");
 const indexRouter = require("./routes/index");
 const db = require("./config/database/sequelize");
@@ -49,8 +50,10 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
+  console.error(err)
+
   res.status(err.status || 500);
-  res.render({
+  res.json({
     status: err.status,
     message:
       req.app.get("env") === "development" ? err.message : "Server Error",

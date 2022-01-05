@@ -73,6 +73,7 @@ services:
       - ./servers/master-server/:/var/app/
     networks:
       - backend
+      - third-party
 
   auth-server:
     image: auth-server
@@ -112,3 +113,5 @@ networks:
     internal: false
   backend:
     internal: true
+  third-party:
+      internal: false

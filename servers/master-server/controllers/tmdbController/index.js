@@ -16,17 +16,18 @@ exports.searchMovies = async (req, res) => {
       message: "Query Length Insufficient",
     });
 
-  const cachedResponse = cache.checkCache(`movies-${query}`);
 
+  const cachedResponse = await cache.checkCache(`movies-${query}`);
   if (!cachedResponse) {
     try {
-      const results = await axios.get(`/search/movie?query=${query}`);
-      cache.cacheResponse(`movies-${query}`, results);
+      const {data} = await axios.get(`/search/movie?query=${encodeURIComponent(query)}`);
+      cache.cacheResponse(`movies-${query}`, data.results);
       res.status(200).json({
         status: 200,
-        results: cachedResponse
+        results: data.results
       }); 
     } catch (e) {
+      console.error(e)
       res.status(503).json({
         status: 503,
         message: "TMDB Unavailable",

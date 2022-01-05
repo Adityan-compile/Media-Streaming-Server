@@ -2,11 +2,6 @@ const redis = require("redis");
 
 const env = process.env;
 
-// const cache = redis.createClient({
-//   port: env.REDIS_PORT,
-//   host: env.REDIS_HOST
-// });
-
 const cache = redis.createClient({url:`redis://${env.REDIS_HOST}:${env.REDIS_PORT}`});
 
 cache.connect().then(async() => {
@@ -22,11 +17,11 @@ cache.on("error", (e) => {
 const checkCache = async (key) => {
   const res = await cache.get(key);
   if (!res) return null;
-  return res;
+  return JSON.parse(res);
 };
 
 const cacheResponse = async (key, value) => {
-  await cache.set(key, value, {
+  await cache.set(key, JSON.stringify(value), {
     EX: env.CACHE_EXPIRY || 600,
     NX: true
   });
