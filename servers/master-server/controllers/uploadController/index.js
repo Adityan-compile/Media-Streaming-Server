@@ -1,54 +1,53 @@
-const {movie, show} = require("../../models");
+const { movie, show } = require("../../models");
 const transcode = require("../../utils/transcode");
 
-exports.addMovie = async(req,res)=>{
+exports.addShow = async (req, res) => {
   const body = req.body;
-  if(!body || Object.keys(body).length === 0){
+  if (!body || Object.keys(body).length === 0) {
     return res.status(400).json({
       status: 400,
       message: "Bad Request",
     });
   }
 
-  try{
+  try {
     const newShow = await show.create(body);
     res.status(201).json({
       status: 201,
       message: "Show Created Successfully",
-      movie: newShow.toJSON()
+      movie: newShow.toJSON(),
     });
-  }catch(e){
+  } catch (e) {
     res.status(500).json({
       status: 500,
-      message: "Cannot Create Show"
-    })
+      message: "Cannot Create Show",
+    });
   }
 };
 
-exports.addShow = async(req,res)=>{
+exports.addMovie = async (req, res) => {
   const body = req.body;
-  if(!body || Object.keys(body).length === 0){
+  if (!body || Object.keys(body).length < 10) {
     return res.status(400).json({
       status: 400,
       message: "Bad Request",
     });
   }
 
-  try{
+  try {
     const newMovie = await movie.create(body);
     res.status(201).json({
       status: 201,
       message: "Movie Created Successfully",
-      movie: newMovie.toJSON()
+      movie: newMovie.toJSON(),
     });
-  }catch(e){
+  } catch (e) {
     res.status(500).json({
       status: 500,
-      message: "Cannot Create Movie"
-    })
+      message: "Cannot Create Movie",
+    });
   }
 };
-
 
 exports.uploadFile = (req, res) => {
   const body = req.body;
@@ -62,41 +61,51 @@ exports.uploadFile = (req, res) => {
   }
 
   if (body.mediaType === "movie") {
-    movie.findAndCountAll({
-      where: {
-        id: body.movieId,
-      },
-    })
+    movie
+      .findAndCountAll({
+        where: {
+          id: body.movieId,
+        },
+      })
       .then(({ count }) => {
         if (count < 1) {
           return res
             .status(400)
             .json({ status: 400, message: "Movie Not Found" });
         }
-        transcode.transcodeVideo(file.originalName).then(()=>{
-          movie.update({
-            file: file.originalName
-          }, {
-            where: {
-              id: body.movieId
-            }
-          }).then(result=>{
-            res.status(200).json({
-              status: 200,
-              message: "File Upload Success"
-            })
-          }).catch(err=>{
+        transcode
+          .transcodeVideo(file.originalName)
+          .then(() => {
+            movie
+              .update(
+                {
+                  file: file.originalName,
+                },
+                {
+                  where: {
+                    id: body.movieId,
+                  },
+                }
+              )
+              .then((result) => {
+                res.status(200).json({
+                  status: 200,
+                  message: "File Upload Success",
+                });
+              })
+              .catch((err) => {
+                res.status(500).json({
+                  status: 500,
+                  message: "Database Update Error",
+                });
+              });
+          })
+          .catch((err) => {
             res.status(500).json({
               status: 500,
-              message: "Database Update Error"
+              message: "Video Transcode Error",
             });
           });
-        }).catch(err=>{
-          res.status(500).json({
-            status: 500,
-            message: "Video Transcode Error"
-          })
-        });
       })
       .catch((err) => {
         return res.status(500).json({
@@ -106,7 +115,7 @@ exports.uploadFile = (req, res) => {
       });
   } else if (body.mediaType === "show") {
     //Add TV Show File Upload Code
-  }else {
+  } else {
     return res.status(400).json({
       status: 400,
       message: "Bad or Unsupported Media Type",

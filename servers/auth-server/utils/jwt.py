@@ -17,6 +17,8 @@ REFRESH_TOKEN_KEY = os.getenv('REFRESH_TOKEN_KEY')
 * Params: id:String
 * Return: String
 '''
+
+
 def generate_access_token(id):
     try:
         payload = {
@@ -43,6 +45,8 @@ def generate_access_token(id):
 * Params: id:String
 * Return: String
 '''
+
+
 def generate_refresh_token(id):
     try:
         payload = {
@@ -68,10 +72,13 @@ def generate_refresh_token(id):
 * Params: token:String
 * Return: Object/Dict
 '''
+
+
 def verify_token(token, type='r'):
     try:
         decoded = jwt.decode(
-            token, REFRESH_TOKEN_KEY if type == "r" else ACCESS_TOKEN_KEY)
+            token, REFRESH_TOKEN_KEY if type == "r" else ACCESS_TOKEN_KEY, algorithm='HS256', verify=True
+        )
         return decoded
     except Exception as e:
         raise e
@@ -83,6 +90,8 @@ def verify_token(token, type='r'):
 * Params: Function
 * Return: Function
 '''
+
+
 def authenticate(handler):
     @wraps(handler)
     def wrapper(*args, **kwargs):
