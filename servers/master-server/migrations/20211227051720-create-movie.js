@@ -40,8 +40,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      ageRating: {
-        type: Sequelize.STRING,
+      adult: {
+        type: Sequelize.BOOLEAN,
         allowNull: false
       },
       crew: {
@@ -50,6 +50,10 @@ module.exports = {
       },
       genres: {
         type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false
+      },
+      studio: {
+        type: Sequelize.STRING,
         allowNull: false
       },
       createdAt: {

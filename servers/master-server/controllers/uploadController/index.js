@@ -1,5 +1,6 @@
 const { movie, show } = require("../../models");
 const transcode = require("../../utils/transcode");
+const axios = require("../../config/axios");
 
 exports.addShow = async (req, res) => {
   const body = req.body;
@@ -26,8 +27,8 @@ exports.addShow = async (req, res) => {
 };
 
 exports.addMovie = async (req, res) => {
-  const body = req.body;
-  if (!body || Object.keys(body).length < 10) {
+  const movieId = req.query.id;
+  if (!movieId) {
     return res.status(400).json({
       status: 400,
       message: "Bad Request",
@@ -35,16 +36,58 @@ exports.addMovie = async (req, res) => {
   }
 
   try {
-    const newMovie = await movie.create(body);
-    res.status(201).json({
-      status: 201,
-      message: "Movie Created Successfully",
-      movie: newMovie.toJSON(),
+    const movieData = axios.get(
+      `/movie/${movieId}?append_to_response=trailers,credits`
+    );
+
+    const genres = movieData.genres.map((el) => {
+      return el.name;
     });
+
+    const crew = movieData.credits.slice(0, 10).map((el) => {
+      return {
+        name: el.name,
+        character: el.character,
+      };
+    });
+
+    const trailer = movieData.trailers.youtube.filter((el) => {
+      return el.type === "Trailer";
+    })[0].source;
+
+    const studio = movieData.production_companies[0].name;
+
+    try {
+      const newMovie = await movie.create({
+        name: movieData.title,
+        description: movieData.overview,
+        lang: movieData.original_lang.toUpperCase(),
+        tagline: movieData.tagline,
+        poster: movieData.poster_path,
+        rating: movieData.vote_average,
+        createdAt: movieData.release_date,
+        adult: movieData.adult,
+        genres: genres,
+        crew: crew,
+        trailer: trailer,
+        studio: studio,
+      });
+
+      res.status(201).json({
+        status: 201,
+        message: "Movie Created Successfully",
+        movie: newMovie.toJSON(),
+      });
+    } catch (e) {
+      res.status(500).json({
+        status: 500,
+        message: "Cannot Create Movie",
+      });
+    }
   } catch (e) {
-    res.status(500).json({
-      status: 500,
-      message: "Cannot Create Movie",
+    res.status(503).json({
+      status: 503,
+      message: "TMDB Unavailable",
     });
   }
 };

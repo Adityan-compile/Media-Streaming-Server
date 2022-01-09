@@ -48,9 +48,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: "",
       },
-      ageRating: {
-        type: DataTypes.STRING,
-        defaultValue: "",
+      adult: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       crew: {
         type: DataTypes.ARRAY(DataTypes.JSON),
@@ -59,6 +59,10 @@ module.exports = (sequelize, DataTypes) => {
       genres: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: [""],
+      },
+      studio: {
+        type: DataTypes.STRING,
+        defaultValue: ""
       },
       createdAt: {
         type: DataTypes.DATE,

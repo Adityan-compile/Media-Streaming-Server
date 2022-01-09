@@ -29,6 +29,7 @@ function ShowScreen() {
           <div className="flex">
             <Tag className="badge" severity="danger" value="PG-13" />
             <Tag className="badge" severity="info" value="English" />
+            <Tag className="badge" severity="warning" value="Marvel Studios" />
             <Tag
               className="badge"
               severity="success"
