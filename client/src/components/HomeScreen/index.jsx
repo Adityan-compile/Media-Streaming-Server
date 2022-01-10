@@ -1,17 +1,44 @@
 import "./styles.css";
 
+import React, { useContext, useEffect, useRef, useState } from "react";
+
 import Card from "../Card";
-import React from "react";
+import Context from "../../store";
+import { Toast } from "primereact/toast";
 
 function HomeScreen() {
+  const [movies, setMovies] = useState([]);
+
+  const { getMovies } = useContext(Context);
+
+  const toastRef = useRef(null);
+
+  useEffect(() => {
+  getMovies()
+    .then((res) => setMovies(res))
+    .catch((e) => {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Error Fetching Movies",
+        life: 3000,
+      });
+    });
+  }, []);
+
   return (
     <div className="home">
+      <Toast ref={toastRef} />
       <div id="explore">
         <h2 className="home-title">Explore,</h2>
         <div className="container">
-          {Array.from(Array(10).keys()).map((el) => (
-            <Card key={el} />
-          ))}
+          {movies.length === 0 ? (
+            <h3 className="warning">
+              No Content Found. Add new Movies or TV Shows from Dashboard{" "}
+            </h3>
+          ) : (
+            movies.map((movie) => <Card key={movie.id} data={movie} />)
+          )}
         </div>
       </div>
       <div id="continue">
