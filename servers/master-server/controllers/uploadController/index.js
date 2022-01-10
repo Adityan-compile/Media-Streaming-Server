@@ -1,4 +1,4 @@
-const { movie, show } = require("../../models");
+const {shows, movies} = require("../../models");
 const transcode = require("../../utils/transcode");
 const axios = require("../../config/axios");
 
@@ -12,7 +12,7 @@ exports.addShow = async (req, res) => {
   }
 
   try {
-    const newShow = await show.create(body);
+    const newShow = await shows.create(body);
     res.status(201).json({
       status: 201,
       message: "Show Created Successfully",
@@ -36,7 +36,7 @@ exports.addMovie = async (req, res) => {
   }
 
   try {
-    const movieData = axios.get(
+    const {data:movieData} = await axios.get(
       `/movie/${movieId}?append_to_response=trailers,credits`
     );
 
@@ -44,7 +44,7 @@ exports.addMovie = async (req, res) => {
       return el.name;
     });
 
-    const crew = movieData.credits.slice(0, 10).map((el) => {
+    const crew = movieData.credits.cast.slice(0, 10).map((el) => {
       return {
         name: el.name,
         character: el.character,
@@ -56,12 +56,11 @@ exports.addMovie = async (req, res) => {
     })[0].source;
 
     const studio = movieData.production_companies[0].name;
-
     try {
-      const newMovie = await movie.create({
+      const newMovie = await movies.create({
         name: movieData.title,
         description: movieData.overview,
-        lang: movieData.original_lang.toUpperCase(),
+        lang: movieData.original_language.toUpperCase(),
         tagline: movieData.tagline,
         poster: movieData.poster_path,
         rating: movieData.vote_average,
@@ -79,6 +78,7 @@ exports.addMovie = async (req, res) => {
         movie: newMovie.toJSON(),
       });
     } catch (e) {
+      console.error(e);
       res.status(500).json({
         status: 500,
         message: "Cannot Create Movie",

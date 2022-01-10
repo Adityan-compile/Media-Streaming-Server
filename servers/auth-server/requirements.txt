@@ -6,7 +6,7 @@ itsdangerous==0.24
 Jinja2==2.10
 jsonschema==2.6.0
 MarkupSafe==2.0.1
-PyJWT==1.5.3
+PyJWT==2.3.0
 SQLAlchemy==1.2.2
 Flask-SQLAlchemy==2.5.
 nanoid==2.0.0

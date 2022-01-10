@@ -19,17 +19,21 @@ instance.interceptors.response.use(
   },
   (err) => {
     if (err.response.status === 401 && !err.config._isRetryRequest) {
-      instance
-        .post("/auth/tokens/refresh")
-        .then(() => {
-          err.config._isRetryRequest = true;
-          instance(err.config);
-        })
-        .catch((e) => {
-          storage.clear();
-          emitter.emit("logout");
-          return err;
-        });
+      return new Promise((resolve,reject)=>{
+        instance
+          .post("/auth/tokens/refresh")
+          .then(() => {
+            err.config._isRetryRequest = true;
+            resolve(instance(err.config));
+          })
+          .catch((e) => {
+            storage.clear();
+            emitter.emit("logout");
+            reject(err);
+          });
+      });
+    }else{
+      return err;
     }
   }
 );

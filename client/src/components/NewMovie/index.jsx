@@ -1,19 +1,27 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { AutoComplete } from "primereact/autocomplete";
 import { Button } from "primereact/button";
 import Context from "../../store";
 import { Dialog } from "primereact/dialog";
 
-function NewMovie({ visible, setVisible }) {
+function NewMovie({ visible, setVisible, onSuccess, onError }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState("");
 
-  const { searchMovie } = useContext(Context);
+  const { searchMovie, saveMovie } = useContext(Context);
 
-  const saveMovie = (selected) => {
+  const save = (selected) => {
     const id = selected.value;
+    saveMovie(id).then(res=>{
+      setQuery("");
+      setSuggestions([]);
+      onSuccess();
+    }).catch(e=>{
+      console.error(e);
+      onError(e);
+    });
   };
 
   const search = () => {
@@ -63,7 +71,7 @@ function NewMovie({ visible, setVisible }) {
               onChange={(e)=>{
                 setQuery(e.value);
               }}
-              onSelect={(e)=>saveMovie(e.value)}
+              onSelect={(e)=>save(e.value)}
             />
             <Button label="Search" onClick={() => search()} />
           </div>
@@ -74,40 +82,3 @@ function NewMovie({ visible, setVisible }) {
 }
 
 export default NewMovie;
-
-{
-  /* <div className="modal">
-  <div
-    className="form-grid modal-content"
-    style={{
-      margin: "20px",
-    }}
-  >
-    <div className="form-control p-float-label">
-      <InputText id="name" />
-      <label htmlFor="name">Name</label>
-    </div>
-    <div className="form-control p-float-label">
-      <InputText id="tagline" />
-      <label htmlFor="tagline">Tagline</label>
-    </div>
-  </div>
-  <div
-    className="form-control p-float-label"
-    style={{
-      width: "100%",
-      marginLeft: "20px",
-      marginRight: "20px"    
-    }}
-  >
-    <InputTextarea
-      id="desc"
-      autoResize
-      style={{
-        width: "100%",
-      }}
-    />
-    <label htmlFor="desc">Description</label>
-  </div>
-</div> */
-}

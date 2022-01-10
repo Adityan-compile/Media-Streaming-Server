@@ -10,7 +10,7 @@ from models.User import User
 from models.Token import Token
 from utils.jwt import generate_access_token, generate_refresh_token, authenticate, verify_token
 from utils.server import save_server_settings
-import json
+import os
 
 auth = Blueprint('auth_controller', __name__)
 
@@ -85,7 +85,7 @@ def login():
         if bcrypt.check_password_hash(found_user.password, body['password']):
             access_token = generate_access_token(found_user.id)
             refresh_token = generate_refresh_token(found_user.id)
-            token_obj = Token(token=refresh_token.decode('utf8'))
+            token_obj = Token(token=refresh_token)
             db.session.add(token_obj)
             db.session.commit()
             found_user.password = None
@@ -97,7 +97,7 @@ def login():
             res.set_cookie('accessToken', access_token, max_age=60*60,
                            httponly=True, secure=True, samesite="Strict")
             res.set_cookie('refreshToken', refresh_token,
-                           max_age=60*60, httponly=True, secure=True, samesite="Strict")
+                           max_age=365*24*60*60, httponly=True, secure=True, samesite="Strict")
             return res, 200
     else:
         return jsonify({
@@ -155,7 +155,7 @@ def logout():
 def verify_access_token():
     secret_key = request.headers['SECRET_KEY']
     access_token = request.get_json().get('token', '')
-    if(secret_key):
+    if(secret_key == os.getenv('SECRET_KEY')):
         if(access_token):
             decoded = verify_token(access_token, type="a")
             if(decoded):
@@ -197,7 +197,7 @@ def refresh_token():
     saved_token = Token.query.filter_by(refresh_token=refresh_token)
     if saved_token:
         decoded = verify_token(refresh_token)
-        access_token = generate_access_token(decoded.payload)
+        access_token = generate_access_token(decoded['payload'])
         res = jsonify({
             "status": 200,
             "message": "Token Refreshed",

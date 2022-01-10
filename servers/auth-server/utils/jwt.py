@@ -77,7 +77,7 @@ def generate_refresh_token(id):
 def verify_token(token, type='r'):
     try:
         decoded = jwt.decode(
-            token, REFRESH_TOKEN_KEY if type == "r" else ACCESS_TOKEN_KEY, algorithm='HS256', verify=True
+            token, REFRESH_TOKEN_KEY if type == "r" else ACCESS_TOKEN_KEY, algorithms=["HS256"], verify=True
         )
         return decoded
     except Exception as e:

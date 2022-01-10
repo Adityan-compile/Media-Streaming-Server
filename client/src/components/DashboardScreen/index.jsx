@@ -76,6 +76,7 @@ function DashboardScreen() {
       <div className="menu">
         <TabMenu
           model={menuItems}
+          activeIndex={1}
         />
       </div>
       <RenderActiveTab/>

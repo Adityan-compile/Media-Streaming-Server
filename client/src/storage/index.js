@@ -6,6 +6,7 @@ const storage = {
     localStorage.setItem(key, JSON.stringify(value));
   },
   clear: () => {
+    console.log("Clear");
     localStorage.clear();
   },
 };
