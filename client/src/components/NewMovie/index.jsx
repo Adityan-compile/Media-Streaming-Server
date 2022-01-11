@@ -12,16 +12,20 @@ function NewMovie({ visible, setVisible, onSuccess, onError }) {
 
   const { searchMovie, saveMovie } = useContext(Context);
 
+
+
   const save = (selected) => {
     const id = selected.value;
-    saveMovie(id).then(res=>{
-      setQuery("");
-      setSuggestions([]);
-      onSuccess();
-    }).catch(e=>{
-      console.error(e);
-      onError(e);
-    });
+    saveMovie(id)
+      .then((res) => {
+        setQuery("");
+        setSuggestions([]);
+        onSuccess();
+      })
+      .catch((e) => {
+        console.error(e);
+        onError(e);
+      });
   };
 
   const search = () => {
@@ -33,12 +37,36 @@ function NewMovie({ visible, setVisible, onSuccess, onError }) {
           return {
             label: elem.original_title,
             value: elem.id,
+            image: elem.backdrop_path,
           };
         });
         setSuggestions(mapped);
       })
       .catch((e) => setError("Cannot Reach Server or TMDB"));
   };
+
+  const renderSuggestion = (item) => (
+    <div>
+      <div style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: 'center'
+      }}>
+        <img
+          src={`https://www.themoviedb.org/t/p/original${item.image}`}
+          alt="poster"
+          height="60"
+          width="80"
+          style={{
+            objectFit: 'contain'
+          }}
+        ></img>
+        <h3 style={{
+          margin: '10px'
+        }}>{item.label}</h3>
+      </div>
+    </div>
+  );
 
   return (
     <Dialog
@@ -68,10 +96,11 @@ function NewMovie({ visible, setVisible, onSuccess, onError }) {
               completeMethod={() => {
                 return;
               }}
-              onChange={(e)=>{
+              onChange={(e) => {
                 setQuery(e.value);
               }}
-              onSelect={(e)=>save(e.value)}
+              itemTemplate={renderSuggestion}
+              onSelect={(e) => save(e.value)}
             />
             <Button label="Search" onClick={() => search()} />
           </div>

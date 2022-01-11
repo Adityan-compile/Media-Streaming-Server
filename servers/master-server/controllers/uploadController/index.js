@@ -40,22 +40,35 @@ exports.addMovie = async (req, res) => {
       `/movie/${movieId}?append_to_response=trailers,credits`
     );
 
-    const genres = movieData.genres.map((el) => {
-      return el.name;
-    });
+    let genres = [];
+    if(movieData.genres.length > 0){
+      genres = movieData.genres.map((el) => {
+        return el.name;
+      });
+    }
 
-    const crew = movieData.credits.cast.slice(0, 10).map((el) => {
-      return {
-        name: el.name,
-        character: el.character,
-      };
-    });
+    let crew = [];
+    if(movieData.crew.cast.length > 0){
+      crew = movieData.credits.cast.slice(0, 10).map((el) => {
+        return {
+          name: el.name,
+          character: el.character,
+        };
+      });
+    }
 
-    const trailer = movieData.trailers.youtube.filter((el) => {
-      return el.type === "Trailer";
-    })[0].source;
+    let trailer = "";
+    if(movieData.trailers.youtube.length > 0){
+      trailer = movieData.trailers.youtube.filter((el) => {
+        return el.type === "Trailer";
+      })[0].source;
+    }
 
-    const studio = movieData.production_companies[0].name;
+    let studio = "";
+    if(movieData.production_companies.length > 0){
+      studio = movieData.production_companies[0].name;
+    }
+    
     try {
       const newMovie = await movies.create({
         name: movieData.title,
@@ -70,6 +83,7 @@ exports.addMovie = async (req, res) => {
         crew: crew,
         trailer: trailer,
         studio: studio,
+        runtime: movieData.runtime.toString()
       });
 
       res.status(201).json({
@@ -85,6 +99,7 @@ exports.addMovie = async (req, res) => {
       });
     }
   } catch (e) {
+    console.error(e);
     res.status(503).json({
       status: 503,
       message: "TMDB Unavailable",

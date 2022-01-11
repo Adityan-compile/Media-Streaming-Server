@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "",
       },
       description: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(5000),
         defaultValue: "",
       },
       lang: {
@@ -61,6 +61,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: [""],
       },
       studio: {
+        type: DataTypes.STRING,
+        defaultValue: ""
+      },
+      runtime: {
         type: DataTypes.STRING,
         defaultValue: ""
       },

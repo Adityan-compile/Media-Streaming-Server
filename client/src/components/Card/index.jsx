@@ -12,7 +12,11 @@ function Card({data, admin=false}) {
       <div
         onClick={(e) => {
           e.preventDefault();
-          navigate(`/shows/edit`);
+          navigate(`/shows/edit/`, {
+            state: {
+              data
+            }
+          });
         }}
       >
         <div
@@ -29,7 +33,11 @@ function Card({data, admin=false}) {
       <div
         onClick={(e) => {
           e.preventDefault();
-          navigate("/shows/view");
+          navigate("/shows/view", {
+            state: {
+              data
+            }
+          });
         }}
       >
         <div
