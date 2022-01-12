@@ -1,25 +1,83 @@
 import "./styles.css";
 
-import {InputText} from 'primereact/inputtext';
-import {InputTextarea} from 'primereact/inputtextarea';
-import React from 'react';
+import { Button } from "primereact/button";
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Dropdown } from "primereact/dropdown";
+import { FileUpload } from 'primereact/fileupload';
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import React from "react";
 
-function EditScreen() {
-    return (
-        <div className="edit">
-                <form className="form-grid">
-                    <span className="form-control">
-                        <InputText label="Title" />
-                    </span>
-                    <span className="form-control">
-                        <InputText label="Tagline" />
-                    </span>
-                    <span className="form-control">
-                        <InputTextarea autoResize />
-                    </span>
-                </form>
+function EditScreen({ data }) {
+  return (
+    <div className="edit">
+      <h1 className="title">Edit Movie</h1>
+      <div className="info-grid">
+        <div className="poster">
+          <img
+            src={`https://www.themoviedb.org/t/p/original/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg`}
+            alt="Poster"
+            className="poster"
+          ></img>
         </div>
-    )
+        <div>
+          <form className="edit-form-grid">
+            <InputText className="edit-input" placeholder="Title" />
+            <InputText className="edit-input" placeholder="Tagline" />
+            <InputTextarea
+              placeholder="Description"
+              className="text-area"
+              autoResize
+            />
+            <InputText className="edit-input" placeholder="Language" />
+            <InputText className="edit-input" placeholder="Studio" />
+            <InputText className="edit-input" placeholder="Trailer ID (dQw4w9WgXcQ)" />
+            <InputText
+              className="edit-input"
+              placeholder="TMDB Poster Path (/example.jpg)"
+            />
+            <InputText className="edit-input" placeholder="Rating" />
+            <Dropdown
+              className="edit-input"
+              placeholder="Age Rating"
+              options={[
+                { 
+                    label: "Adult", 
+                    value: true 
+                },
+                {
+                  label: "Family Friendly",
+                  value: false,
+                },
+              ]}
+            />
+            <InputText className="edit-input" placeholder="Release Date" />
+            <InputText className="edit-input" placeholder="Runtime" />
+            <Button label="Save" className="save-btn"/>
+          </form>
+        </div>
+      </div>
+      {/* File Upload Needs to be Shown Conditionally based on Data */}
+        <div>
+            <h1 className="title">File Upload</h1>
+            <div className="file-upload">
+                <FileUpload accept="video/*" />
+            </div>
+        </div>
+        <div>
+            <h1 className="title">File Browser</h1>
+            <DataTable>
+                <Column header="Name" field="Name"/>
+                <Column header="Type" field="Type"/>
+                <Column header="Size" field="Size"/>
+                <Column header="Platform" field="Platform"/>
+                <Column header="Length" field="Length"/>
+                <Column header="Delete" field="Delete"/>
+            </DataTable>
+        </div>
+    </div>
+  );
 }
 
 export default EditScreen;
