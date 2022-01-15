@@ -1,7 +1,9 @@
-const {shows, movies} = require("../../models");
+const { shows, movies } = require("../../models");
 const transcode = require("../../utils/transcode");
 const axios = require("../../config/axios");
-
+const fs = require("fs");
+const path = require("path");
+`  `;
 exports.addShow = async (req, res) => {
   const body = req.body;
   if (!body || Object.keys(body).length === 0) {
@@ -36,19 +38,19 @@ exports.addMovie = async (req, res) => {
   }
 
   try {
-    const {data:movieData} = await axios.get(
+    const { data: movieData } = await axios.get(
       `/movie/${movieId}?append_to_response=trailers,credits`
     );
 
     let genres = [];
-    if(movieData.genres.length > 0){
+    if (movieData.genres.length > 0) {
       genres = movieData.genres.map((el) => {
         return el.name;
       });
     }
 
     let crew = [];
-    if(movieData.crew.cast.length > 0){
+    if (movieData.crew.cast.length > 0) {
       crew = movieData.credits.cast.slice(0, 10).map((el) => {
         return {
           name: el.name,
@@ -58,17 +60,17 @@ exports.addMovie = async (req, res) => {
     }
 
     let trailer = "";
-    if(movieData.trailers.youtube.length > 0){
+    if (movieData.trailers.youtube.length > 0) {
       trailer = movieData.trailers.youtube.filter((el) => {
         return el.type === "Trailer";
       })[0].source;
     }
 
     let studio = "";
-    if(movieData.production_companies.length > 0){
+    if (movieData.production_companies.length > 0) {
       studio = movieData.production_companies[0].name;
     }
-    
+
     try {
       const newMovie = await movies.create({
         name: movieData.title,
@@ -83,7 +85,7 @@ exports.addMovie = async (req, res) => {
         crew: crew,
         trailer: trailer,
         studio: studio,
-        runtime: movieData.runtime.toString()
+        runtime: movieData.runtime.toString(),
       });
 
       res.status(201).json({
@@ -108,21 +110,20 @@ exports.addMovie = async (req, res) => {
 };
 
 exports.uploadFile = (req, res) => {
-  const body = req.body;
-  const file = req.file;
+  const params = req.query;
 
-  if (!body || Object.keys(body).length === 0 || !file) {
+  if (!params || Object.keys(params).length === 0) {
     return res.status(400).json({
       status: 400,
       message: "Bad Request",
     });
   }
 
-  if (body.mediaType === "movie") {
+  if (params.mediaType === "movie") {
     movie
       .findAndCountAll({
         where: {
-          id: body.movieId,
+          id: params.movieId,
         },
       })
       .then(({ count }) => {
@@ -131,17 +132,50 @@ exports.uploadFile = (req, res) => {
             .status(400)
             .json({ status: 400, message: "Movie Not Found" });
         }
-        transcode
-          .transcodeVideo(file.originalName)
-          .then(() => {
+        req.pipe(res.busboy);
+        req.busboy
+          .on("file", (fieldname, file, filename) => {
+            const outputStream = fs.createWriteStream(
+              path.resolve(`../../public/uploads/${filename}`)
+            );
+            file.pipe(outputStream);
+            outputStream.on("close", () => {
+              transcode(filename).then(() => {
+                movie
+                  .update(
+                    {
+                      file: filename,
+                    },
+                    {
+                      where: {
+                        id: params.movieId,
+                      },
+                    }
+                  )
+                  .then((result) => {
+                    res.status(200).json({
+                      status: 200,
+                      message: "File Upload Success",
+                    });
+                  })
+                  .catch((err) => {
+                    res.status(500).json({
+                      status: 500,
+                      message: "Database Update Error",
+                    });
+                  });
+              });
+            });
+          })
+          .catch((err) => {
             movie
               .update(
                 {
-                  file: file.originalName,
+                  file: filename,
                 },
                 {
                   where: {
-                    id: body.movieId,
+                    id: params.movieId,
                   },
                 }
               )
@@ -157,11 +191,11 @@ exports.uploadFile = (req, res) => {
                   message: "Database Update Error",
                 });
               });
-          })
-          .catch((err) => {
+
             res.status(500).json({
               status: 500,
-              message: "Video Transcode Error",
+              message:
+                "Error Transcoding Video, The Video will be saved in it's original Form",
             });
           });
       })
@@ -171,7 +205,7 @@ exports.uploadFile = (req, res) => {
           message: "Database Query Error",
         });
       });
-  } else if (body.mediaType === "show") {
+  } else if (params.mediaType === "show") {
     //Add TV Show File Upload Code
   } else {
     return res.status(400).json({

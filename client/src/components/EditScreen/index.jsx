@@ -1,5 +1,7 @@
 import "./styles.css";
 
+import {useLocation, useState} from "react-router-dom";
+
 import { Button } from "primereact/button";
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -9,14 +11,18 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import React from "react";
 
-function EditScreen({ data }) {
+function EditScreen() {
+
+  const {state} = useLocation();
+  const {data} = state;
+
   return (
     <div className="edit">
       <h1 className="title">Edit Movie</h1>
       <div className="info-grid">
         <div className="poster">
           <img
-            src={`https://www.themoviedb.org/t/p/original/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg`}
+            src={`https://www.themoviedb.org/t/p/original${data.poster}`}
             alt="Poster"
             className="poster"
           ></img>
@@ -62,7 +68,7 @@ function EditScreen({ data }) {
         <div>
             <h1 className="title">File Upload</h1>
             <div className="file-upload">
-                <FileUpload accept="video/*" />
+                <FileUpload accept="video/*" url={`/api/media/upload?movieId=${data.id}?mediaType=movie`} />
             </div>
         </div>
         <div>

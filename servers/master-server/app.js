@@ -11,6 +11,7 @@ const db = require("./config/database/sequelize");
 const cache = require("./config/cache");
 const migrate = require("./config/database/migrate");
 const {loadServerSettings} = require("./utils/settings");
+const busBoy = require("connect-busboy");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -18,6 +19,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors({
   optionsSuccessStatus: 200
+}));
+
+// Setup Busboy
+app.use(busBoy({
+  highWaterMark: 2 * 1024 * 1024,
 }));
 
 // Run Migrations and Load Server Settings
