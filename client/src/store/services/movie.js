@@ -10,6 +10,11 @@ const movie = {
         return new Promise((resolve,reject)=>{
             axios.get('/media/movies/all').then(({data})=>resolve(data.movies)).catch(err=>reject(err));
         });
+    },
+    movieUploader: (formData, movieId)=>{
+        return new Promise((resolve,reject)=>{
+            axios.post(`/media/movies/upload?movieId=${movieId}&mediaType=movie`,formData).then(({data})=>resolve(data)).catch(err=>resolve(err));
+        });
     }
 };
 

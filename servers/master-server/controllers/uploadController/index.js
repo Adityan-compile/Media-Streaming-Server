@@ -109,18 +109,16 @@ exports.addMovie = async (req, res) => {
   }
 };
 
-exports.uploadFile = (req, res) => {
+exports.uploadMovieFile = (req, res) => {
   const params = req.query;
-
+  console.log(req.busboy);
   if (!params || Object.keys(params).length === 0) {
     return res.status(400).json({
       status: 400,
       message: "Bad Request",
     });
   }
-
-  if (params.mediaType === "movie") {
-    movie
+    movies
       .findAndCountAll({
         where: {
           id: params.movieId,
@@ -141,7 +139,7 @@ exports.uploadFile = (req, res) => {
             file.pipe(outputStream);
             outputStream.on("close", () => {
               transcode(filename).then(() => {
-                movie
+                movies
                   .update(
                     {
                       file: filename,
@@ -168,7 +166,7 @@ exports.uploadFile = (req, res) => {
             });
           })
           .catch((err) => {
-            movie
+            movies
               .update(
                 {
                   file: filename,
@@ -200,17 +198,10 @@ exports.uploadFile = (req, res) => {
           });
       })
       .catch((err) => {
+        console.error(err);
         return res.status(500).json({
           status: 500,
           message: "Database Query Error",
         });
       });
-  } else if (params.mediaType === "show") {
-    //Add TV Show File Upload Code
-  } else {
-    return res.status(400).json({
-      status: 400,
-      message: "Bad or Unsupported Media Type",
-    });
-  }
 };

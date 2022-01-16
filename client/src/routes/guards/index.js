@@ -1,6 +1,5 @@
-import { Navigate, useLocation } from "react-router-dom";
-
 import Context from "../../store";
+import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 
 export const RouteGuard = ({ children }) => {

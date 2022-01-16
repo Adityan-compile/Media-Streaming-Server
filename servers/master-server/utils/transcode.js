@@ -8,6 +8,7 @@ ffmpeg.setFfmpegPath(ffmpegStatic.path);
 ffmpeg.setFfprobePath(ffprobeStatic.path);
 
 exports.transcodeVideo = async (filename) => {
+  console.log("Transcoding");
   return new Promise((resolve, reject) => {
     let fileStream = fs.createReadStream(path.resolve(`../public/uploads/${filename}`));
     ffmpeg()
