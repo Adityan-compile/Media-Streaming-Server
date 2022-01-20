@@ -6,23 +6,25 @@ function useUploadMovieFile(){
     
     const {movieUploader} = useContext(Context);
 
-    const uploadMovieFile = useCallback((file,movieId,callback)=>{
+    const uploadMovieFile = useCallback((file,movieId,onProgress,callback)=>{
         const fileReader = new FileReader();
 
-        fileReader.onload = (e)=>{
+        // fileReader.onload = (e)=>{
             const formData = new FormData();
     
-            formData.append('file', e.target.result);
+            // formData.append('file', e.target.result);
+            formData.append('file', file)
+
     
-            movieUploader(formData, movieId).then(res=>{
+            movieUploader(formData, movieId, onProgress).then(res=>{
                 return callback(null,res);
             }).catch(e=>{
                 return callback(e,{});
             })
     
-        }
+        // }
     
-        fileReader.readAsArrayBuffer(file);
+        // fileReader.readAsArrayBuffer(file);
     },[movieUploader]);
      
     return useMemo(()=>({

@@ -1,7 +1,6 @@
 import "./styles.css";
 
-import React, {useRef} from "react";
-import { useLocation, useState } from "react-router-dom";
+import React, {useRef, useState} from "react";
 
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
@@ -10,22 +9,30 @@ import { Dropdown } from "primereact/dropdown";
 import { FileUpload } from "primereact/fileupload";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
+import  {ProgressBar}from "primereact/progressbar";
 import {Toast} from "primereact/toast";
+import { useLocation } from "react-router-dom";
 import useUploadMovieFile from "../../hooks/uploadMovieFile";
 
 function EditScreen() {
   const { state } = useLocation();
   const { data } = state;
 
+  const [progress,setProgress] = useState(0);
+
   const toastRef = useRef(null);
 
   const { uploadMovieFile } = useUploadMovieFile();
+
+  const onProgress = (loaded)=>{
+    setProgress(loaded)
+  };
 
   const uploader = ({files})=>{
     
     const [file] = files;
 
-    uploadMovieFile(file, data.id, (err,data)=>{
+    uploadMovieFile(file, data.id, onProgress,(err,data)=>{
       if(err){
         return toastRef.current.show({
           severity: "error",
@@ -92,6 +99,9 @@ function EditScreen() {
       {/* File Upload Needs to be Shown Conditionally based on Data */}
       <div>
         <h1 className="title">File Upload</h1>
+        <ProgressBar value={progress} style={{
+          margin: "20px"
+        }}/>
         <div className="file-upload">
           <FileUpload
             accept="video/*"

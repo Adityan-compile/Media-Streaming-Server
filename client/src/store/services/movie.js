@@ -11,9 +11,16 @@ const movie = {
             axios.get('/media/movies/all').then(({data})=>resolve(data.movies)).catch(err=>reject(err));
         });
     },
-    movieUploader: (formData, movieId)=>{
+    movieUploader: (formData, movieId, onProgress)=>{
         return new Promise((resolve,reject)=>{
-            axios.post(`/media/movies/upload?movieId=${movieId}&mediaType=movie`,formData).then(({data})=>resolve(data)).catch(err=>resolve(err));
+            axios.post(`/media/movies/upload?movieId=${movieId}&mediaType=movie`,formData,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress: e=>{
+                    onProgress(Math.floor((100 * e.loaded) /e.total))
+                }
+            }).then(({data})=>resolve(data)).catch(err=>reject(err));
         });
     }
 };

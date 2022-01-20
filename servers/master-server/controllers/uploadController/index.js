@@ -1,9 +1,9 @@
 const { shows, movies } = require("../../models");
-const transcode = require("../../utils/transcode");
+const transcoder = require("../../utils/transcoder");
 const axios = require("../../config/axios");
 const fs = require("fs");
 const path = require("path");
-`  `;
+
 exports.addShow = async (req, res) => {
   const body = req.body;
   if (!body || Object.keys(body).length === 0) {
@@ -109,99 +109,45 @@ exports.addMovie = async (req, res) => {
   }
 };
 
-exports.uploadMovieFile = (req, res) => {
-  const params = req.query;
-  console.log(req.busboy);
-  if (!params || Object.keys(params).length === 0) {
-    return res.status(400).json({
-      status: 400,
-      message: "Bad Request",
-    });
-  }
-    movies
-      .findAndCountAll({
-        where: {
-          id: params.movieId,
-        },
-      })
-      .then(({ count }) => {
-        if (count < 1) {
-          return res
-            .status(400)
-            .json({ status: 400, message: "Movie Not Found" });
-        }
-        req.pipe(res.busboy);
-        req.busboy
-          .on("file", (fieldname, file, filename) => {
-            const outputStream = fs.createWriteStream(
-              path.resolve(`../../public/uploads/${filename}`)
-            );
-            file.pipe(outputStream);
-            outputStream.on("close", () => {
-              transcode(filename).then(() => {
-                movies
-                  .update(
-                    {
-                      file: filename,
-                    },
-                    {
-                      where: {
-                        id: params.movieId,
-                      },
-                    }
-                  )
-                  .then((result) => {
-                    res.status(200).json({
-                      status: 200,
-                      message: "File Upload Success",
-                    });
-                  })
-                  .catch((err) => {
-                    res.status(500).json({
-                      status: 500,
-                      message: "Database Update Error",
-                    });
-                  });
-              });
-            });
-          })
-          .catch((err) => {
-            movies
-              .update(
-                {
-                  file: filename,
-                },
-                {
-                  where: {
-                    id: params.movieId,
-                  },
-                }
-              )
-              .then((result) => {
-                res.status(200).json({
-                  status: 200,
-                  message: "File Upload Success",
-                });
-              })
-              .catch((err) => {
-                res.status(500).json({
-                  status: 500,
-                  message: "Database Update Error",
-                });
-              });
+exports.uploadMovieFile = async(req, res) => {
+ const params = req.query;
+ const file = req.file;
 
-            res.status(500).json({
-              status: 500,
-              message:
-                "Error Transcoding Video, The Video will be saved in it's original Form",
-            });
-          });
-      })
-      .catch((err) => {
-        console.error(err);
-        return res.status(500).json({
-          status: 500,
-          message: "Database Query Error",
-        });
-      });
+ if(!file){
+   return res.status(400).json({
+     status: 400,
+     message: "Movie File Required for upload"
+   });
+ }
+try {
+  await movies
+  .update(
+    {
+      file: file.filename,
+    },
+    {
+      where: {
+        id: params.movieId,
+      },
+    }
+  );
+} catch (e) {
+  return res.status(500).json({status: 500, message: "Cannot Save Movie"})
+
+}
+
+try{
+  await transcoder.transcode(file.filename);
+}catch(err){
+  return res.status(206).json({
+    status: 206,
+    message: "Transcode Error, File Saved Successfully"
+  });
+}
+
+return res.status(201).json({
+  status: 201,
+  message: "File Saved Successfully"
+})
+
 };

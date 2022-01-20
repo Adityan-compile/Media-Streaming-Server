@@ -36,7 +36,7 @@ function SetupScreen() {
     },
     {
       name: "2k",
-      value: "2560x?",
+      value: "2056x?",
     },
   ];
 
