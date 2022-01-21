@@ -4,6 +4,8 @@ const { addMovie, addShow, uploadMovieFile } = require("../controllers/uploadCon
 const { searchMovies } = require("../controllers/tmdbController");
 const  { getMovies } = require("../controllers/mediaController");
 const authenticator = require("../middleware/authenticator");
+const { checkMovie } = require("../middleware/check");
+const multer = require("../config/multer");
 
 router
   .route("/tmdb/movies/search")
@@ -23,6 +25,6 @@ router
 
 router
      .route('/movies/upload')
-     .post(authenticator.authenticate, uploadMovieFile);
+     .post([authenticator.authenticate, checkMovie, multer.single('file')], uploadMovieFile);
 
 module.exports = router;

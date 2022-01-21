@@ -1,4 +1,5 @@
 const express = require("express");
+const http = require("http");
 const path = require("path");
 const app = express();
 const cors = require("cors");
@@ -11,7 +12,9 @@ const db = require("./config/database/sequelize");
 const cache = require("./config/cache");
 const migrate = require("./config/database/migrate");
 const {loadServerSettings} = require("./utils/settings");
-const busBoy = require("connect-busboy");
+const server = http.createServer(app);
+const io = require("socket.io")(server);
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -21,10 +24,15 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
-// Setup Busboy
-app.use(busBoy({
-  highWaterMark: 2 * 1024 * 1024,
-}));
+
+io.on('connection', (socket)=>{
+  console.log("Socket Connection Established");
+});
+
+app.use((req,res,next)=>{
+  req.io = io;
+  next()
+});
 
 // Run Migrations and Load Server Settings
 migrate((e)=>{
@@ -66,4 +74,4 @@ app.use(function (err, req, res, next) {
   });
 });
 
-module.exports = app;
+module.exports = {app, server};

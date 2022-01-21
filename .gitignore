@@ -32,7 +32,10 @@ __pycache__
 /dist/
 /*.egg-info
 
-servers/master-server/public/uploads/*
+servers/master-server/uploads/*
+servers/master-server/uploads/temp/*
+!servers/master-server/uploads/temp
+
 
 client/src/assets/sample.mp4
 
