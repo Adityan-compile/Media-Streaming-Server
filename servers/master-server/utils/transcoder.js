@@ -7,7 +7,7 @@ const path = require("path");
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobeStatic.path);
 
-exports.transcode = async (filename) => {
+exports.transcode = async (filename, onProgress) => {
   console.log("Starting Transcoder");
   return new Promise((resolve, reject) => {
     ffmpeg()
@@ -17,8 +17,8 @@ exports.transcode = async (filename) => {
       .audioBitrate("320k")
       .outputFormat('mp4')
       .size("1920x?")
-      .on("progress", (event)=>{
-        console.info(event)
+      .on("progress", (progress)=>{
+        console.log(progress)
       })
       .on("error", (err) => {
         console.error("Transcoding Error", err);

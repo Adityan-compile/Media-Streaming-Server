@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
@@ -10,6 +10,7 @@ import { FileUpload } from "primereact/fileupload";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import  {ProgressBar}from "primereact/progressbar";
+import { ProgressSpinner } from 'primereact/progressspinner';
 import {Toast} from "primereact/toast";
 import { useLocation } from "react-router-dom";
 import useUploadMovieFile from "../../hooks/uploadMovieFile";
@@ -19,20 +20,31 @@ function EditScreen() {
   const { data } = state;
 
   const [progress,setProgress] = useState(0);
+  const [processing,setProcessing] = useState(0);
+  const [uploading,setUploading] = useState(0);
 
   const toastRef = useRef(null);
 
   const { uploadMovieFile } = useUploadMovieFile();
 
   const onProgress = (loaded)=>{
-    setProgress(loaded)
+    if(loaded === 100){
+      setProcessing(true);
+      setUploading(false);
+      return;
+    }
+    setProgress(loaded);
   };
 
   const uploader = ({files})=>{
-    
+    setUploading(true);
+
     const [file] = files;
 
     uploadMovieFile(file, data.id, onProgress,(err,data)=>{
+      setProgress(0);
+      setUploading(false);
+      setProcessing(false);
       if(err){
         return toastRef.current.show({
           severity: "error",
@@ -98,10 +110,31 @@ function EditScreen() {
       </div>
       {/* File Upload Needs to be Shown Conditionally based on Data */}
       <div>
-        <h1 className="title">File Upload</h1>
-        <ProgressBar value={progress} style={{
-          margin: "20px"
-        }}/>
+        <div style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+      }}>
+          <h1 className="title">{
+            uploading || processing ? "Processing..." : "File upload"
+          }</h1>
+          {
+            uploading ? (
+              <ProgressBar value={progress} style={{
+                margin: "20px"
+              }}/>
+            ) : null
+          }
+          {
+            processing ? (
+                <ProgressSpinner style={{
+                  width: "50px",
+                  height: "50px",
+                  margin: "10px"
+                }} strokeWidth="8"/>
+            ) : null
+          }
+        </div>
         <div className="file-upload">
           <FileUpload
             accept="video/*"

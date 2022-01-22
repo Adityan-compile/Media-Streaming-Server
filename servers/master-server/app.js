@@ -13,7 +13,6 @@ const cache = require("./config/cache");
 const migrate = require("./config/database/migrate");
 const {loadServerSettings} = require("./utils/settings");
 const server = http.createServer(app);
-const io = require("socket.io")(server);
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -24,15 +23,6 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
-
-io.on('connection', (socket)=>{
-  console.log("Socket Connection Established");
-});
-
-app.use((req,res,next)=>{
-  req.io = io;
-  next()
-});
 
 // Run Migrations and Load Server Settings
 migrate((e)=>{
