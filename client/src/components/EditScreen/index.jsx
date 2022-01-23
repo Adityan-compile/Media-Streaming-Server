@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
@@ -9,9 +9,9 @@ import { Dropdown } from "primereact/dropdown";
 import { FileUpload } from "primereact/fileupload";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import  {ProgressBar}from "primereact/progressbar";
-import { ProgressSpinner } from 'primereact/progressspinner';
-import {Toast} from "primereact/toast";
+import { ProgressBar } from "primereact/progressbar";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { Toast } from "primereact/toast";
 import { useLocation } from "react-router-dom";
 import useUploadMovieFile from "../../hooks/uploadMovieFile";
 
@@ -19,16 +19,35 @@ function EditScreen() {
   const { state } = useLocation();
   const { data } = state;
 
-  const [progress,setProgress] = useState(0);
-  const [processing,setProcessing] = useState(0);
-  const [uploading,setUploading] = useState(0);
+  const [files,setFiles] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const [processing, setProcessing] = useState(0);
+  const [uploading, setUploading] = useState(0);
 
   const toastRef = useRef(null);
 
+  useEffect(()=>{
+    let filesTemp = [
+      {
+        name: data.trailer,
+        type: "Trailer",
+        platform: "Youtube",
+      },
+    ]
+    if(data.file.length > 0){
+      filesTemp.push({
+        name: data.file,
+        type: "File",
+        platform: "Local",
+      });
+    }
+    setFiles(filesTemp)
+  },[]);
+
   const { uploadMovieFile } = useUploadMovieFile();
 
-  const onProgress = (loaded)=>{
-    if(loaded === 100){
+  const onProgress = (loaded) => {
+    if (loaded === 100) {
       setProcessing(true);
       setUploading(false);
       return;
@@ -36,16 +55,16 @@ function EditScreen() {
     setProgress(loaded);
   };
 
-  const uploader = ({files})=>{
+  const uploader = ({ files }) => {
     setUploading(true);
 
     const [file] = files;
 
-    uploadMovieFile(file, data.id, onProgress,(err,data)=>{
+    uploadMovieFile(file, data.id, onProgress, (err, data) => {
       setProgress(0);
       setUploading(false);
       setProcessing(false);
-      if(err){
+      if (err) {
         return toastRef.current.show({
           severity: "error",
           summary: "Error",
@@ -55,10 +74,10 @@ function EditScreen() {
       }
     });
   };
-  
+
   return (
     <div className="edit">
-      <Toast ref={toastRef}/>
+      <Toast ref={toastRef} />
       <h1 className="title">Edit Movie</h1>
       <div className="info-grid">
         <div className="poster">
@@ -109,49 +128,61 @@ function EditScreen() {
         </div>
       </div>
       {/* File Upload Needs to be Shown Conditionally based on Data */}
-      <div>
-        <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center"
-      }}>
-          <h1 className="title">{
-            uploading || processing ? "Processing..." : "File upload"
-          }</h1>
-          {
-            uploading ? (
-              <ProgressBar value={progress} style={{
-                margin: "20px"
-              }}/>
-            ) : null
-          }
-          {
-            processing ? (
-                <ProgressSpinner style={{
+      {data.file.length === 0 && (
+        <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <h1 className="title">
+              {uploading || processing ? "Processing..." : "File upload"}
+            </h1>
+            {uploading ? (
+              <ProgressBar
+                value={progress}
+                style={{
+                  margin: "20px",
+                }}
+              />
+            ) : null}
+            {processing ? (
+              <ProgressSpinner
+                style={{
                   width: "50px",
                   height: "50px",
-                  margin: "10px"
-                }} strokeWidth="8"/>
-            ) : null
-          }
+                  margin: "10px",
+                }}
+                strokeWidth="8"
+              />
+            ) : null}
+          </div>
+          <div className="file-upload">
+            <FileUpload
+              accept="video/*"
+              customUpload={true}
+              uploadHandler={uploader}
+            />
+          </div>
         </div>
-        <div className="file-upload">
-          <FileUpload
-            accept="video/*"
-            customUpload={true}
-            uploadHandler={uploader}
-          />
-        </div>
-      </div>
+      )}
       <div>
         <h1 className="title">File Browser</h1>
-        <DataTable>
-          <Column header="Name" field="Name" />
-          <Column header="Type" field="Type" />
-          <Column header="Size" field="Size" />
-          <Column header="Platform" field="Platform" />
-          <Column header="Length" field="Length" />
-          <Column header="Delete" field="Delete" />
+        <DataTable
+          value={files}
+        >
+          <Column header="Name" field="name" />
+          <Column header="Type" field="type" />
+          <Column header="Platform" field="platform" />
+          <Column
+            header="Delete"
+            field="delete"
+            body={(row) => (
+              <Button label="Delete" className="p-button-danger" />
+            )}
+          />
         </DataTable>
       </div>
     </div>
