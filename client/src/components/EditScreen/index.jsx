@@ -12,6 +12,8 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { ProgressBar } from "primereact/progressbar";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Toast } from "primereact/toast";
+import axios from "axios";
+import useEditMovie from "../../hooks/editMovie";
 import { useLocation } from "react-router-dom";
 import useUploadMovieFile from "../../hooks/uploadMovieFile";
 
@@ -19,30 +21,32 @@ function EditScreen() {
   const { state } = useLocation();
   const { data } = state;
 
-  const [files,setFiles] = useState([]);
+  const movieService = useEditMovie(data);
+
+  const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState(0);
   const [processing, setProcessing] = useState(0);
   const [uploading, setUploading] = useState(0);
 
   const toastRef = useRef(null);
-
-  useEffect(()=>{
+  const request = axios.CancelToken.source();
+  useEffect(() => {
     let filesTemp = [
       {
         name: data.trailer,
         type: "Trailer",
         platform: "Youtube",
       },
-    ]
-    if(data.file.length > 0){
+    ];
+    if (data.file.length > 0) {
       filesTemp.push({
         name: data.file,
         type: "File",
         platform: "Local",
       });
     }
-    setFiles(filesTemp)
-  },[]);
+    setFiles(filesTemp);
+  }, []);
 
   const { uploadMovieFile } = useUploadMovieFile();
 
@@ -60,7 +64,7 @@ function EditScreen() {
 
     const [file] = files;
 
-    uploadMovieFile(file, data.id, onProgress, (err, data) => {
+    uploadMovieFile(file, data.id, onProgress, request.token, (err, data) => {
       setProgress(0);
       setUploading(false);
       setProcessing(false);
@@ -82,34 +86,42 @@ function EditScreen() {
       <div className="info-grid">
         <div className="poster">
           <img
-            src={`https://www.themoviedb.org/t/p/original${data.poster}`}
+            src={`https://www.themoviedb.org/t/p/original${movieService.state.poster}`}
             alt="Poster"
             className="poster"
           ></img>
         </div>
         <div>
           <form className="edit-form-grid">
-            <InputText className="edit-input" placeholder="Title" />
-            <InputText className="edit-input" placeholder="Tagline" />
+            <InputText
+              className="edit-input"
+              placeholder="Title"
+              defaultValue={movieService.state.title}
+            />
+            <InputText className="edit-input" placeholder="Tagline" defaultValue={movieService.state.tagline} />
             <InputTextarea
               placeholder="Description"
               className="text-area"
+              defaultValue={movieService.state.description}
               autoResize
             />
-            <InputText className="edit-input" placeholder="Language" />
-            <InputText className="edit-input" placeholder="Studio" />
+            <InputText className="edit-input" defaultValue={movieService.state.language} placeholder="Language" />
+            <InputText className="edit-input" defaultValue={movieService.state.studio} placeholder="Studio" />
             <InputText
               className="edit-input"
               placeholder="Trailer ID (dQw4w9WgXcQ)"
+              defaultValue={movieService.state.trailer}
             />
             <InputText
               className="edit-input"
               placeholder="TMDB Poster Path (/example.jpg)"
+              defaultValue={movieService.state.poster}
             />
-            <InputText className="edit-input" placeholder="Rating" />
+            <InputText className="edit-input" placeholder="Rating" defaultValue={movieService.state.rating} />
             <Dropdown
               className="edit-input"
               placeholder="Age Rating"
+              defaultValue={movieService.state.adult}
               options={[
                 {
                   label: "Adult",
@@ -121,8 +133,8 @@ function EditScreen() {
                 },
               ]}
             />
-            <InputText className="edit-input" placeholder="Release Date" />
-            <InputText className="edit-input" placeholder="Runtime" />
+            <InputText className="edit-input" defaultValue={movieService.state.releaseDate} placeholder="Release Date" />
+            <InputText className="edit-input" defaultValue={movieService.state.runtime} placeholder="Runtime" />
             <Button label="Save" className="save-btn" />
           </form>
         </div>
@@ -164,15 +176,15 @@ function EditScreen() {
               accept="video/*"
               customUpload={true}
               uploadHandler={uploader}
+              onClear={() => console.log("Clear Cancel")}
+              onRemove={() => console.log("Cancel")}
             />
           </div>
         </div>
       )}
       <div>
         <h1 className="title">File Browser</h1>
-        <DataTable
-          value={files}
-        >
+        <DataTable value={files}>
           <Column header="Name" field="name" />
           <Column header="Type" field="type" />
           <Column header="Platform" field="platform" />
