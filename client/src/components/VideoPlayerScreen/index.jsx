@@ -4,21 +4,21 @@ import "video-react/dist/video-react.css";
 import {
   ControlBar,
   ForwardControl,
-  LoadingSpinner,
   PlayToggle,
   PlaybackRateMenuButton,
   Player,
   ReplayControl,
-  VolumeMenuButton
+  VolumeMenuButton,
 } from "video-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "primereact/button";
 import React from "react";
-import sample from "../../assets/sample.mp4";
-import { useNavigate } from "react-router-dom";
 
 function VideoPlayerScreen() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const data = state.data;
 
   return (
     <div className="player-container">
@@ -27,7 +27,7 @@ function VideoPlayerScreen() {
           icon="pi pi-arrow-left"
           className="p-button-rounded p-button-outlined p-button-secondary btn"
           onClick={() => {
-            navigate("/shows/view");
+            navigate("/shows/view", { state: { data } });
           }}
         />
       </div>
@@ -39,9 +39,12 @@ function VideoPlayerScreen() {
           fluid={true}
           controls={true}
           onEnd={() => {
-            setTimeout(() => navigate("/shows/view"), 1000);
+            setTimeout(
+              () => navigate("/shows/view", { state: { data } }),
+              1000
+            );
           }}
-          src={sample}
+          src={`/api/media/movies/stream?file=${data.file}`}
         >
           <ControlBar autoHide={true}>
             <PlayToggle />

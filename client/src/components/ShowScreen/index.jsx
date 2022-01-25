@@ -77,7 +77,7 @@ function ShowScreen() {
           <div className="crew-info">
             <h3>Crew</h3>
             <div className="flex">
-              {data.crew.map((elem,index) => (
+              {data.crew.map((elem, index) => (
                 <div className="crew" key={index}>
                   <h5>{elem.name}</h5>
                   <h6>{elem.character}</h6>
@@ -92,22 +92,26 @@ function ShowScreen() {
               icon="pi pi-play"
               disabled={data.file.length === 0 ? true : false}
               className="p-button-secondary p-button-outlined btn-play"
-              onClick={() => navigate(`/player?videoId=${data.file}`)}
+              onClick={() =>
+                navigate("/player", {
+                  state: { data },
+                })
+              }
             ></Button>
           </div>
           <div className="trailer">
             <h3 className="trailer-title">Trailer</h3>
-            {data.trailer.length!==0?(
-            <iframe
-              width="560"
-              height="315"
-              src={`https://www.youtube.com/embed/${data.trailer}`}
-              title="Trailer"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-              allowFullScreen={true}
-            ></iframe>
-            ):(
+            {data.trailer.length !== 0 ? (
+              <iframe
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${data.trailer}`}
+                title="Trailer"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                allowFullScreen={true}
+              ></iframe>
+            ) : (
               <img src={trailerNotFound} width="560" height="315"></img>
             )}
           </div>
