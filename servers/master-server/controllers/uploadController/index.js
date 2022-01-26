@@ -41,7 +41,6 @@ exports.addMovie = async (req, res) => {
     const { data: movieData } = await axios.get(
       `/movie/${movieId}?append_to_response=trailers,credits`
     );
-
     let genres = [];
     if (movieData.genres.length > 0) {
       genres = movieData.genres.map((el) => {
@@ -50,7 +49,7 @@ exports.addMovie = async (req, res) => {
     }
 
     let crew = [];
-    if (movieData.crew.cast.length > 0) {
+    if (movieData.credits.cast.length > 0) {
       crew = movieData.credits.cast.slice(0, 10).map((el) => {
         return {
           name: el.name,
