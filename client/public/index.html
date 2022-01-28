@@ -47,5 +47,22 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("worker.js").then(
+            (registration) => {
+              console.log(
+                "Service Worker Registered \n scope:",
+                registration.scope
+              );
+            },
+            (err) => {
+              console.error("Service Worker registration failed:", err);
+            }
+          );
+        });
+      }
+    </script>
   </body>
 </html>

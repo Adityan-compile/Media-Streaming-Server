@@ -12,29 +12,22 @@ function VideoPlayerScreen() {
   const { state } = useLocation();
   const data = state.data;
    
-  const [initialLoad,setInitialLoad] = useState(true);
+  const [player,setPlayer] = useState(0);
   
   // Implement Stream Ended State Navigation
   const handleStreamStateChange = (state)=>{
-    if(initialLoad){
-      setInitialLoad(false);
+          if(state.playState === 'inactive'){
+            const playerState = player.inspect();
+            if(playerState.duration !== 0 && playerState.position !== 0){
+              setTimeout(navigate("/shows/view", { state: { data } }),3000);
+            }
+          }
       return;
-    }
-    if(state){
-      if('playState' in state){
-        if(state.playState === 'inactive' && !initialLoad){
-          console.log("Ended")
-        }
-      }
-    }
   }
   return (
     <div className="player-container">
       <Replay
-        onEnd={() => {
-          console.log("Video Ended")
-          setTimeout(() => navigate("/shows/view", { state: { data } }), 1000);
-        }}
+        onPlaybackActionsReady={setPlayer}
         onExit={() => {
           navigate("/shows/view", { state: { data } });
         }}
