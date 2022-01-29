@@ -14,6 +14,7 @@ import Header from "../components/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MediaProvider from "../store/providers/mediaProvider";
+import NotFoundError from "../pages/404";
 import Player from "../pages/Player";
 import React from "react";
 import Setup from "../pages/Setup";
@@ -123,6 +124,7 @@ function Routes() {
               </RouteGuard>
             }
           />
+          <Route path={"*"} element={<NotFoundError/>} />
         </Switch>
       </Context.Provider>
     </Router>

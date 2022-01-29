@@ -55,3 +55,8 @@
   padding: 20px;
   justify-content: center;
 }
+
+.link {
+  text-decoration: none;
+  color: #4d75eb;
+}
