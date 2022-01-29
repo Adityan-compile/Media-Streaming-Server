@@ -63,8 +63,21 @@ function EditScreen() {
     setUploading(true);
 
     const [file] = files;
-
-    uploadMovieFile(file, data.id, onProgress, request.token, (err, data) => {
+    let filesTemp = [
+      {
+        name: data.trailer,
+        type: "Trailer",
+        platform: "Youtube",
+      },
+    ];
+    uploadMovieFile(file, data.id, onProgress, request.token, (err, res) => {
+      filesTemp.push({
+        name: res.movie.file,
+        type: "File",
+        platform: "Local",
+      });
+      setFiles(filesTemp);
+      movieService.methods.setFile(res.movie.file);
       setProgress(0);
       setUploading(false);
       setProcessing(false);
@@ -98,15 +111,27 @@ function EditScreen() {
               placeholder="Title"
               defaultValue={movieService.state.title}
             />
-            <InputText className="edit-input" placeholder="Tagline" defaultValue={movieService.state.tagline} />
+            <InputText
+              className="edit-input"
+              placeholder="Tagline"
+              defaultValue={movieService.state.tagline}
+            />
             <InputTextarea
               placeholder="Description"
               className="text-area"
               defaultValue={movieService.state.description}
               autoResize
             />
-            <InputText className="edit-input" defaultValue={movieService.state.language} placeholder="Language" />
-            <InputText className="edit-input" defaultValue={movieService.state.studio} placeholder="Studio" />
+            <InputText
+              className="edit-input"
+              defaultValue={movieService.state.language}
+              placeholder="Language"
+            />
+            <InputText
+              className="edit-input"
+              defaultValue={movieService.state.studio}
+              placeholder="Studio"
+            />
             <InputText
               className="edit-input"
               placeholder="Trailer ID (dQw4w9WgXcQ)"
@@ -117,7 +142,11 @@ function EditScreen() {
               placeholder="TMDB Poster Path (/example.jpg)"
               defaultValue={movieService.state.poster}
             />
-            <InputText className="edit-input" placeholder="Rating" defaultValue={movieService.state.rating} />
+            <InputText
+              className="edit-input"
+              placeholder="Rating"
+              defaultValue={movieService.state.rating}
+            />
             <Dropdown
               className="edit-input"
               placeholder="Age Rating"
@@ -133,14 +162,21 @@ function EditScreen() {
                 },
               ]}
             />
-            <InputText className="edit-input" defaultValue={movieService.state.releaseDate} placeholder="Release Date" />
-            <InputText className="edit-input" defaultValue={movieService.state.runtime} placeholder="Runtime" />
+            <InputText
+              className="edit-input"
+              defaultValue={movieService.state.releaseDate}
+              placeholder="Release Date"
+            />
+            <InputText
+              className="edit-input"
+              defaultValue={movieService.state.runtime}
+              placeholder="Runtime"
+            />
             <Button label="Save" className="save-btn" />
           </form>
         </div>
       </div>
-      {/* File Upload Needs to be Shown Conditionally based on Data */}
-      {data.file.length === 0 && (
+      {movieService.state.file.length === 0 && (
         <div>
           <div
             style={{

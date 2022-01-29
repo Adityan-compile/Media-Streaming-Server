@@ -118,8 +118,9 @@ exports.uploadMovieFile = async(req, res) => {
      message: "Movie File Required for upload"
    });
  }
+ let updated = {};
 try {
-  await movies
+ updated = await movies
   .update(
     {
       file: file.filename,
@@ -128,6 +129,8 @@ try {
       where: {
         id: params.movieId,
       },
+      returning: true,
+      plain: true
     }
   );
 } catch (e) {
@@ -146,6 +149,7 @@ try{
 
 return res.status(201).json({
   status: 201,
+  movie: updated[1].toJSON(),
   message: "File Saved Successfully"
 })
 
