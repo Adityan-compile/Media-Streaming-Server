@@ -1,8 +1,10 @@
 import "./styles.css";
 
+import { Offline, Online } from "react-detect-offline";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Link } from "react-router-dom";
@@ -11,17 +13,17 @@ import { Menubar } from "primereact/menubar";
 function Header() {
   const navigate = useNavigate();
 
-  const [visible,setVisible] = useState(true);
+  const [visible, setVisible] = useState(true);
 
   const location = useLocation();
 
-  useEffect(()=>{
-    if(location.pathname === '/player'){
+  useEffect(() => {
+    if (location.pathname === "/player") {
       setVisible(false);
-    }else{
+    } else {
       setVisible(true);
     }
-  },[location]);
+  }, [location]);
 
   const navItems = [
     {
@@ -36,7 +38,7 @@ function Header() {
       icon: "pi pi-ticket",
     },
     {
-      label: "Tv Shows",
+      label: "TV Shows",
       icon: "pi pi-desktop",
     },
     {
@@ -57,7 +59,7 @@ function Header() {
       ),
     },
   ];
-  if(visible){
+  if (visible) {
     return (
       <div>
         <Menubar
@@ -69,12 +71,35 @@ function Header() {
             </Link>
           }
           end={
-            <Button icon="pi pi-user" onClick={() => navigate("/dashboard")} />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{
+                  margin: "10px",
+                }}
+              >
+                <Online>
+                  <Badge value="Online" severity="success" />
+                </Online>
+
+                <Offline>
+                  <Badge value="Offline" severity="danger" />
+                </Offline>
+              </div>
+              <Button
+                icon="pi pi-user"
+                onClick={() => navigate("/dashboard")}
+              />
+            </div>
           }
         ></Menubar>
       </div>
     );
-  }else{
+  } else {
     return null;
   }
 }
