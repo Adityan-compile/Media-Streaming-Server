@@ -137,14 +137,17 @@ try {
   return res.status(500).json({status: 500, message: "Cannot Save Movie"})
 
 }
-
-try{
-  await transcoder.transcode(file.filename);
-}catch(err){
-  return res.status(206).json({
-    status: 206,
-    message: "Transcode Error, File Saved Successfully"
-  });
+if(process.env.TRANSCODER_ENABLED){
+  try{
+    await transcoder.transcode(file.filename);
+  }catch(err){
+    return res.status(206).json({
+      status: 206,
+      message: "Transcode Error, File Saved Successfully"
+    });
+  }
+}else{
+  transcoder.moveFile(file.filename);
 }
 
 return res.status(201).json({

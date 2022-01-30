@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
     audioQuality: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    transcoder: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }
   },
   {

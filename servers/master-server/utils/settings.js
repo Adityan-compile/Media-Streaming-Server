@@ -6,6 +6,7 @@ exports.loadServerSettings = () => {
       process.env.SERVER_NAME = "Streamflix";
       process.env.VIDEO_QUALITY = "1280x?";
       process.env.AUDIO_QUALITY = "128k";
+      process.env.TRANSCODER_ENABLED = true;
       resolve(true);
     } else {
       try {
@@ -15,6 +16,7 @@ exports.loadServerSettings = () => {
         process.env.TMDB_API_KEY = settings.tmdbKey || "";
         process.env.VIDEO_QUALITY = settings.videoQuality || "1280x?";
         process.env.AUDIO_QUALITY = settings.audioQuality || "128k";
+        process.env.TRANSCODER_ENABLED = settings.transcoder || true;
         resolve(true);
       } catch (e) {
         reject(e);

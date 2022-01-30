@@ -17,6 +17,7 @@ function SetupScreen() {
   const [password, setPassword] = useState("");
   const [videoQuality, setVideoQuality] = useState(null);
   const [audioQuality, setAudioQuality] = useState(null);
+  const [transcoder, setTranscoder] = useState(null);
   const [serverName, setServerName] = useState("Streamflix");
 
   const { serverSetup } = useContext(Context);
@@ -58,30 +59,32 @@ function SetupScreen() {
 
   const setupHandler = (e) => {
     e.preventDefault();
-    const formData = {
-      name,
-      password,
-      tmdbKey,
-      serverName,
-      videoQuality,
-      audioQuality,
-    };
-
+    
     if (
       isEmpty(name) ||
       isEmpty(password) ||
       isEmpty(tmdbKey) ||
       isEmpty(serverName) ||
       isEmpty(videoQuality) ||
-      isEmpty(audioQuality)
-    ) {
-      return toastRef.current.show({
-        severity: "warn",
-        summary: "Required",
-        detail: "All Form Fields Are Required",
-        life: 3000,
-      });
-    }
+      isEmpty(audioQuality) ||
+      isEmpty(transcoder)
+      ) {
+        return toastRef.current.show({
+          severity: "warn",
+          summary: "Required",
+          detail: "All Form Fields Are Required",
+          life: 3000,
+        });
+      }
+      const formData = {
+        name,
+        password,
+        tmdbKey,
+        serverName,
+        videoQuality,
+        audioQuality,
+        transcoder
+      };
 
     serverSetup(formData)
       .then((res) => {
@@ -165,6 +168,31 @@ function SetupScreen() {
               onChange={(e) => setServerName(e.target.value)}
             />
             <label htmlFor="server-name">Server Name</label>
+          </span>
+          <span>
+            <label className="form-control" htmlFor="transcoder">
+              Transcoder
+            </label>
+            <SelectButton
+              id="transcoder"
+              value={transcoder}
+              options={[{
+                name: "off",
+                value: false
+              },{
+                name: "on",
+                value: true
+              }]}
+              onChange={(e) => setTranscoder(e.value)}
+              optionLabel="name"
+              className="form-control"
+            />
+          </span>
+          <span style={{
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <h4>Turning on the Transcoder Will Result in Longer Upload Times</h4>
           </span>
           <span>
             <label className="form-control" htmlFor="video-quality">

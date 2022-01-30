@@ -35,3 +35,6 @@ exports.transcode = async (filename, onProgress) => {
   });
 };
 
+exports.moveFile = (filename)=>{
+  fs.renameSync(path.resolve(`/var/app/uploads/temp/${filename}`), path.resolve(`/var/app/uploads/${filename}`));
+};
