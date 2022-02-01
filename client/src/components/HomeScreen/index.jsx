@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import Card from "../Card";
 import Context from "../../store";
+import Highlights from "../Highlights";
 import { Toast } from "primereact/toast";
 
 function HomeScreen() {
@@ -14,23 +15,27 @@ function HomeScreen() {
   const toastRef = useRef(null);
 
   useEffect(() => {
-  getMovies()
-    .then((res) => setMovies(res))
-    .catch((e) => {
-      toastRef.current.show({
-        severity: "error",
-        summary: "Error",
-        detail: "Error Fetching Movies",
-        life: 3000,
+    getMovies()
+      .then((res) => setMovies(res))
+      .catch((e) => {
+        toastRef.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Error Fetching Movies",
+          life: 3000,
+        });
       });
-    });
   }, []);
 
   return (
     <div className="home">
       <Toast ref={toastRef} />
+      <div className="highlights">
+        <h2 className="home-title">Highlights</h2>
+        <Highlights />
+      </div>
       <div id="explore">
-        <h2 className="home-title">Explore,</h2>
+        <h2 className="home-title">Movies</h2>
         <div className="container">
           {movies.length === 0 ? (
             <h3 className="warning">
