@@ -69,7 +69,7 @@ exports.addMovie = async (req, res) => {
     if (movieData.production_companies.length > 0) {
       studio = movieData.production_companies[0].name;
     }
-
+    
     try {
       const newMovie = await movies.create({
         name: movieData.title,
@@ -85,6 +85,7 @@ exports.addMovie = async (req, res) => {
         trailer: trailer,
         studio: studio,
         runtime: movieData.runtime.toString(),
+        backdrop: movieData.backdrop_path
       });
 
       res.status(201).json({

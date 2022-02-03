@@ -38,7 +38,10 @@ function ManageContent() {
     });
   },[]);
 
-  const success = () => {
+  const success = (newMovie) => {
+    let temp = movies;
+    temp.unshift(newMovie);
+    setMovies(temp);
     setMovieModal(false);
     toastRef.current.show({
       severity: "success",

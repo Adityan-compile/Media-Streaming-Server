@@ -20,7 +20,7 @@ function NewMovie({ visible, setVisible, onSuccess, onError }) {
       .then((res) => {
         setQuery("");
         setSuggestions([]);
-        onSuccess();
+        onSuccess(res);
       })
       .catch((e) => {
         console.error(e);

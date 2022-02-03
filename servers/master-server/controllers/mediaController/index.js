@@ -1,5 +1,4 @@
 const { movies } = require("../../models");
-const fs = require("fs");
 const streamer = require("express-stream-video");
 
 exports.getMovies = async (req, res) => {

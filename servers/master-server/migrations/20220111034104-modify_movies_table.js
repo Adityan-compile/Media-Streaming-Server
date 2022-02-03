@@ -4,7 +4,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn("movies", "runtime", {
       type: Sequelize.STRING,
-      allowNUll: false,
+      allowNull: false,
     });
   },
 

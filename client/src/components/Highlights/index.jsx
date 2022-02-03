@@ -19,6 +19,14 @@ function Highlights() {
         "https://www.themoviedb.org/t/p/original/cinER0ESG0eJ49kXlExM0MEWGxW.jpg",
       poster:
         "https://www.themoviedb.org/t/p/original/65MHN2VZ9kwQ0X9pi3QvbJjZGR1.jpg",
+    }, 
+    {
+      name: "Avengers: Endgame",
+      year: 2019,
+      backdrop:
+        "https://www.themoviedb.org/t/p/original/orjiB3oUIsyz60hoEqkiGpy5CeO.jpg",
+      poster:
+        "https://www.themoviedb.org/t/p/original/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
     },
   ];
 

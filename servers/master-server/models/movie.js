@@ -68,6 +68,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: ""
       },
+      backdrop: {
+        type: DataTypes.STRING,
+        defaultValue: ""
+      },
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: () => {
