@@ -4,6 +4,7 @@ import React,{ useContext, useRef, useState } from "react";
 
 import Context from '../../store';
 import ManageContent from "../ManageContent";
+import ManageHighlights from "../ManageHighlights";
 import { TabMenu } from "primereact/tabmenu";
 import {Toast} from "primereact/toast";
 import { useNavigate } from "react-router-dom";
@@ -19,10 +20,13 @@ function DashboardScreen() {
   const toastRef = useRef(null);
 
   const RenderActiveTab = ()=>{
-    if(activeTab === "manage-content") {
-      return <ManageContent/>
-    }else{
-      return null;
+    switch(activeTab){
+      case "manage-content":
+        return <ManageContent/>
+      case "manage-highlights":
+        return <ManageHighlights/>; 
+      default: 
+          return null;
     }
   };
 
@@ -48,6 +52,11 @@ function DashboardScreen() {
       label: "Manage Content",
       icon: "pi pi-upload",
       command: ()=> setActiveTab("manage-content")
+    },
+    {
+      label: "Manage Highlights",
+      icon: "pi pi-star",
+      command: ()=> setActiveTab("manage-highlights")
     },
     {
       label: "Manage Users",
