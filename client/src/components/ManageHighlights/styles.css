@@ -1,0 +1,15 @@
+.heading {
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+}
+
+.modal-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.m-20{
+    margin: 20px;
+}
