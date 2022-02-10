@@ -93,7 +93,7 @@ exports.search = async (req, res) => {
       },
     });
 
-    const show_results = awaitshows.findAll({
+    const show_results = await shows.findAll({
       where: {
         $or: [
           {

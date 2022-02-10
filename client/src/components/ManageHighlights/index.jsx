@@ -21,7 +21,12 @@ function ManageHighlights() {
             </div>
           </div>
           <div className="results">
-
+            <div className="movies">
+                <h6 className="sub-head">Movies</h6>
+              </div>
+            <div className="shows">
+              <h6 className="sub-head">TV</h6> 
+            </div>
           </div>
 
         </div>
