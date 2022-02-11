@@ -1,0 +1,21 @@
+.result-card {
+  height: 10rem;
+}
+.card-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.result-image{
+    height: 10rem;
+    width: auto;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.result-data{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}

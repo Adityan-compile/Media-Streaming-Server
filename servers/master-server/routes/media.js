@@ -34,6 +34,6 @@ router
 
 router.route("/movies/stream").get([authenticator.authenticate], streamMovie);
 
-router.route("/movies/new").get([authenticator.authenticate], search);
+router.route("/search").get([authenticator.authenticate], search);
 
 module.exports = router;

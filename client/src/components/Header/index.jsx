@@ -4,12 +4,11 @@ import { Offline, Online } from "react-detect-offline";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { AutoComplete } from "primereact/autocomplete";
 import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
+import {InputText} from "primereact/inputtext";
 import { Link } from "react-router-dom";
 import { Menubar } from "primereact/menubar";
-import RenderSuggestion from "../RenderSuggestion";
 import useSearch from "../../hooks/search";
 
 function Header() {
@@ -18,12 +17,17 @@ function Header() {
   const search = useSearch();
 
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
   const [visible, setVisible] = useState(true);
 
 
   const handler = () => {
-    search(query).then(res => results).catch(err => { });
+    search(query).then(res => {
+      navigate('/search/results', {
+        state: {
+          data: res
+        }
+      })
+    }).catch(err => { });
   };
 
   const location = useLocation();
@@ -53,20 +57,15 @@ function Header() {
       icon: "pi pi-desktop",
     },
     {
-      label: "Images",
-      icon: "pi pi-image",
-    },
-    {
       label: "",
       template: (item, options) => (
         <div className="p-grid p-fluid p-3">
           <div className="p-col-12 p-md-4">
             <div className="p-inputgroup">
-              <AutoComplete
+              <InputText
                 placeholder="Search"
                 value={query}
-                onChange={e => setQuery(e.value)}
-                itemTemplate={RenderSuggestion} />
+                onChange={e => setQuery(e.value)} />
               <Button icon="pi pi-search" onClick={() => handler()} />
             </div>
           </div>

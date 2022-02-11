@@ -1,4 +1,4 @@
-const { movies, highlights, shows } = require("../../models");
+const { movies, highlights, shows, Sequelize } = require("../../models");
 const streamer = require("express-stream-video");
 
 exports.getMovies = async (req, res) => {
@@ -82,44 +82,37 @@ exports.search = async (req, res) => {
   try {
     const movie_results = await movies.findAll({
       where: {
-        $or: [
-          {
-            name: {
-              $iLike: query,
-            },
-          },
-        ],
+        name: {
+          [Sequelize.Op.iLike]: `%${query.toLowerCase()}%`,
+        },
       },
-      limit: 50
+      limit: 50,
     });
 
     const show_results = await shows.findAll({
       where: {
-        $or: [
-          {
-            name: {
-              $iLike: query,
-            },
-          },
-        ],
+        name: {
+          [Sequelize.Op.iLike]: `%${query.toLowerCase()}%`,
+        },
       },
-      limit: 50
+      limit: 50,
     });
+
 
     // Combine and Compile the  Shows and Movies Found to Return the Most Relevent Results
     const combined = movie_results.concat(show_results);
 
-    const query_regex = new RegExp(query);
-    
-    const compiled_results = combined.filter(el=>query_regex.test(el.name));
+    const query_regex = new RegExp(query, "i");
+
+    const compiled_results = combined.filter((el) => query_regex.test(el.name));
 
     return res.status(200).json({
       status: 200,
       message: "Search Successful",
       results: compiled_results,
     });
-    
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       status: 500,
       message: "Database Query Error",
