@@ -1,6 +1,5 @@
 const { movies, highlights, shows } = require("../../models");
 const streamer = require("express-stream-video");
-const res = require("express/lib/response");
 
 exports.getMovies = async (req, res) => {
   try {
@@ -91,6 +90,7 @@ exports.search = async (req, res) => {
           },
         ],
       },
+      limit: 50
     });
 
     const show_results = await shows.findAll({
@@ -103,16 +103,22 @@ exports.search = async (req, res) => {
           },
         ],
       },
+      limit: 50
     });
+
+    // Combine and Compile the  Shows and Movies Found to Return the Most Relevent Results
+    const combined = movie_results.concat(show_results);
+
+    const query_regex = new RegExp(query);
+    
+    const compiled_results = combined.filter(el=>query_regex.test(el.name));
 
     return res.status(200).json({
       status: 200,
       message: "Search Successful",
-      results: {
-        movies: movie_results,
-        shows: show_results,
-      },
+      results: compiled_results,
     });
+    
   } catch (err) {
     return res.status(500).json({
       status: 500,

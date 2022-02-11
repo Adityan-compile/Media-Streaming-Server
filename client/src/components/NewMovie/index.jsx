@@ -4,6 +4,7 @@ import { AutoComplete } from "primereact/autocomplete";
 import { Button } from "primereact/button";
 import Context from "../../store";
 import { Dialog } from "primereact/dialog";
+import RenderSuggestion from "../RenderSuggestion";
 
 function NewMovie({ visible, setVisible, onSuccess, onError }) {
   const [query, setQuery] = useState("");
@@ -45,28 +46,7 @@ function NewMovie({ visible, setVisible, onSuccess, onError }) {
       .catch((e) => setError("Cannot Reach Server or TMDB"));
   };
 
-  const renderSuggestion = (item) => (
-    <div>
-      <div style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: 'center'
-      }}>
-        <img
-          src={`https://www.themoviedb.org/t/p/original${item.image}`}
-          alt="poster"
-          height="60"
-          width="80"
-          style={{
-            objectFit: 'contain'
-          }}
-        ></img>
-        <h3 style={{
-          margin: '10px'
-        }}>{item.label}</h3>
-      </div>
-    </div>
-  );
+
 
   return (
     <Dialog
@@ -99,7 +79,7 @@ function NewMovie({ visible, setVisible, onSuccess, onError }) {
               onChange={(e) => {
                 setQuery(e.value);
               }}
-              itemTemplate={renderSuggestion}
+              itemTemplate={RenderSuggestion}
               onSelect={(e) => save(e.value)}
             />
             <Button label="Search" onClick={() => search()} />
