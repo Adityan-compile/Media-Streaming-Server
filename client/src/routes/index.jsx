@@ -126,7 +126,7 @@ function Routes() {
             }
           />
           <Route
-            path={"/search/results"}
+            path={"/search"}
             element={
               <RouteGuard>
                 <Search />

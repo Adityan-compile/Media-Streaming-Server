@@ -9,13 +9,12 @@ function NotFoundError() {
     <div
       style={{
         display: "flex",
-        // justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
         minHeight: "100vh",
       }}
     >
-      <img src={error} height={"auto"} width={"470px"} />
+      <img src={error} height={"auto"} width={"470px"} alt="" />
 
       <Button
         label="Take me Home"

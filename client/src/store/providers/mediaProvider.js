@@ -5,7 +5,7 @@ import tmdb from '../services/tmdb'
 const MediaProvider = {
     ...tmdb,
     ...movie,
-    ... media
+    ...media
   };
   
   export default MediaProvider;

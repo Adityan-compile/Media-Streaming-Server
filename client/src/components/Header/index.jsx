@@ -6,29 +6,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
-import {InputText} from "primereact/inputtext";
 import { Link } from "react-router-dom";
 import { Menubar } from "primereact/menubar";
-import useSearch from "../../hooks/search";
 
 function Header() {
   const navigate = useNavigate();
 
-  const search = useSearch();
-
-  const [query, setQuery] = useState("");
   const [visible, setVisible] = useState(true);
 
 
-  const handler = () => {
-    search(query).then(res => {
-      navigate('/search/results', {
-        state: {
-          data: res
-        }
-      })
-    }).catch(err => { });
-  };
 
   const location = useLocation();
 
@@ -57,20 +43,11 @@ function Header() {
       icon: "pi pi-desktop",
     },
     {
-      label: "",
-      template: (item, options) => (
-        <div className="p-grid p-fluid p-3">
-          <div className="p-col-12 p-md-4">
-            <div className="p-inputgroup">
-              <InputText
-                placeholder="Search"
-                value={query}
-                onChange={e => setQuery(e.value)} />
-              <Button icon="pi pi-search" onClick={() => handler()} />
-            </div>
-          </div>
-        </div>
-      ),
+      label: "Search",
+      icon: "pi pi-search",
+      command: () => {
+        navigate("/search");
+      },
     },
   ];
   if (visible) {

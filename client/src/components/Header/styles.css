@@ -1,4 +1,6 @@
 .nav {
+  background-color: #24292E;
+  border: none;
   border-radius: 0;
   box-shadow: -3px 4px 22px 0px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: -3px 4px 22px 0px rgba(0, 0, 0, 0.75);

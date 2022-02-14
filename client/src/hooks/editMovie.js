@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function useEditMovie(data) {
   const [poster, setPoster] = useState(data.poster);

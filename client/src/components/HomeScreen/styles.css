@@ -6,12 +6,12 @@
 .container {
   width: 100%;
   height: 100%;
-  /* display: flex;
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap; 
-  justify-content: center;  */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem,1fr));
+  /* justify-content: center;  */
+  /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem,1fr)); */
 }
 
 .home-title {
