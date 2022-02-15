@@ -6,7 +6,7 @@
 }
 
 .app {
-  background-color: #24292E;
+  background-color: #24292e;
   color: white;
   /* min-height: 10vh; */
 }
@@ -28,7 +28,7 @@
   margin: 10px;
 }
 
-.modal{
+.modal {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,13 +57,20 @@
   color: #4d75eb;
 }
 
-.m-20{
+.m-20 {
   margin: 20px;
 }
-.mb-30{
+.mb-30 {
   margin-bottom: 30px;
 }
 
-.mh-100{
+.mh-100 {
   min-height: 100vh;
+}
+
+.heading {
+  text-align: center;
+  font-family: "Dancing Script", cursive;
+  font-size: 60px;
+  margin-bottom: 20px;
 }

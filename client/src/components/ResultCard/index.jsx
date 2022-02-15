@@ -2,10 +2,18 @@ import "./styles.css"
 
 import React from 'react'
 
-function ResultCard(item) {
+function ResultCard({item, navigate}) {
+
+  // const navigate = useNavigate();
 
   return (
-    <div className="m-20 result-card mb-30">
+    <div className="m-20 result-card mb-30" onClick={() => {
+      navigate("/shows/view", {
+        state: {
+          data: item
+        }
+      })
+    }}>
       <div className="card-container">
         <div><img src={`https://www.themoviedb.org/t/p/original${item.backdrop}`} className="result-image" /></div>
         <div className="result-data">
@@ -17,7 +25,7 @@ function ResultCard(item) {
 
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
