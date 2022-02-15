@@ -1,24 +1,20 @@
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
+
+import Context from '../store';
 
 function useHighlights() {
     const [highlights,setHighlights] = useState([]);
 
+    const { fetchHighlights } = useContext(Context);
+
     useEffect(()=>{
-        //Fetch Highlights here
-        setHighlights([
-            {
-                title: "Shang Chi and the Legend of the Ten Rings",
-                date: 2021,
-            },
-            {
-                title: "Spiderman: No Way Home",
-                date: 2021,
-            }
-        ]);
+        fetchHighlights().then(res=>setHighlights(res)).catch(err=>{});
     },[]);
 
+    const createHighlight = (id)=>{};
     return {
-        highlights
+        highlights,
+        createHighlight
     };
 
 }
