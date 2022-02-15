@@ -10,6 +10,8 @@ const {
   getMovies,
   streamMovie,
   search,
+  getHighlights,
+  createHighlight,
 } = require("../controllers/mediaController");
 const authenticator = require("../middleware/authenticator");
 const { checkMovie } = require("../middleware/check");
@@ -35,5 +37,8 @@ router
 router.route("/movies/stream").get([authenticator.authenticate], streamMovie);
 
 router.route("/search").get([authenticator.authenticate], search);
+router.route("/highlights").get([authenticator.authenticate], getHighlights);
+router.route("/highlights/new").post([authenticator.authenticate], createHighlight);
+
 
 module.exports = router;

@@ -10,6 +10,16 @@ const media = {
               })
               .catch((e) => reject(e));
           });
+    },
+    fetchHighlights: ()=>{
+      return new Promise((resolve, reject) => {
+        axios
+          .get("/media/highlights")
+          .then(({ data }) => {
+            resolve(data.highlights);
+          })
+          .catch((e) => reject(e));
+      });
     }
 };
 

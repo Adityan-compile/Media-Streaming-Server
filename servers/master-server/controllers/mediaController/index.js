@@ -30,7 +30,7 @@ exports.streamMovie = (req, res) => {
 
 exports.getHighlights = async (req, res) => {
   try {
-    const results = await movies.findAll({});
+    const results = await highlights.findAll({});
     res.status(200).json({
       status: 200,
       highlights: results,

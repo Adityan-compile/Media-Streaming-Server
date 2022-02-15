@@ -2,17 +2,19 @@ import "./styles.css"
 
 import React from 'react'
 
-function ResultCard({item, navigate}) {
-
-  // const navigate = useNavigate();
+function ResultCard({item={}, navigate=()=>{}, navigation=true, handler=()=>{}}) {
 
   return (
     <div className="m-20 result-card mb-30" onClick={() => {
-      navigate("/shows/view", {
-        state: {
-          data: item
-        }
-      })
+      if(navigation){
+        navigate("/shows/view", {
+          state: {
+            data: item
+          }
+        })
+      }else{
+        return handler(item.id);
+      }
     }}>
       <div className="card-container">
         <div><img src={`https://www.themoviedb.org/t/p/original${item.backdrop}`} className="result-image" /></div>
