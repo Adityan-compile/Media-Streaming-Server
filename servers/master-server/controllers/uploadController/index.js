@@ -1,8 +1,6 @@
 const { shows, movies } = require("../../models");
 const transcoder = require("../../utils/transcoder");
 const axios = require("../../config/axios");
-const fs = require("fs");
-const path = require("path");
 
 exports.addShow = async (req, res) => {
   const body = req.body;
@@ -158,3 +156,54 @@ return res.status(201).json({
 })
 
 };
+
+exports.uploadShowFile = async(req, res) => {
+  const params = req.query;
+  const file = req.file;
+ 
+  if(!file){
+    return res.status(400).json({
+      status: 400,
+      message: "Movie File Required for upload"
+    });
+  }
+  let updated = {};
+ try {
+  updated = await movies
+   .update(
+     {
+       file: file.filename,
+     },
+     {
+       where: {
+         id: params.movieId,
+       },
+       returning: true,
+       plain: true
+     }
+   );
+ } catch (e) {
+   return res.status(500).json({status: 500, message: "Cannot Save Movie"})
+ 
+ }
+ if(process.env.TRANSCODER_ENABLED){
+   try{
+     await transcoder.transcode(file.filename);
+   }catch(err){
+     return res.status(206).json({
+       status: 206,
+       message: "Transcode Error, File Saved Successfully"
+     });
+   }
+ }else{
+   transcoder.moveFile(file.filename);
+ }
+ 
+ return res.status(201).json({
+   status: 201,
+   movie: updated[1].toJSON(),
+   message: "File Saved Successfully"
+ })
+ 
+ };
+ 

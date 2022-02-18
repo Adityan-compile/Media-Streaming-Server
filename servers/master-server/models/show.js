@@ -32,10 +32,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: "",
     },
-    file: {
-      type: DataTypes.STRING,
-      defaultValue: "",
-    },
     rating: {
       type: DataTypes.STRING,
       defaultValue: "",
@@ -52,7 +48,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: [""],
     },
-
+    episodes: {
+      type: DataTypes.ARRAY(DataTypes.JSON),
+      defaultValue: [{}],
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: () => {

@@ -19,3 +19,7 @@
     flex-direction: column;
     margin: 20px;
 }
+
+.result-card::hover{
+    cursor:pointer;
+}

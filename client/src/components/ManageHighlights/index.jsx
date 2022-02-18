@@ -15,7 +15,7 @@ function ManageHighlights() {
   const [results, setResults] = useState([]);
 
   const search = useSearch();
-  const {highlights, createHighlight} = useHighlights();
+  const { highlights, createHighlight } = useHighlights();
 
   const handler = () => {
     search(query).then(res => setResults(res)).catch(err => { });
@@ -51,11 +51,9 @@ function ManageHighlights() {
         <div className="m-20">
           <Button label="New Highlight" icon="pi pi-plus" onClick={() => setVisible(true)} />
         </div>
-        <div>
-          {
-            highlights.map(el=>(<ResultCard key={el.id} item={el} navigation={false} handler={(id) => onSelect(id)} />))
-          }
-        </div>
+        {
+          highlights.map(el => <ResultCard key={el.id} item={el} navigation={false} handler={(id) => onSelect(id)} />)
+        }
       </div>
     </div>
   );
