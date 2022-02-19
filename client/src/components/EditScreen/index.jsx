@@ -1,6 +1,7 @@
 import "./styles.css";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
@@ -14,21 +15,39 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Toast } from "primereact/toast";
 import axios from "axios";
 import useEditMovie from "../../hooks/editMovie";
-import { useLocation } from "react-router-dom";
 import useUploadMovieFile from "../../hooks/uploadMovieFile";
 
 function EditScreen() {
   const { state } = useLocation();
   const { data } = state;
+  const navigate = useNavigate();
+  const toastRef = useRef(null);
 
-  const movieService = useEditMovie(data);
+  const onDelete = () => {
+    toastRef.current.show({
+      severity: "success",
+      summary: "Movie Deleted",
+      life: 3000,
+    });
+    setTimeout(() => navigate('/dashboard'), 3000);
+  };
+
+  const onError = (err) => {
+    toastRef.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Cannot Delete Movie",
+      life: 3000,
+    });
+  };
+
+  const movieService = useEditMovie(data, onDelete, onError);
 
   const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState(0);
   const [processing, setProcessing] = useState(0);
   const [uploading, setUploading] = useState(0);
 
-  const toastRef = useRef(null);
   const request = axios.CancelToken.source();
   useEffect(() => {
     let filesTemp = [
@@ -105,6 +124,13 @@ function EditScreen() {
           ></img>
         </div>
         <div>
+          <Button label="Delete Movie" icon="pi pi-trash" style={{
+            marginLeft: "10px"
+          }}
+            onClick={e => {
+              e.preventDefault();
+              movieService.methods.deleteMovie();
+            }} />
           <form className="edit-form-grid">
             <InputText
               className="edit-input"

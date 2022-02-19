@@ -59,36 +59,35 @@ function SetupScreen() {
 
   const setupHandler = (e) => {
     e.preventDefault();
-    
     if (
       isEmpty(name) ||
       isEmpty(password) ||
       isEmpty(tmdbKey) ||
       isEmpty(serverName) ||
       isEmpty(videoQuality) ||
-      isEmpty(audioQuality) ||
-      isEmpty(transcoder)
-      ) {
-        return toastRef.current.show({
-          severity: "warn",
-          summary: "Required",
-          detail: "All Form Fields Are Required",
-          life: 3000,
-        });
-      }
-      const formData = {
-        name,
-        password,
-        tmdbKey,
-        serverName,
-        videoQuality,
-        audioQuality,
-        transcoder
-      };
+      isEmpty(audioQuality)
+    ) {
+      return toastRef.current.show({
+        severity: "warn",
+        summary: "Required",
+        detail: "All Form Fields Are Required",
+        life: 3000,
+      });
+    }
+
+    const formData = {
+      name,
+      password,
+      tmdbKey,
+      serverName,
+      videoQuality,
+      audioQuality,
+      transcoder
+    };
 
     serverSetup(formData)
       .then((res) => {
-        if(res.status==="partial"){
+        if (res.status === "partial") {
           toastRef.current.show({
             severity: "warn",
             summary: "Partially Completed",
@@ -99,20 +98,20 @@ function SetupScreen() {
             emitter.emit('setup');
             navigate("/login")
           }, 3000);
-        }else{
+        } else {
           toastRef.current.show({
             severity: "success",
             summary: "Success",
             detail: "Server Setup Complete, You Can Now Login",
             life: 3000,
           });
-          setTimeout(() =>{
+          setTimeout(() => {
             emitter.emit('setup');
             navigate("/login")
-          } , 3000);
+          }, 3000);
         }
       })
-      .catch((e) =>{
+      .catch((e) => {
         console.error(e);
         toastRef.current.show({
           severity: "error",
@@ -179,7 +178,7 @@ function SetupScreen() {
               options={[{
                 name: "off",
                 value: false
-              },{
+              }, {
                 name: "on",
                 value: true
               }]}
@@ -229,7 +228,7 @@ function SetupScreen() {
           </span>
         </form>
         <div className="footer">
-        Photo by{" "}
+          Photo by{" "}
           <a
             className="link"
             href="https://unsplash.com/@jeremyyappy?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
@@ -243,8 +242,8 @@ function SetupScreen() {
           >
             Unsplash
           </a>
-        </div> 
-  
+        </div>
+
       </div>
     </div>
   );

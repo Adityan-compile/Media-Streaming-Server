@@ -23,6 +23,11 @@ const movie = {
                 cancelToken: cancelToken
             }).then(({data})=>resolve(data)).catch(err=>reject(err));
         });
+    },
+    deleteMovie: (movieId)=>{
+        return new Promise((resolve,reject)=>{
+            axios.post(`/media/movies/delete?id=${movieId}`).then(({data})=>resolve(data.movie)).catch(err=>reject(err));
+        });  
     }
 };
 

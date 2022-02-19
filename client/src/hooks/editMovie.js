@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-function useEditMovie(data) {
+import Context from "../store";
+
+function useEditMovie(data, onDelete=()=>{}, onError=()=>{}) {
   const [poster, setPoster] = useState(data.poster);
   const [file, setFile] = useState(data.file);
   const [title, setTitle] = useState(data.name);
@@ -14,7 +16,13 @@ function useEditMovie(data) {
   const [releaseDate, setReleaseDate] = useState(new Date(data.createdAt).getFullYear());
   const [runtime, setRuntime] = useState(data.runtime);
 
+  const {deleteMovie:deleteMovieService} = useContext(Context);
+
   const editMovie = () => {};
+
+  const deleteMovie = ()=>{
+    deleteMovieService(data.id).then(res=>onDelete(res)).catch(err=>onError(err));
+  };
 
   return {
     state: {
@@ -45,6 +53,7 @@ function useEditMovie(data) {
       setRuntime,
       setStudio,
       editMovie,
+      deleteMovie
     },
   };
 }

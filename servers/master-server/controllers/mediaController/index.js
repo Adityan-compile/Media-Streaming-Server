@@ -119,3 +119,33 @@ exports.search = async (req, res) => {
     });
   }
 };
+
+exports.deleteMovie = async(req,res)=>{
+
+  const id = req.query.id;
+
+  if(!id){
+    return res.status(400).json({
+      status: 400,
+      message: "Bad Request",
+    });
+  }
+
+  try {    
+    await movies.destroy({
+      where: {
+        id: id
+     }
+    });
+    res.status(204).json({
+      status: 204,
+      message: "Movie Deleted"
+    })
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      message: "Cannot Delete Movie"
+    });
+  }
+
+};

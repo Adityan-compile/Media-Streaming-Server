@@ -68,6 +68,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - auth-server
     restart: unless-stopped
     volumes:
       - ./servers/master-server/:/var/app/
@@ -84,7 +85,6 @@ services:
       - 8082:80
     depends_on:
       - postgres
-    tty: true
     restart: unless-stopped
     volumes:
       - ./servers/auth-server/:/var/app/
