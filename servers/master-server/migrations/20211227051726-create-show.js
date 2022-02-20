@@ -12,7 +12,7 @@ module.exports = {
         allowNull: false,
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(5000),
         allowNull: false,
       },
       lang: {
@@ -31,8 +31,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      ageRating: {
-        type: Sequelize.STRING,
+      adult: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
       crew: {
@@ -42,6 +42,10 @@ module.exports = {
       genres: {
           type: Sequelize.ARRAY(Sequelize.STRING),
           allowNull: false,
+      },
+      backdrop: {
+        type: Sequelize.STRING,
+        defaultValue: ""
       },
       createdAt: {
         allowNull: false,

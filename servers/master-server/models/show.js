@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(5000),
       defaultValue: "",
     },
     lang: {
@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: "",
     },
-    ageRating: {
-      type: DataTypes.STRING,
-      defaultValue: "",
+    adult: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     crew: {
       type: DataTypes.ARRAY(DataTypes.JSON),
@@ -51,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
     seasons: {
       type: DataTypes.ARRAY(DataTypes.JSON),
       defaultValue: [{}],
+    },
+    backdrop: {
+      type: DataTypes.STRING,
+      defaultValue: ""
     },
     createdAt: {
       type: DataTypes.DATE,

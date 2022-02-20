@@ -14,8 +14,9 @@ exports.addShow = async (req, res) => {
   try {
 
     const { data: showData } = await axios.get(
-      `/movie/${showId}?append_to_response=trailers,credits`
+      `/tv/${showId}?append_to_response=videos,credits`
     );
+
     let genres = [];
     if (showData.genres.length > 0) {
       genres = showData.genres.map((el) => {
@@ -34,17 +35,16 @@ exports.addShow = async (req, res) => {
     }
 
     let trailer = "";
-    if (showData.trailers.youtube.length > 0) {
-      trailer = showData.trailers.youtube.filter((el) => {
+    if (showData.videos.results.length > 0) {
+      trailer = showData.videos.results.filter((el) => {
         return el.type === "Trailer";
-      })[0].source;
+      })[0].key;
     }
 
     let studio = "";
-    if (showData.networks.length > 0) {
-      studio = showData.networks[0].name;
+    if (showData.production_companies.length > 0) {
+      studio = showData.production_companies[0].name;
     }
-
     try {
       const newShow = await shows.create({
         name: showData.original_name,
@@ -53,14 +53,15 @@ exports.addShow = async (req, res) => {
         tagline: showData.tagline,
         poster: showData.poster_path,
         rating: showData.vote_average,
-        createdAt: showData.release_date,
+        createdAt: showData.first_air_date,
         adult: showData.adult,
         genres: genres,
         crew: crew,
         trailer: trailer,
         studio: studio,
         runtime: showData.episode_run_time[0].toString(),
-        backdrop: showData.backdrop_path
+        backdrop: showData.backdrop_path,
+        seasons: showData.seasons
       });
 
       res.status(201).json({
@@ -76,6 +77,7 @@ exports.addShow = async (req, res) => {
       });
     }    
   } catch (e) {
+    console.error(e);
     res.status(500).json({
       status: 500,
       message: "Cannot Create Show",

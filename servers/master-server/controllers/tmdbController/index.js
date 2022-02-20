@@ -56,15 +56,15 @@ exports.searchShows = async (req, res) => {
         message: "Query Length Insufficient",
       });
   
-    const cachedResponse = cache.checkCache(`shows-${query}`);
+    const cachedResponse = await cache.checkCache(`shows-${query}`);
   
     if (!cachedResponse) {
       try {
-        const results = await axios.get(`/search/tv?query=${query}`);
-        cache.cacheResponse(`shows-${query}`, results);
+        const {data} = await axios.get(`/search/tv?query=${query}`);
+        cache.cacheResponse(`shows-${query}`, data.results);
         res.status(200).json({
           status: 200,
-          results: cachedResponse
+          results: data.results
         }); 
       } catch (e) {
         res.status(503).json({

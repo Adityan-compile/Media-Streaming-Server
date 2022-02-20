@@ -17,7 +17,7 @@ function NewShow({ visible, setVisible, onSuccess, onError }) {
 
   const save = (selected) => {
     const id = selected.value;
-    saveMovie(id)
+    saveShow(id)
       .then((res) => {
         setQuery("");
         setSuggestions([]);
@@ -34,9 +34,10 @@ function NewShow({ visible, setVisible, onSuccess, onError }) {
     if (!query) return setError("Search Query is Empty");
     searchShow(query)
       .then((res) => {
+        console.log(res)
         const mapped = res.map((elem) => {
           return {
-            label: elem.original_title,
+            label: elem.original_name,
             value: elem.id,
             image: elem.backdrop_path,
           };
@@ -50,7 +51,7 @@ function NewShow({ visible, setVisible, onSuccess, onError }) {
 
   return (
     <Dialog
-      header="New Movie"
+      header="New Show"
       visible={visible}
       onHide={() => setVisible(false)}
     >
@@ -69,7 +70,7 @@ function NewShow({ visible, setVisible, onSuccess, onError }) {
         <div className="p-col-12 p-md-4">
           <div className="p-inputgroup">
             <AutoComplete
-              placeholder="Search Movie"
+              placeholder="Search Show"
               suggestions={suggestions}
               value={query}
               field="label"
