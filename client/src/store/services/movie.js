@@ -26,7 +26,7 @@ const movie = {
     },
     deleteMovie: (movieId)=>{
         return new Promise((resolve,reject)=>{
-            axios.post(`/media/movies/delete?id=${movieId}`).then(({data})=>resolve(data.movie)).catch(err=>reject(err));
+            axios.delete(`/media/movies/delete?id=${movieId}`).then(({data})=>resolve(data.movie)).catch(err=>reject(err));
         });  
     }
 };

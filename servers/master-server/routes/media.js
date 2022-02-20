@@ -5,7 +5,7 @@ const {
   addShow,
   uploadMovieFile,
 } = require("../controllers/uploadController");
-const { searchMovies } = require("../controllers/tmdbController");
+const { searchMovies, searchShows } = require("../controllers/tmdbController");
 const {
   getMovies,
   streamMovie,
@@ -22,6 +22,10 @@ router
   .route("/tmdb/movies/search")
   .get(authenticator.authenticate, searchMovies);
 
+  router
+  .route("/tmdb/shows/search")
+  .get(authenticator.authenticate, searchShows);
+
 router.route("/movies/new").post(authenticator.authenticate, addMovie);
 
 router.route("/shows/new").post(authenticator.authenticate, addShow);
@@ -37,7 +41,7 @@ router
 
 router.route("/movies/stream").get([authenticator.authenticate], streamMovie);
 
-router.route("/movies/delete").get([authenticator.authenticate], deleteMovie);
+router.route("/movies/delete").delete([authenticator.authenticate], deleteMovie);
 
 
 router.route("/search").get([authenticator.authenticate], search);

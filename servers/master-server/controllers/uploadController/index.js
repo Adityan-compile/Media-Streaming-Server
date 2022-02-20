@@ -3,8 +3,8 @@ const transcoder = require("../../utils/transcoder");
 const axios = require("../../config/axios");
 
 exports.addShow = async (req, res) => {
-  const body = req.body;
-  if (!body || Object.keys(body).length === 0) {
+  const showId = req.query.id;
+  if (!showId) {
     return res.status(400).json({
       status: 400,
       message: "Bad Request",
@@ -12,12 +12,69 @@ exports.addShow = async (req, res) => {
   }
 
   try {
-    const newShow = await shows.create(body);
-    res.status(201).json({
-      status: 201,
-      message: "Show Created Successfully",
-      movie: newShow.toJSON(),
-    });
+
+    const { data: showData } = await axios.get(
+      `/movie/${showId}?append_to_response=trailers,credits`
+    );
+    let genres = [];
+    if (showData.genres.length > 0) {
+      genres = showData.genres.map((el) => {
+        return el.name;
+      });
+    }
+
+    let crew = [];
+    if (showData.credits.cast.length > 0) {
+      crew = showData.credits.cast.slice(0, 10).map((el) => {
+        return {
+          name: el.name,
+          character: el.character,
+        };
+      });
+    }
+
+    let trailer = "";
+    if (showData.trailers.youtube.length > 0) {
+      trailer = showData.trailers.youtube.filter((el) => {
+        return el.type === "Trailer";
+      })[0].source;
+    }
+
+    let studio = "";
+    if (showData.networks.length > 0) {
+      studio = showData.networks[0].name;
+    }
+
+    try {
+      const newShow = await shows.create({
+        name: showData.original_name,
+        description: showData.overview,
+        lang: showData.original_language.toUpperCase(),
+        tagline: showData.tagline,
+        poster: showData.poster_path,
+        rating: showData.vote_average,
+        createdAt: showData.release_date,
+        adult: showData.adult,
+        genres: genres,
+        crew: crew,
+        trailer: trailer,
+        studio: studio,
+        runtime: showData.episode_run_time[0].toString(),
+        backdrop: showData.backdrop_path
+      });
+
+      res.status(201).json({
+        status: 201,
+        message: "Show Created Successfully",
+        movie: newShow.toJSON(),
+      });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({
+        status: 500,
+        message: "Cannot Create Movie",
+      });
+    }    
   } catch (e) {
     res.status(500).json({
       status: 500,
@@ -88,14 +145,14 @@ exports.addMovie = async (req, res) => {
 
       res.status(201).json({
         status: 201,
-        message: "Movie Created Successfully",
+        message: "Show Created Successfully",
         movie: newMovie.toJSON(),
       });
     } catch (e) {
       console.error(e);
       res.status(500).json({
         status: 500,
-        message: "Cannot Create Movie",
+        message: "Cannot Create Show",
       });
     }
   } catch (e) {
@@ -169,7 +226,7 @@ exports.uploadShowFile = async(req, res) => {
   }
   let updated = {};
  try {
-  updated = await movies
+  updated = await shows
    .update(
      {
        file: file.filename,

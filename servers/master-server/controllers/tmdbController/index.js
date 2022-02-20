@@ -60,7 +60,7 @@ exports.searchShows = async (req, res) => {
   
     if (!cachedResponse) {
       try {
-        const results = await axios.get(`/search/show?query=${query}`);
+        const results = await axios.get(`/search/tv?query=${query}`);
         cache.cacheResponse(`shows-${query}`, results);
         res.status(200).json({
           status: 200,

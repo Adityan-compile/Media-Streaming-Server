@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: [""],
     },
-    episodes: {
+    seasons: {
       type: DataTypes.ARRAY(DataTypes.JSON),
       defaultValue: [{}],
     },

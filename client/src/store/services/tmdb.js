@@ -11,6 +11,16 @@ const tmdb = {
         .catch((e) => reject(e));
     });
   },
+  searchShow: (query) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/media/tmdb/shows/search?q=${query}`)
+        .then(({ data }) => {
+          resolve(data.results);
+        })
+        .catch((e) => reject(e));
+    });
+  },
 };
 
 export default tmdb;
