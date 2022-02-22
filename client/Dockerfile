@@ -7,6 +7,7 @@ RUN \
     npm i 
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
+ENV EXTEND_ESLINT=true
 
 EXPOSE 3000
 

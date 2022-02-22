@@ -74,3 +74,8 @@
   font-size: 60px;
   margin-bottom: 20px;
 }
+
+.warning{
+  color: rgb(255, 145, 0);
+  margin: 20px;
+}

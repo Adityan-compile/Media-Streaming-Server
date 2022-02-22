@@ -20,6 +20,16 @@ const media = {
           })
           .catch((e) => reject(e));
       });
+    },
+    fetchTopRated: ()=>{
+      return new Promise((resolve, reject) => {
+        axios
+          .get("/media/toprated")
+          .then(({ data }) => {
+            resolve(data.results);
+          })
+          .catch((e) => reject(e));
+      });
     }
 };
 

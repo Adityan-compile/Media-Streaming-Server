@@ -1,30 +1,28 @@
 import "./styles.css";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 import Card from "../Card";
-import Context from "../../store";
 import Highlights from "../Highlights";
 import { Toast } from "primereact/toast";
-
+import useRating from "../../hooks/rating";
 function HomeScreen() {
-  const [movies, setMovies] = useState([]);
-
-  const { getMovies } = useContext(Context);
 
   const toastRef = useRef(null);
 
+  const onError = (err) => {
+    toastRef.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Error Fetching Movies",
+      life: 3000,
+    });
+  };
+  const {fetchTopRated, topRated} = useRating(onError)
+
+
   useEffect(() => {
-    getMovies()
-      .then((res) => setMovies(res))
-      .catch((e) => {
-        toastRef.current.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Error Fetching Movies",
-          life: 3000,
-        });
-      });
+    fetchTopRated();
   }, []);
 
   return (
@@ -35,14 +33,24 @@ function HomeScreen() {
         <Highlights />
       </div>
       <div id="explore">
-        <h2 className="home-title">Movies</h2>
+        <h2 className="home-title">Top Rated Movies</h2>
         <div className="container">
-          {movies.length === 0 ? (
+          {topRated.movies.length === 0 ? (
             <h3 className="warning">
               No Content Found. Add new Movies or TV Shows from Dashboard{" "}
             </h3>
           ) : (
-            movies.map((movie) => <Card key={movie.id} data={movie} />)
+            topRated.movies.map((movie) => <Card key={movie.id} data={movie} />)
+          )}
+        </div>
+        <h2 className="home-title">Top Rated TV</h2>
+        <div className="container">
+          {topRated.shows.length === 0 ? (
+            <h3 className="warning">
+              No Content Found. Add new Movies or TV Shows from Dashboard{" "}
+            </h3>
+          ) : (
+            topRated.shows.map((movie) => <Card key={movie.id} data={movie} />)
           )}
         </div>
       </div>

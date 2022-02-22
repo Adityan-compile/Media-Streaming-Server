@@ -98,7 +98,6 @@ exports.search = async (req, res) => {
       limit: 50,
     });
 
-
     // Combine and Compile the  Shows and Movies Found to Return the Most Relevent Results
     const combined = movie_results.concat(show_results);
 
@@ -120,32 +119,59 @@ exports.search = async (req, res) => {
   }
 };
 
-exports.deleteMovie = async(req,res)=>{
-
+exports.deleteMovie = async (req, res) => {
   const id = req.query.id;
 
-  if(!id){
+  if (!id) {
     return res.status(400).json({
       status: 400,
       message: "Bad Request",
     });
   }
 
-  try {    
+  try {
     await movies.destroy({
       where: {
-        id: id
-     }
+        id: id,
+      },
     });
     res.status(204).json({
       status: 204,
-      message: "Movie Deleted"
-    })
+      message: "Movie Deleted",
+    });
   } catch (err) {
     res.status(500).json({
       status: 500,
-      message: "Cannot Delete Movie"
+      message: "Cannot Delete Movie",
     });
   }
+};
 
+exports.getTopRated = async (req,res) => {
+  try {
+    const movie_results = await movies.findAll({
+      order: [["rating", "DESC"]],
+      limit: 10,
+    });
+
+    const show_results = await shows.findAll({
+      order: [["rating", "DESC"]],
+      limit: 10,
+    });
+
+    return res.status(200).json({
+      status: 200,
+      message: "Search Successful",
+      results: {
+        movies: movie_results,
+        shows: show_results,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      status: 500,
+      message: "Database Query Error",
+    });
+  }
 };

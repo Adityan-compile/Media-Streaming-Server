@@ -15,8 +15,6 @@ function DashboardScreen() {
 
   const {logout} = useContext(Context);
 
-  const navigate = useNavigate();
-
   const toastRef = useRef(null);
 
   const RenderActiveTab = ()=>{
