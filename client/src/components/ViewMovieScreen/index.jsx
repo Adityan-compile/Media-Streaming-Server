@@ -8,7 +8,7 @@ import React from "react";
 import { Tag } from "primereact/tag";
 import trailerNotFound from "../../assets/trailer-not-found.png";
 
-function ShowScreen() {
+function ViewMovieScreen() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const data = state.data;
@@ -121,4 +121,4 @@ function ShowScreen() {
   );
 }
 
-export default ShowScreen;
+export default ViewMovieScreen;

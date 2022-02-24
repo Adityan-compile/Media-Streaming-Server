@@ -37,6 +37,9 @@ function Header() {
     {
       label: "Movies",
       icon: "pi pi-ticket",
+      command: () => {
+        navigate('/movies');
+      }
     },
     {
       label: "TV Shows",

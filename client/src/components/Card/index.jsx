@@ -3,20 +3,28 @@ import "./styles.css";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function Card({data, admin=false}) {
+function Card({ data, admin = false, type = "m" }) {
 
   const navigate = useNavigate();
-  
-  if(admin){
+
+  if (admin) {
     return (
       <div
         onClick={(e) => {
           e.preventDefault();
-          navigate(`/shows/edit/`, {
-            state: {
-              data
-            }
-          });
+          if (type === "m") {
+            navigate(`/movies/edit/`, {
+              state: {
+                data
+              }
+            });
+          } else {
+            navigate(`/shows/edit/`, {
+              state: {
+                data
+              }
+            });
+          }
         }}
       >
         <div
@@ -28,16 +36,25 @@ function Card({data, admin=false}) {
         </div>
       </div>
     );
-  }else{
+  } else {
     return (
       <div
         onClick={(e) => {
-          e.preventDefault();
-          navigate("/shows/view", {
-            state: {
-              data
-            }
-          });
+          e.preventDefault(); 
+          if (type === "m") {
+            navigate("/movies/view", {
+              state: {
+                data
+              }
+            });
+          } else {
+            navigate("/shows/view", {
+              state: {
+                data
+              }
+            });
+          }
+
         }}
       >
         <div
@@ -48,7 +65,7 @@ function Card({data, admin=false}) {
         >
         </div>
       </div>
-    );    
+    );
   }
 }
 

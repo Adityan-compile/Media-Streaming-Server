@@ -19,8 +19,9 @@ import Player from "../pages/Player";
 import React from "react";
 import Search from "../pages/Search";
 import Setup from "../pages/Setup";
-import ViewShow from "../pages/ViewShow";
+import ViewMovie from "../pages/ViewMovie";
 import emitter from "../store/services/emitter";
+import Movies from "../pages/Movies";
 
 function Routes() {
   const [user, setUser] = useState({
@@ -94,10 +95,10 @@ function Routes() {
             }
           />
           <Route
-            path={"/shows/view"}
+            path={"/movies/view"}
             element={
               <RouteGuard>
-                <ViewShow />
+                <ViewMovie />
               </RouteGuard>
             }
           />
@@ -130,6 +131,14 @@ function Routes() {
             element={
               <RouteGuard>
                 <Search />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path={"/movies"}
+            element={
+              <RouteGuard>
+                <Movies />
               </RouteGuard>
             }
           />
