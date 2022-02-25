@@ -1,0 +1,20 @@
+.carousel {
+  height: 92vh;
+  width: 100%;
+  object-fit: cover;
+}
+.poster {
+  height: 92vh;
+  width: 100%;
+  object-fit: cover;
+}
+.item-container {
+  width: 100%;
+  display: flex;
+}
+.caption-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

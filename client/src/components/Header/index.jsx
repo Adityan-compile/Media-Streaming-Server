@@ -44,6 +44,9 @@ function Header() {
     {
       label: "TV Shows",
       icon: "pi pi-desktop",
+      command: () => {
+        navigate('/shows');
+      }
     },
     {
       label: "Search",

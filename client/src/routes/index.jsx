@@ -14,14 +14,16 @@ import Header from "../components/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MediaProvider from "../store/providers/mediaProvider";
+import Movies from "../pages/Movies";
 import NotFoundError from "../pages/404";
 import Player from "../pages/Player";
 import React from "react";
 import Search from "../pages/Search";
 import Setup from "../pages/Setup";
+import Shows from "../pages/Shows";
 import ViewMovie from "../pages/ViewMovie";
+import ViewShow from "../pages/ViewShow";
 import emitter from "../store/services/emitter";
-import Movies from "../pages/Movies";
 
 function Routes() {
   const [user, setUser] = useState({
@@ -103,6 +105,14 @@ function Routes() {
             }
           />
           <Route
+            path={"/movies/view"}
+            element={
+              <RouteGuard>
+                <ViewShow />
+              </RouteGuard>
+            }
+          />
+          <Route
             path={"/shows/edit"}
             element={
               <RouteGuard>
@@ -139,6 +149,14 @@ function Routes() {
             element={
               <RouteGuard>
                 <Movies />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path={"/shows"}
+            element={
+              <RouteGuard>
+                <Shows />
               </RouteGuard>
             }
           />

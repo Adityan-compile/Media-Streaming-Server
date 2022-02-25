@@ -13,7 +13,8 @@ const {
   getHighlights,
   createHighlight,
   deleteMovie,
-  getTopRated
+  getTopRated,
+  getShows
 } = require("../controllers/mediaController");
 const authenticator = require("../middleware/authenticator");
 const { checkMovie } = require("../middleware/check");
@@ -32,6 +33,7 @@ router.route("/movies/new").post(authenticator.authenticate, addMovie);
 router.route("/shows/new").post(authenticator.authenticate, addShow);
 
 router.route("/movies/all").get(authenticator.authenticate, getMovies);
+router.route("/shows/all").get(authenticator.authenticate, getShows);
 
 router
   .route("/movies/upload")

@@ -13,6 +13,19 @@ exports.getMovies = async (req, res) => {
   }
 };
 
+exports.getShows = async (req, res) => {
+  try {
+    const results = await shows.findAll({});
+    res.status(200).json({
+      status: 200,
+      shows: results,
+    });
+  } catch (e) {
+    res.status(500).json({ status: 500, message: "Error Getting Shows" });
+  }
+};
+
+
 exports.streamMovie = (req, res) => {
   const filename = req.query.file;
 

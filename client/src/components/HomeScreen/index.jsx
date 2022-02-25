@@ -6,6 +6,7 @@ import Card from "../Card";
 import Highlights from "../Highlights";
 import { Toast } from "primereact/toast";
 import useRating from "../../hooks/rating";
+
 function HomeScreen() {
 
   const toastRef = useRef(null);
@@ -50,7 +51,7 @@ function HomeScreen() {
               No Content Found. Add new Movies or TV Shows from Dashboard{" "}
             </h3>
           ) : (
-            topRated.shows.map((movie) => <Card key={movie.id} data={movie} />)
+            topRated.shows.map((movie) => <Card key={movie.id} data={movie} type="s" />)
           )}
         </div>
       </div>
