@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import AuthProvider from "../store/providers/authProvider";
 import Context from "../store";
 import Dashboard from "../pages/Dashboard";
-import EditShow from "../pages/EditShow";
+import EditMovie from "../pages/EditMovie";
 import Header from "../components/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -70,7 +70,9 @@ function Routes() {
           user,
         }}
       >
-        {user.authenticated && <Header />}
+        {
+          user.authenticated && <Header />
+        }
         <Switch>
           <Route
             path={"/login"}
@@ -105,7 +107,7 @@ function Routes() {
             }
           />
           <Route
-            path={"/movies/view"}
+            path={"/shows/view"}
             element={
               <RouteGuard>
                 <ViewShow />
@@ -113,10 +115,10 @@ function Routes() {
             }
           />
           <Route
-            path={"/shows/edit"}
+            path={"/movies/edit"}
             element={
               <RouteGuard>
-                <EditShow />
+                <EditMovie />
               </RouteGuard>
             }
           />

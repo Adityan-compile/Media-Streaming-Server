@@ -56,6 +56,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: ""
     },
+    runtime: {
+      type: DataTypes.STRING,
+      defaultValue: ""
+    },
+    studio: {
+      type: DataTypes.STRING,
+      defaultValue: ""
+    },
+    trailer: {
+      type: DataTypes.STRING,
+      defaultValue: ""
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: () => {
