@@ -1,10 +1,9 @@
-import "./styles.css";
-
 import React, { useEffect, useRef } from "react";
 
 import Card from "../Card";
 import Highlights from "../Highlights";
 import { Toast } from "primereact/toast";
+import styles from "./styles.module.css";
 import useRating from "../../hooks/rating";
 
 function HomeScreen() {
@@ -27,14 +26,14 @@ function HomeScreen() {
   }, []);
 
   return (
-    <div className="home">
+    <div className={styles.home}>
       <Toast ref={toastRef} />
-      <div className="highlights">
-        <h2 className="home-title">Highlights</h2>
+      <div>
+        <h2 className={styles.homeTitle}>Highlights</h2>
         <Highlights />
       </div>
       <div id="explore">
-        <h2 className="home-title">Top Rated Movies</h2>
+        <h2 className={styles.homeTitle}>Top Rated Movies</h2>
         <div className="container">
           {topRated.movies.length === 0 ? (
             <h3 className="warning">
@@ -44,7 +43,7 @@ function HomeScreen() {
             topRated.movies.map((movie) => <Card key={movie.id} data={movie} />)
           )}
         </div>
-        <h2 className="home-title">Top Rated TV</h2>
+        <h2 className={styles.homeTitle}>Top Rated TV</h2>
         <div className="container">
           {topRated.shows.length === 0 ? (
             <h3 className="warning">
@@ -56,8 +55,8 @@ function HomeScreen() {
         </div>
       </div>
       <div id="continue">
-        <h2 className="home-title">Continue Watching,</h2>
-        <div className="continue">
+        <h2 className={styles.homeTitle}>Continue Watching,</h2>
+        <div className="continue container">
           {Array.from(Array(2).keys()).map((el) => (
             <Card key={el} />
           ))}

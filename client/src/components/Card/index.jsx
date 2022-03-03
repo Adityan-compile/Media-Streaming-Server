@@ -1,6 +1,5 @@
-import "./styles.css";
-
 import React from "react";
+import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
 
 function Card({ data, admin = false, type = "m" }) {
@@ -31,7 +30,7 @@ function Card({ data, admin = false, type = "m" }) {
           style={{
             backgroundImage: `url('https://image.tmdb.org/t/p/original${data?.poster}'), url('https://media.comicbook.com/files/img/default-movie.png')`,
           }}
-          className="card"
+          className={styles.card}
         >
         </div>
       </div>
@@ -61,7 +60,7 @@ function Card({ data, admin = false, type = "m" }) {
           style={{
             backgroundImage: `url('https://image.tmdb.org/t/p/original${data?.poster}'), url('https://media.comicbook.com/files/img/default-movie.png')`,
           }}
-          className="card"
+          className={styles.card}
         >
         </div>
       </div>

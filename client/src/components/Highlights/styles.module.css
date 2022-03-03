@@ -8,11 +8,11 @@
   width: 100%;
   object-fit: cover;
 }
-.item-container {
+.itemContainer {
   width: 100%;
   display: flex;
 }
-.caption-container {
+.captionContainer {
   width: 100%;
   display: flex;
   justify-content: center;

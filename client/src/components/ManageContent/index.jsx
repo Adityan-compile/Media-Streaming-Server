@@ -1,13 +1,12 @@
-import "./styles.css";
-
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
 import Card from "../Card";
 import Context from "../../store";
 import NewMovie from "../NewMovie";
-import { Toast } from "primereact/toast";
 import NewShow from "../NewShow";
+import { Toast } from "primereact/toast";
+import styles from "./styles.module.css";
 
 function ManageContent() {
   const toastRef = useRef(null);
@@ -86,15 +85,15 @@ function ManageContent() {
   };
 
   return (
-    <div className="manage">
+    <div className={styles.manage}>
       <Toast ref={toastRef} />
       <Button
         label="New Movie"
         icon="pi pi-plus-circle"
-        className="btn"
+        className={styles.btn}
         onClick={() => setMovieModal(true)}
       />
-      <Button label="New Show" icon="pi pi-plus-circle" className="btn" onClick={() => setShowModal(true)} />
+      <Button label="New Show" icon="pi pi-plus-circle" className={styles.btn} onClick={() => setShowModal(true)} />
       <NewMovie
         visible={movieModal}
         setVisible={setMovieModal}
@@ -108,7 +107,7 @@ function ManageContent() {
         onError={onShowError}
       />
       <h3>Movies</h3>
-      <div className="content">
+      <div className={styles.content}>
         {movies.map((movie, index) => (
           <Card key={index} admin={true} data={movie} />
         ))}

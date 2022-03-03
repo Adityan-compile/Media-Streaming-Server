@@ -1,12 +1,10 @@
-import { Accordion, AccordionTab } from 'primereact/accordion';
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "primereact/button";
 import { Chip } from "primereact/chip";
+import SeasonTab from '../SeasonTab';
 import { Tag } from "primereact/tag";
 import trailerNotFound from "../../assets/trailer-not-found.png";
-
-// import { useState } from "react";
 
 function ViewShowScreen() {
     const navigate = useNavigate();
@@ -120,11 +118,7 @@ function ViewShowScreen() {
             </div>
             <div className="seasons">
                 <h2 className="title m-20">Seasons</h2>
-                <Accordion multiple>
-                    {
-                        data.seasons.map((el)=><AccordionTab key={el.id} header={`Season ${el.season_number}`} ></AccordionTab>)
-                    }
-                </Accordion>
+                <SeasonTab data={data} />
             </div>
         </div>
     );

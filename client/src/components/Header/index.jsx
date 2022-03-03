@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import { Offline, Online } from "react-detect-offline";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,6 +6,7 @@ import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
 import { Link } from "react-router-dom";
 import { Menubar } from "primereact/menubar";
+import styles from "./styles.module.css";
 
 function Header() {
   const navigate = useNavigate();
@@ -61,9 +60,9 @@ function Header() {
       <div>
         <Menubar
           model={navItems}
-          className="nav"
+          className={styles.nav}
           start={
-            <Link to={"/"} className="brand">
+            <Link to={"/"} className={styles.brand}>
               Streamflix
             </Link>
           }

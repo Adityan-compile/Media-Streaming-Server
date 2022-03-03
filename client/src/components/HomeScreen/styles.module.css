@@ -4,17 +4,11 @@
 }
 
 
-.home-title {
+.homeTitle {
   margin: 10px;
   margin-left: 20px;
   font-family: monospace;
   font-size: 30px;
   font-weight: bold;
   font-style: italic;
-}
-
-@media (max-width:416px) {
-  .container{
-    justify-items: center;
-  }
 }

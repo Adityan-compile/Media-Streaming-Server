@@ -1,8 +1,7 @@
-// import { } from "react";
-import "./styles.css";
-
 import { Button } from "primereact/button";
 import { Galleria } from "primereact/galleria";
+// import { } from "react";
+import styles from  "./styles.module.css";
 
 function Highlights() {
   const images = [
@@ -33,20 +32,20 @@ function Highlights() {
   ];
 
   const itemTemplate = (item) => (
-    <div className="item-container">
-      <img src={item.poster} className="poster" />
-      <img src={item.backdrop} className="carousel" />
+    <div className={styles.itemContainer}>
+      <img src={item.poster} className={styles.poster} />
+      <img src={item.backdrop} className={styles.carousel} />
     </div>
   );
 
   const captionTemplate = (item) => (
-    <div className="caption-container">
+    <div className={styles.captionContainer}>
       <Button
         icon="pi pi-play"
         style={{ margin: "10px" }}
         className="p-button-info p-button-rounded p-button-outlined p-button-raised"
       />
-      <div className="caption-text">
+      <div className={styles.captionText}>
         <h3>{item.name}</h3>
         <p>{item.year}</p>
       </div>

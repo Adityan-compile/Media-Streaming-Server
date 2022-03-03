@@ -1,13 +1,12 @@
-import "./styles.css";
-
 import { InputText } from "primereact/inputtext";
 import React from "react";
+import styles from "./styles.module.css";
 
 function Settings() {
   return (
     <div>
       <h3 className="heading">Settings</h3>
-      <div className="section">
+      <div className={styles.section}>
         <span className="p-float-label">
           <label htmlFor="api-key">TMDB Key</label>
           <InputText id="api-key" />

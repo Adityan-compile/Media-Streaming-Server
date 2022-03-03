@@ -4,7 +4,7 @@
   font-family: "IBM Plex Sans", sans-serif;
 }
 
-.screen-container {
+.screenContainer {
   padding: 20px;
 }
 
@@ -34,7 +34,7 @@
   color: rgba(255, 255, 255, 0.781);
 }
 
-.btn-play {
+.btnPlay {
   border-radius: 2px;
   margin: 5px;
   box-shadow: 0px 2px 26px -7px rgba(0, 0, 0, 0.75);
@@ -43,7 +43,7 @@
   transition: all 1s ease-in-out;
 }
 
-.btn-play:hover {
+.btnPlay:hover {
   transform: scale(1.2);
   font-weight: bold;
 }
@@ -53,7 +53,7 @@
   font-size: 20px;
 }
 
-.crew-info {
+.crewInfo {
   margin: 10px;
 }
 
@@ -61,7 +61,7 @@
   margin: 5px;
 }
 
-.trailer-title {
+.trailerTitle {
   margin: 10px;
 }
 

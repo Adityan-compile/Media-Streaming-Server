@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -14,6 +12,7 @@ import { ProgressBar } from "primereact/progressbar";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Toast } from "primereact/toast";
 import axios from "axios";
+import styles from "./styles.module.css";
 import useEditMovie from "../../hooks/editMovie";
 import useUploadMovieFile from "../../hooks/uploadMovieFile";
 
@@ -112,10 +111,10 @@ function EditScreen() {
   };
 
   return (
-    <div className="edit">
+    <div className={styles.edit}>
       <Toast ref={toastRef} />
-      <h1 className="title">Edit Movie</h1>
-      <div className="info-grid">
+      <h1 className={styles.title}>Edit Movie</h1>
+      <div className={styles.infoGrid}>
         <div className="poster">
           <img
             src={`https://www.themoviedb.org/t/p/original${movieService.state.poster}`}
@@ -131,50 +130,50 @@ function EditScreen() {
               e.preventDefault();
               movieService.methods.deleteMovie();
             }} />
-          <form className="edit-form-grid">
+          <form className={styles.editFormGrid}>
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               placeholder="Title"
               defaultValue={movieService.state.title}
             />
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               placeholder="Tagline"
               defaultValue={movieService.state.tagline}
             />
             <InputTextarea
               placeholder="Description"
-              className="text-area"
+              className={styles.textArea}
               defaultValue={movieService.state.description}
               autoResize
             />
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               defaultValue={movieService.state.language}
               placeholder="Language"
             />
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               defaultValue={movieService.state.studio}
               placeholder="Studio"
             />
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               placeholder="Trailer ID (dQw4w9WgXcQ)"
               defaultValue={movieService.state.trailer}
             />
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               placeholder="TMDB Poster Path (/example.jpg)"
               defaultValue={movieService.state.poster}
             />
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               placeholder="Rating"
               defaultValue={movieService.state.rating}
             />
             <Dropdown
-              className="edit-input"
+              className={styles.editInput}
               placeholder="Age Rating"
               defaultValue={movieService.state.adult}
               options={[
@@ -189,16 +188,16 @@ function EditScreen() {
               ]}
             />
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               defaultValue={movieService.state.releaseDate}
               placeholder="Release Date"
             />
             <InputText
-              className="edit-input"
+              className={styles.editInput}
               defaultValue={movieService.state.runtime}
               placeholder="Runtime"
             />
-            <Button label="Save" className="save-btn" />
+            <Button label="Save" className={styles.saveBtn} />
           </form>
         </div>
       </div>
@@ -211,7 +210,7 @@ function EditScreen() {
               alignItems: "center",
             }}
           >
-            <h1 className="title">
+            <h1 className={styles.title}>
               {uploading || processing ? "Processing..." : "File upload"}
             </h1>
             {uploading ? (
@@ -233,7 +232,7 @@ function EditScreen() {
               />
             ) : null}
           </div>
-          <div className="file-upload">
+          <div className={styles.fileUpload}>
             <FileUpload
               accept="video/*"
               customUpload={true}
@@ -245,7 +244,7 @@ function EditScreen() {
         </div>
       )}
       <div>
-        <h1 className="title">File Browser</h1>
+        <h1 className={styles.title}>File Browser</h1>
         <DataTable value={files}>
           <Column header="Name" field="name" />
           <Column header="Type" field="type" />

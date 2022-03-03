@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import React, { useContext, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
@@ -9,6 +7,7 @@ import { SelectButton } from "primereact/selectbutton";
 import { Toast } from "primereact/toast";
 import emitter from "../../store/services/emitter";
 import { isEmpty } from '../../utils';
+import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
 
 function SetupScreen() {
@@ -124,8 +123,8 @@ function SetupScreen() {
   };
 
   return (
-    <div className="setup-screen">
-      <div className="setup-container">
+    <div className={styles.setupScreen}>
+      <div className={styles.setupContainer}>
         <Toast ref={toastRef} />
         <h1 className="heading">Streamflix Setup</h1>
         <form className="form-grid">
@@ -227,7 +226,7 @@ function SetupScreen() {
             />
           </span>
         </form>
-        <div className="footer">
+        <div className={styles.footer}>
           Photo by{" "}
           <a
             className="link"

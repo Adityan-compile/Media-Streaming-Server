@@ -212,7 +212,7 @@ exports.addShow = async (req, res) => {
     if (showData.videos.results.length > 0) {
       trailer = showData.videos.results.filter((el) => {
         return el.type === "Trailer";
-      })[0].key;
+      })[0]?.key;
     }
 
     let studio = "";

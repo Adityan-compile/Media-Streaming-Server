@@ -1,9 +1,8 @@
-import "./styles.css";
-
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import ResultCard from "../ResultCard";
 import { Sidebar } from 'primereact/sidebar';
+import styles from  "./styles.module.css";
 import useHighlights from "../../hooks/highlights";
 import useSearch from "../../hooks/search";
 import { useState } from 'react';
@@ -29,7 +28,7 @@ function ManageHighlights() {
       <div id="create-highlight-modal">
         <Sidebar visible={visible} fullScreen onHide={() => setVisible(false)}>
           <h4 className="heading">New Highlight</h4>
-          <div className="modal-section m-20">
+          <div className={[styles.modalSection, "m-20"]}>
             <div className="col-12 md:col-4">
               <div className="p-inputgroup">
                 <InputText Placeholder="Search Movies or TV Shows" value={query} onChange={e => setQuery(e.target.value)} />
@@ -37,7 +36,7 @@ function ManageHighlights() {
               </div>
             </div>
             <div className="results">
-              <h6 className="sub-head">Results</h6>
+              <h6 className={styles.subHead}>Results</h6>
               <div>
                 {
                   results?.map(el => <ResultCard key={el.id} item={el} navigation={false} handler={(id) => onSelect(id)} />)

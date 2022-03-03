@@ -1,11 +1,10 @@
-import "./styles.css"
-
 import React from 'react'
+import styles from "./styles.module.css"
 
 function ResultCard({item={}, navigate=()=>{}, navigation=true, handler=()=>{}}) {
 
   return (
-    <div className="m-20 result-card mb-30" onClick={() => {
+    <div className={[styles.resultCard,"m-20 mb-30"]} onClick={() => {
       if(navigation){
         navigate("/shows/view", {
           state: {
@@ -16,9 +15,9 @@ function ResultCard({item={}, navigate=()=>{}, navigation=true, handler=()=>{}})
         return handler(item.id);
       }
     }}>
-      <div className="card-container">
-        <div><img src={`https://www.themoviedb.org/t/p/original${item.backdrop}`} className="result-image" /></div>
-        <div className="result-data">
+      <div className={styles.cardContainer}>
+        <div><img src={`https://www.themoviedb.org/t/p/original${item.backdrop}`} className={styles.resultImage} /></div>
+        <div className={styles.resultData}>
           <h2>{item.name}</h2>
           <h3>{item.tagline}</h3>
           <h4>{new Date(item.createdAt).getFullYear()}</h4>

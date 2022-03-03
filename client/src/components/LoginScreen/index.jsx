@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import React, { useContext, useRef, useState } from "react";
 
 import { Button } from "primereact/button";
@@ -7,6 +5,7 @@ import Context from "../../store";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import { isEmpty } from "../../utils";
+import styles from  "./styles.module.css";
 import { useNavigate } from "react-router-dom";
 
 function LoginScreen() {
@@ -49,10 +48,10 @@ function LoginScreen() {
   };
 
   return (
-    <div className="login">
-      <div className="login-container">
+    <div className={styles.login}>
+      <div className={styles.loginContainer}>
         <Toast ref={toastRef} />
-        <form className="login-form">
+        <form className={styles.loginForm}>
           <h1 className="heading">Streamflix</h1>
           <span className="p-input-icon-left m-2 input-container">
             <i className="pi pi-user"></i>
@@ -75,7 +74,7 @@ function LoginScreen() {
               onChange={(e) => setPassword(e.target.value)}
             ></InputText>
           </span>
-          <span className="btn-container">
+          <span className={styles.btnContainer}>
             <Button
               label="Login"
               icon="pi pi-chevron-right"
@@ -88,17 +87,17 @@ function LoginScreen() {
             ></Button>
           </span>
         </form>
-        <div className="footer">
+        <div className={styles.footer}>
           Photo by{" "}
           <a
-            className="link"
+            className={styles.link}
             href="https://unsplash.com/@jenskreuter?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
           >
             Jens Kreuter
           </a>{" "}
           on{" "}
           <a
-            className="link"
+            className={styles.link}
             href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
           >
             Unsplash

@@ -1,9 +1,9 @@
-import "./styles.css";
 import "vimond-replay/index.css";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Replay } from "vimond-replay";
+import styles from "./styles.module.css";
 import { useState } from "react";
 
 function VideoPlayerScreen() {
@@ -25,7 +25,7 @@ function VideoPlayerScreen() {
       return;
   }
   return (
-    <div className="player-container">
+    <div className={styles.playerContainer}>
       <Replay
         onPlaybackActionsReady={setPlayer}
         onExit={() => {

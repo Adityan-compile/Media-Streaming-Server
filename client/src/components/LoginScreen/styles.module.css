@@ -4,13 +4,13 @@
   background-size: cover;
 }
 
-.login-container {
+.loginContainer {
   height: 100vh;
   background-color: rgba(102, 102, 102, 0.616);
   margin: auto;
 }
 
-.login-form {
+.loginForm {
   height: 85vh;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@
   justify-content: center;
 }
 
-.input-container {
+.inputContainer {
   margin: 20px;
 }
 
@@ -34,7 +34,7 @@
   color: #0022ff;
 }
 
-.btn-container {
+.btnContainer {
   margin-left: 145px;
 }
 

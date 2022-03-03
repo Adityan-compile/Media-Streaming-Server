@@ -1,25 +1,25 @@
-.result-card {
+.resultCard {
   height: 10rem;
   border-radius: 15px;
 }
-.card-container{
+.cardContainer{
     display: flex;
     flex-direction: row;
 }
 
-.result-image{
+.resultImage{
     height: 10rem;
     width: auto;
     object-fit: cover;
     border-radius: 5px;
 }
 
-.result-data{
+.resultData{
     display: flex;
     flex-direction: column;
     margin: 20px;
 }
 
-.result-card::hover{
+.resultCard::hover{
     cursor:pointer;
 }

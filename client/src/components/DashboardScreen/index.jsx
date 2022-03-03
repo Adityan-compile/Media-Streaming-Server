@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import React,{ useContext, useRef, useState } from "react";
 
 import Context from '../../store';
@@ -7,7 +5,7 @@ import ManageContent from "../ManageContent";
 import ManageHighlights from "../ManageHighlights";
 import { TabMenu } from "primereact/tabmenu";
 import {Toast} from "primereact/toast";
-import { useNavigate } from "react-router-dom";
+import styles from "./styles.module.css";
 
 function DashboardScreen() {
 
@@ -78,9 +76,9 @@ function DashboardScreen() {
     },
   ];
   return (
-    <div className="dashboard">
+    <div className={styles.dashboard}>
       <Toast ref={toastRef}/>
-      <div className="menu">
+      <div className={styles.menu}>
         <TabMenu
           model={menuItems}
           activeIndex={1}

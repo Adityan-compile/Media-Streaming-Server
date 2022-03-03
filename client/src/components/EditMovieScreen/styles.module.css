@@ -8,22 +8,22 @@
     text-align: center;
 }
 
-.info-grid{
+.infoGrid{
     grid-template-columns: 30% 70%;
 }
 
-.edit-form-grid{
+.editFormGrid{
     display: flex;
     width: 100%;
     flex-wrap: wrap;
 }
 
-.edit-input{
+.editInput{
     margin: 10px;
     width:40%;
 }
 
-.text-area, .save-btn{
+.textArea, .saveBtn{
     margin: 10px;
     width: 82%;
 }
