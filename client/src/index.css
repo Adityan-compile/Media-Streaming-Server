@@ -92,3 +92,48 @@
   text-decoration: none;
   color: #0022ff;
 }
+
+
+
+
+.title {
+  margin: 5px;
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.date,
+.time {
+  margin: 5px;
+  font-size: 20px;
+}
+
+.overview {
+  margin: 20px;
+}
+
+.crew {
+  margin: 10px;
+  font-size: 20px;
+}
+
+.crewInfo {
+  margin: 10px;
+}
+
+.badge {
+  margin: 5px;
+}
+
+.trailerTitle {
+  margin: 10px;
+}
+
+.genres {
+  margin: 5px;
+}

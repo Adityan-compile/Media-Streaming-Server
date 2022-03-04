@@ -28,7 +28,7 @@ function ManageHighlights() {
       <div id="create-highlight-modal">
         <Sidebar visible={visible} fullScreen onHide={() => setVisible(false)}>
           <h4 className="heading">New Highlight</h4>
-          <div className={[styles.modalSection, "m-20"]}>
+          <div className={[styles.modalSection, "m-20"].join(" ")}>
             <div className="col-12 md:col-4">
               <div className="p-inputgroup">
                 <InputText Placeholder="Search Movies or TV Shows" value={query} onChange={e => setQuery(e.target.value)} />
