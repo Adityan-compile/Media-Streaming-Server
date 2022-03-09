@@ -10,17 +10,17 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { ProgressBar } from "primereact/progressbar";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { Toast } from "primereact/toast";
 import axios from "axios";
 import styles from "./styles.module.css";
 import useEditMovie from "../../hooks/editMovie";
+import useToast from "../../hooks/toast";
 import useUploadMovieFile from "../../hooks/uploadMovieFile";
 
 function EditScreen() {
   const { state } = useLocation();
   const { data } = state;
   const navigate = useNavigate();
-  const toastRef = useRef(null);
+  const toastRef = useToast();
 
   const onDelete = () => {
     toastRef.current.show({
@@ -112,7 +112,6 @@ function EditScreen() {
 
   return (
     <div className={styles.edit}>
-      <Toast ref={toastRef} />
       <h1 className={styles.title}>Edit Movie</h1>
       <div className={styles.infoGrid}>
         <div className="poster">

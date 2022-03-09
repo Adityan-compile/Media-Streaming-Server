@@ -1,18 +1,21 @@
 import React from 'react'
 import styles from "./styles.module.css"
 
-function ResultCard({item={}, navigate=()=>{}, navigation=true, handler=()=>{}}) {
-
+function ResultCard({ item = {}, navigate = () => { }, navigation = true, handler = () => { } }) {
   return (
-    <div className={[styles.resultCard,"m-20 mb-30"]} onClick={() => {
-      if(navigation){
+    <div className={[styles.resultCard, "m-20 mb-30"].join(" ")} onClick={() => {
+      if (navigation) {
         navigate("/shows/view", {
           state: {
             data: item
           }
         })
-      }else{
-        return handler(item.id);
+      } else {
+        if(item.hasOwnProperty('seasons')){
+          return handler(item.id, "s");
+        }else{
+          return handler(item.id, "m");
+        }
       }
     }}>
       <div className={styles.cardContainer}>

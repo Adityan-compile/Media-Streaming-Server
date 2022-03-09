@@ -5,11 +5,11 @@ import Card from "../Card";
 import Context from "../../store";
 import NewMovie from "../NewMovie";
 import NewShow from "../NewShow";
-import { Toast } from "primereact/toast";
 import styles from "./styles.module.css";
+import useToast from "../../hooks/toast";
 
 function ManageContent() {
-  const toastRef = useRef(null);
+  const toastRef = useToast();
 
   const [movieModal, setMovieModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -86,7 +86,6 @@ function ManageContent() {
 
   return (
     <div className={styles.manage}>
-      <Toast ref={toastRef} />
       <Button
         label="New Movie"
         icon="pi pi-plus-circle"

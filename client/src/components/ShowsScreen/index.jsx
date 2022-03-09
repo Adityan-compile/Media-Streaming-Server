@@ -4,9 +4,10 @@ import Card from "../Card";
 import { Toast } from "primereact/toast";
 import { useNavigate } from "react-router-dom";
 import useShows from "../../hooks/shows";
+import useToast from '../../hooks/toast';
 
 function ShowsScreen() {
-    const toastRef = useRef(null);
+    const toastRef = useToast();
     const navigate = useNavigate();
 
     const { fetchShows, shows } = useShows((err) => {
@@ -26,7 +27,6 @@ function ShowsScreen() {
 
     return (
         <div>
-            <Toast ref={toastRef} />
             <div style={{
                 minHeight: "100vh"
             }}>

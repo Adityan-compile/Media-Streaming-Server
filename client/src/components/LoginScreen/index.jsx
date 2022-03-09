@@ -3,13 +3,13 @@ import React, { useContext, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import Context from "../../store";
 import { InputText } from "primereact/inputtext";
-import { Toast } from "primereact/toast";
 import { isEmpty } from "../../utils";
 import styles from  "./styles.module.css";
 import { useNavigate } from "react-router-dom";
+import useToast from "../../hooks/toast";
 
 function LoginScreen() {
-  const toastRef = useRef(null);
+  const toastRef = useToast();
 
   const navigate = useNavigate();
 
@@ -50,7 +50,6 @@ function LoginScreen() {
   return (
     <div className={styles.login}>
       <div className={styles.loginContainer}>
-        <Toast ref={toastRef} />
         <form className={styles.loginForm}>
           <h1 className="heading">Streamflix</h1>
           <span className="p-input-icon-left m-2 input-container">

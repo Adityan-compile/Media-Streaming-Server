@@ -4,8 +4,8 @@ import Context from '../../store';
 import ManageContent from "../ManageContent";
 import ManageHighlights from "../ManageHighlights";
 import { TabMenu } from "primereact/tabmenu";
-import {Toast} from "primereact/toast";
 import styles from "./styles.module.css";
+import useToast from "../../hooks/toast";
 
 function DashboardScreen() {
 
@@ -13,7 +13,7 @@ function DashboardScreen() {
 
   const {logout} = useContext(Context);
 
-  const toastRef = useRef(null);
+  const toastRef = useToast();
 
   const RenderActiveTab = ()=>{
     switch(activeTab){
@@ -77,7 +77,6 @@ function DashboardScreen() {
   ];
   return (
     <div className={styles.dashboard}>
-      <Toast ref={toastRef}/>
       <div className={styles.menu}>
         <TabMenu
           model={menuItems}

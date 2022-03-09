@@ -2,13 +2,13 @@ import React, { useEffect, useRef } from "react";
 
 import Card from "../Card";
 import Highlights from "../Highlights";
-import { Toast } from "primereact/toast";
 import styles from "./styles.module.css";
 import useRating from "../../hooks/rating";
+import useToast from "../../hooks/toast";
 
 function HomeScreen() {
 
-  const toastRef = useRef(null);
+  const toastRef = useToast();
 
   const onError = (err) => {
     toastRef.current.show({
@@ -27,7 +27,6 @@ function HomeScreen() {
 
   return (
     <div className={styles.home}>
-      <Toast ref={toastRef} />
       <div>
         <h2 className={styles.homeTitle}>Highlights</h2>
         <Highlights />

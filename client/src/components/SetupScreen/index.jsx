@@ -4,11 +4,11 @@ import { Button } from "primereact/button";
 import Context from "../../store";
 import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
-import { Toast } from "primereact/toast";
 import emitter from "../../store/services/emitter";
 import { isEmpty } from '../../utils';
 import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
+import useToast from "../../hooks/toast";
 
 function SetupScreen() {
   const [name, setName] = useState("");
@@ -23,7 +23,7 @@ function SetupScreen() {
 
   const navigate = useNavigate();
 
-  const toastRef = useRef(null);
+  const toastRef = useToast();
 
   const videoQualityList = [
     {
@@ -125,7 +125,6 @@ function SetupScreen() {
   return (
     <div className={styles.setupScreen}>
       <div className={styles.setupContainer}>
-        <Toast ref={toastRef} />
         <h1 className="heading">Streamflix Setup</h1>
         <form className="form-grid">
           <span className="p-float-label form-control">

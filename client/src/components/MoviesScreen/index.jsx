@@ -1,15 +1,17 @@
-import { useRef, useEffect } from 'react'
-import useMovies from "../../hooks/movies";
-import { Toast } from "primereact/toast";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef } from 'react'
+
 import Card from "../Card";
+import useMovies from "../../hooks/movies";
+import { useNavigate } from "react-router-dom";
+import useToast from '../../hooks/toast';
 
 function MoviesScreen() {
 
   const navigate = useNavigate();
+  const toastRef = useToast();
 
   const { fetchMovies, movies } = useMovies((err) => {
-    toastRef.show({
+    toastRef.current.show({
       severity: "error",
       summary: "Error",
       detail: "Error Fetching Movies",
@@ -19,13 +21,11 @@ function MoviesScreen() {
 
   });
 
-  const toastRef = useRef(null);
 
   useEffect(() => fetchMovies(), []);
 
   return (
     <div>
-      <Toast ref={toastRef} />
       <div style={{
         minHeight: "100vh"
       }}>
