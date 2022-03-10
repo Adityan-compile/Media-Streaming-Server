@@ -1,8 +1,10 @@
-import {useRef} from 'react'
+import emitter from "../store/services/emitter";
 
 function useToast() {
-    const toastRef = useRef(null);
-    return toastRef;
+  const show = (config = {}) => {
+    emitter.emit("show-toast", config);
+  };
+  return { current: { show } };
 }
 
 export default useToast;

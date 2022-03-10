@@ -227,16 +227,20 @@ exports.addShow = async (req, res) => {
 
     try {
       let reqPath = `/tv/${showId}?append_to_response=`;
-      seasonNumbers.forEach((el) => {
-        reqPath = reqPath.concat(el,',');
+      seasonNumbers.forEach((el,idx) => {
+        if(idx >= 20) return;
+          reqPath = reqPath.concat(el,',');
       });
       const { data: seasonData } = await axios.get(reqPath);
 
       seasonNumbers.forEach(
-        (el, idx) => (showData.seasons[idx].episodes = seasonData[el].episodes)
+        (el, idx) => {
+          if(idx >= 20) return;
+          showData.seasons[idx].episodes = seasonData[el].episodes
+        }
       );
     } catch (err) {
-      console.error(err);
+      console.error("Episode Fetch Error",err);
       res.status(500).json({
         status: 500,
         message: "Cannot Create Show",
@@ -275,7 +279,7 @@ exports.addShow = async (req, res) => {
       });
     }
   } catch (e) {
-    console.error(e);
+    console.error("Show Fetch Error",e);
     res.status(500).json({
       status: 500,
       message: "Cannot Create Show",

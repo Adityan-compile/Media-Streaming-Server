@@ -31,3 +31,8 @@
 - ### *docker-compose up*
 - ### *Access the Server at* 
         http://localhost:8085/
+
+## Features:
+- ### Movies and Tv Catalog Management
+- ### Highlights
+- ### 20 Seasons per TV Show
