@@ -31,10 +31,13 @@ const media = {
           .catch((e) => reject(e));
       });
     },
-    createHighlight: (id)=>{
+    createHighlight: (id, highlightType)=>{
       return new Promise((resolve, reject) => {
         axios
-          .post("/media/highlights/new")
+          .post("/media/highlights/new", {
+            highlight: id,
+            highlightType
+          })
           .then(({ data }) => {
             resolve(data.highlight);
           })

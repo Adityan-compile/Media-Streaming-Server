@@ -11,10 +11,12 @@ function ResultCard({ item = {}, navigate = () => { }, navigation = true, handle
           }
         })
       } else {
-        if(item.hasOwnProperty('seasons')){
-          return handler(item.id, "s");
-        }else{
-          return handler(item.id, "m");
+        if (item.hasOwnProperty('seasons')) {
+          handler({ id: item.id, highlightType: "show" });
+          return;
+        } else {
+          handler({ id: item.id, highlightType: "movie" });
+          return;
         }
       }
     }}>

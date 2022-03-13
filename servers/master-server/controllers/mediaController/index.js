@@ -61,12 +61,12 @@ exports.createHighlight = async (req, res) => {
       message: "Bad Request",
     });
   }
-
+  console.log(body);
   try {
     const newHighlight = await highlights.create({
-      highlightType: body.type,
-      movie: body.type === "movie" ? body.highlight : "",
-      show: body.type === "show" ? body.highlight : "",
+      highlightType: body.highlightType,
+      movie: body.highlightType === "movie" ? body.highlight : "",
+      show: body.highlightType === "show" ? body.highlight : "",
     });
 
     res.status(200).json({
@@ -75,6 +75,7 @@ exports.createHighlight = async (req, res) => {
       highlight: newHighlight.toJSON(),
     });
   } catch (e) {
+    console.error(e);
     res.status(500).json({
       status: 500,
       message: "Error Creating Highlight",
