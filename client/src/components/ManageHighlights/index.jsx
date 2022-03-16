@@ -1,8 +1,8 @@
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import HighlightCard from "../HighlightCard";
 import { InputText } from "primereact/inputtext";
 import ResultCard from "../ResultCard";
-import { Sidebar } from 'primereact/sidebar';
 import styles from "./styles.module.css";
 import useHighlights from "../../hooks/highlights";
 import useSearch from "../../hooks/search";
@@ -53,9 +53,13 @@ function ManageHighlights() {
         <div className="m-20">
           <Button label="New Highlight" icon="pi pi-plus" onClick={() => setVisible(true)} />
         </div>
-        {
-          highlights.map(el => <ResultCard key={el.id} item={el} navigation={false} handler={onSelect} />)
-        }
+        <div className="flex" style={{
+          justifyContent: 'center'
+        }}>
+          {
+            highlights.map(el => <HighlightCard key={el.id} data={el} navigation={false} handler={onSelect} />)
+          }
+        </div>
       </div>
     </div>
   );
