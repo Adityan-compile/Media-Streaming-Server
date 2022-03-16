@@ -20,7 +20,12 @@ function useHighlights() {
     onError = () => {}
   ) => {
     create(id, highlightType)
-      .then((data) => successHandler(data))
+      .then((data) => {
+        let temp = highlights;
+        temp.unshift(data);
+        setHighlights(temp);
+        successHandler();
+      })
       .catch((e) => onError(e));
   };
   return {

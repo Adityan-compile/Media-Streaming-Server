@@ -7,12 +7,15 @@ import styles from "./styles.module.css";
 import useHighlights from "../../hooks/highlights";
 import useSearch from "../../hooks/search";
 import { useState } from 'react';
+import useToast from "../../hooks/toast";
 
 function ManageHighlights() {
 
   const [visible, setVisible] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+
+  const toastRef = useToast();
 
   const search = useSearch();
   const { highlights, createHighlight } = useHighlights();
@@ -22,8 +25,21 @@ function ManageHighlights() {
   };
 
   const onSelect = (body) => {
-    // console.log({ body.id, body.highlightType })
-    createHighlight(body.id, body.highlightType, () => { }, () => { });
+    createHighlight(body.id, body.highlightType, () => {
+      toastRef.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Highlight Created Successfully",
+        life: 3000,
+      });
+    }, () => {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Highlight Creation Error",
+        life: 3000,
+      });
+    });
   };
 
   return (
