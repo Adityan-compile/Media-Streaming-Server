@@ -13,17 +13,21 @@ module.exports = {
       },
       movie: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         references: {
-          model: "movies",
+          model: {
+            tableName: "movies",
+          },
           key: "id",
         },
       },
       show: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         references: {
-          model: "shows",
+          model: {
+            tableName: "shows",
+          },
           key: "id",
         },
       },

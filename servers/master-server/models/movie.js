@@ -5,7 +5,7 @@ const { nanoid } = require("nanoid");
 module.exports = (sequelize, DataTypes) => {
   class movie extends Model {
     static associate(models) {
-      this.hasMany(models.highlights,{foreignKey: 'movies', sourceKey: 'id'});
+      movie.hasMany(models.highlights,{foreignKey: 'movie', sourceKey: 'id'});
     }
   }
 

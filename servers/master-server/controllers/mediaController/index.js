@@ -25,7 +25,6 @@ exports.getShows = async (req, res) => {
   }
 };
 
-
 exports.streamMovie = (req, res) => {
   const filename = req.query.file;
 
@@ -43,12 +42,16 @@ exports.streamMovie = (req, res) => {
 
 exports.getHighlights = async (req, res) => {
   try {
-    const results = await highlights.findAll({});
+    const results = await highlights.findAll({
+      raw: true,
+      include: ['Movie', 'Show']
+    });
     res.status(200).json({
       status: 200,
       highlights: results,
     });
   } catch (e) {
+    console.error(e);
     res.status(500).json({ status: 500, message: "Error Getting Highlights" });
   }
 };
@@ -61,12 +64,11 @@ exports.createHighlight = async (req, res) => {
       message: "Bad Request",
     });
   }
-  console.log(body);
   try {
     const newHighlight = await highlights.create({
       highlightType: body.highlightType,
-      movie: body.highlightType === "movie" ? body.highlight : "",
-      show: body.highlightType === "show" ? body.highlight : "",
+      movie: body.highlightType === "movie" ? body.highlight : null,
+      show: body.highlightType === "show" ? body.highlight : null,
     });
 
     res.status(200).json({
@@ -161,7 +163,7 @@ exports.deleteMovie = async (req, res) => {
   }
 };
 
-exports.getTopRated = async (req,res) => {
+exports.getTopRated = async (req, res) => {
   try {
     const movie_results = await movies.findAll({
       order: [["rating", "DESC"]],

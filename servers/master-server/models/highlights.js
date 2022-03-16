@@ -6,19 +6,19 @@ const { nanoid } = require("nanoid");
 module.exports = (sequelize, DataTypes) => {
   class highlights extends Model {
     static associate(models) {
-      this.belongsTo(models.movies, {
+      highlights.belongsTo(models.movies, {
         onDelete: "CASCADE",
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
         foreignKey: "movie",
         targetKey: "id",
-        as: "Movie"
+        as: "Movie",
       });
-      this.belongsTo(models.shows, {
+      highlights.belongsTo(models.shows, {
         onDelete: "CASCADE",
-        onUpdate: 'CASCADE',
+        onUpdate: "CASCADE",
         foreignKey: "show",
         targetKey: "id",
-        as: "Show"
+        as: "Show",
       });
     }
   }
@@ -38,15 +38,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       movie: {
         type: DataTypes.STRING,
-        references: "movies",
-        referencesKey: "id",
-        defaultValue: "",
+        references: {
+          model: "movie",
+          key: "id",
+        },
+        allowNull: true,
       },
       show: {
         type: DataTypes.STRING,
-        references: "shows",
-        referencesKey: "id",
-        defaultValue: "",
+        references: {
+          model: "show",
+          key: "id",
+        },
+        allowNull: true,
       },
       // createdAt: {
       //   type: DataTypes.DATE,
