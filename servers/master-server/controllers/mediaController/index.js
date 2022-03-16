@@ -44,7 +44,7 @@ exports.getHighlights = async (req, res) => {
   try {
     const results = await highlights.findAll({
       raw: true,
-      include: ['Movie', 'Show']
+      include: ["Movie", "Show"],
     });
     res.status(200).json({
       status: 200,
@@ -65,16 +65,22 @@ exports.createHighlight = async (req, res) => {
     });
   }
   try {
-    const newHighlight = await highlights.create({
+    const created = await highlights.create({
       highlightType: body.highlightType,
       movie: body.highlightType === "movie" ? body.highlight : null,
       show: body.highlightType === "show" ? body.highlight : null,
     });
 
+    const newHighlight = await highlights.findAll({
+      where: { id: created.id },
+      include: ["Movie", "Show"],
+      raw: true
+    });
+
     res.status(200).json({
       status: 200,
       message: "Highlight Created",
-      highlight: newHighlight.toJSON(),
+      highlight: newHighlight,
     });
   } catch (e) {
     console.error(e);
