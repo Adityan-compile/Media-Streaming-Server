@@ -14,7 +14,8 @@ const {
   createHighlight,
   deleteMovie,
   getTopRated,
-  getShows
+  getShows,
+  deleteHighlight
 } = require("../controllers/mediaController");
 const authenticator = require("../middleware/authenticator");
 const { checkMovie } = require("../middleware/check");
@@ -50,6 +51,7 @@ router.route("/movies/delete").delete([authenticator.authenticate], deleteMovie)
 router.route("/search").get([authenticator.authenticate], search);
 router.route("/highlights").get([authenticator.authenticate], getHighlights);
 router.route("/highlights/new").post([authenticator.authenticate], createHighlight);
+router.route("/highlights/delete").delete([authenticator.authenticate], deleteHighlight);
 
 router.route("/toprated").get([authenticator.authenticate], getTopRated);
 

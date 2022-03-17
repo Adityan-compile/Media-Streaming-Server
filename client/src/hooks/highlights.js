@@ -5,7 +5,11 @@ import Context from "../store";
 function useHighlights() {
   const [highlights, setHighlights] = useState([]);
 
-  const { fetchHighlights, createHighlight: create } = useContext(Context);
+  const {
+    fetchHighlights,
+    createHighlight: create,
+    deleteHighlight: deletehighlight,
+  } = useContext(Context);
 
   useEffect(() => {
     fetchHighlights()
@@ -28,9 +32,23 @@ function useHighlights() {
       })
       .catch((e) => onError(e));
   };
+
+  const deleteHighlight = (
+    id,
+    successHandler = () => {},
+    onError = () => {}
+  ) => {
+    deletehighlight(id).then(()=>{
+      let temp = highlights.filter(el=> el.id !== id);
+      setHighlights(temp);
+      return successHandler();
+      }).catch(e=>onError(e));
+  };
+
   return {
     highlights,
     createHighlight,
+    deleteHighlight,
   };
 }
 

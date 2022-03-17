@@ -91,6 +91,34 @@ exports.createHighlight = async (req, res) => {
   }
 };
 
+exports.deleteHighlight = async (req,res)=>{
+  const id = req.query.id;
+  if(!id) return res.status(400).json({
+    status: 400,
+    message: "Bad Request"
+  });
+
+  try {
+    await highlights.destroy({
+      where: {
+        id
+      }
+    });
+    res.status(204).json({
+      status: 204,
+      message: "Highlight Deleted"
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      message: "Failed to Delete Highlight",
+      id
+    }); 
+  }
+
+
+}
+
 exports.search = async (req, res) => {
   const query = req.query.q;
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Button } from "primereact/button";
 import styles from "./styles.module.css";
 
-function HighlightCard({ data }) {
+function HighlightCard({ data, successHandler, errorHandler, deleteHighlight }) {
     const [item, setItem] = useState({});
 
     useEffect(() => {
@@ -34,7 +34,10 @@ function HighlightCard({ data }) {
                 <h4>{new Date(item.date).getFullYear()}</h4>
             </div>
             <div className="m-20">
-                <Button icon="pi pi-trash" className="p-button-danger" label="Delete" />
+                <Button icon="pi pi-trash" className="p-button-danger" label="Delete" onClick={e=>{
+                    e.preventDefault();
+                    deleteHighlight(item.id, successHandler,errorHandler);
+                }}/>
             </div>
         </div>
     )

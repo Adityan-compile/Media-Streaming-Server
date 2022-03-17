@@ -18,7 +18,7 @@ function ManageHighlights() {
   const toastRef = useToast();
 
   const search = useSearch();
-  const { highlights, createHighlight } = useHighlights();
+  const { highlights, createHighlight, deleteHighlight } = useHighlights();
 
   const handler = () => {
     search(query).then(res => setResults(res)).catch(err => { });
@@ -39,6 +39,23 @@ function ManageHighlights() {
         detail: "Highlight Creation Error",
         life: 3000,
       });
+    });
+  };
+
+  const deleteSuccess = ()=>{
+    toastRef.current.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Highlight Deleted",
+      life: 3000,
+    });
+  };
+  const deleteError = ()=>{
+    toastRef.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Cannot Delete Highlight",
+      life: 3000,
     });
   };
 
@@ -73,7 +90,7 @@ function ManageHighlights() {
           justifyContent: 'center'
         }}>
           {
-            highlights.map(el => <HighlightCard key={el.id} data={el} navigation={false} handler={onSelect} />)
+            highlights.map(el => <HighlightCard key={el.id} data={el} successHandler={deleteSuccess} errorHandler={deleteError} deleteHighlight={deleteHighlight} />)
           }
         </div>
       </div>
