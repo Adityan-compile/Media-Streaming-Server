@@ -241,3 +241,25 @@ def add_user(user):
     })
 
     return res, 200
+
+
+'''
+* Path: /users/all
+* Method: GET
+* Description: Authenticate Current User and Get List of All Users
+'''
+
+
+@auth.route('/users/all', methods=['GET'])
+@authenticate
+def fetch_users(user):
+
+    users = User.query.all()
+
+    res = jsonify({
+        "status": 200,
+        "message": "Success",
+        "users": users
+    })
+
+    return res, 200

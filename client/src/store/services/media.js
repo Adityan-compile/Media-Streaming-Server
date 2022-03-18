@@ -39,7 +39,7 @@ const media = {
           highlightType,
         })
         .then(({ data }) => {
-          resolve(data.highlight);
+          resolve(data.highlight[0]);
         })
         .catch((e) => reject(e));
     });

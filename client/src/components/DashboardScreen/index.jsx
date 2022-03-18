@@ -1,33 +1,36 @@
-import React,{ useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import Context from '../../store';
 import ManageContent from "../ManageContent";
 import ManageHighlights from "../ManageHighlights";
+import ManageUsers from "../ManageUsers";
 import { TabMenu } from "primereact/tabmenu";
 import styles from "./styles.module.css";
 import useToast from "../../hooks/toast";
 
 function DashboardScreen() {
 
-  const [activeTab,setActiveTab] = useState("manage-content");
+  const [activeTab, setActiveTab] = useState("manage-content");
 
-  const {logout} = useContext(Context);
+  const { logout } = useContext(Context);
 
   const toastRef = useToast();
 
-  const RenderActiveTab = ()=>{
-    switch(activeTab){
+  const RenderActiveTab = () => {
+    switch (activeTab) {
       case "manage-content":
-        return <ManageContent/>
+        return <ManageContent />
       case "manage-highlights":
-        return <ManageHighlights/>; 
-      default: 
-          return null;
+        return <ManageHighlights />;
+      case "manage-users":
+        return <ManageUsers />
+      default:
+        return null;
     }
   };
 
-  const logoutHandler = ()=>{
-    logout().then(()=>{}).catch(e=>{
+  const logoutHandler = () => {
+    logout().then(() => { }).catch(e => {
       return toastRef.current.show({
         severity: "error",
         summary: "Error",
@@ -42,37 +45,37 @@ function DashboardScreen() {
       label: "Server Name",
       icon: "pi pi-server",
       disabled: true,
-      command: ()=>{return;}
+      command: () => { return; }
     },
     {
       label: "Manage Content",
       icon: "pi pi-upload",
-      command: ()=> setActiveTab("manage-content")
+      command: () => setActiveTab("manage-content")
     },
     {
       label: "Manage Highlights",
       icon: "pi pi-star",
-      command: ()=> setActiveTab("manage-highlights")
+      command: () => setActiveTab("manage-highlights")
     },
     {
       label: "Manage Users",
       icon: "pi pi-users",
-      command: ()=>setActiveTab("manage-users")
+      command: () => setActiveTab("manage-users")
     },
     {
       label: "File Manager",
       icon: "pi pi-file",
-      command: ()=>setActiveTab("file-manager")
+      command: () => setActiveTab("file-manager")
     },
     {
       label: "Settings",
       icon: "pi pi-cog",
-      command: ()=>setActiveTab("settings")
+      command: () => setActiveTab("settings")
     },
     {
       label: "Logout",
       icon: "pi pi-power-off",
-      command: ()=>logoutHandler()
+      command: () => logoutHandler()
     },
   ];
   return (
@@ -83,7 +86,7 @@ function DashboardScreen() {
           activeIndex={1}
         />
       </div>
-      <RenderActiveTab/>
+      <RenderActiveTab />
     </div>
   );
 }
