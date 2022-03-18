@@ -32,6 +32,9 @@ function ManageHighlights() {
         detail: "Highlight Created Successfully",
         life: 3000,
       });
+      setQuery("");
+      setResults([]);
+      setVisible(false);
     }, () => {
       toastRef.current.show({
         severity: "error",
@@ -42,7 +45,7 @@ function ManageHighlights() {
     });
   };
 
-  const deleteSuccess = ()=>{
+  const deleteSuccess = () => {
     toastRef.current.show({
       severity: "success",
       summary: "Success",
@@ -50,7 +53,7 @@ function ManageHighlights() {
       life: 3000,
     });
   };
-  const deleteError = ()=>{
+  const deleteError = () => {
     toastRef.current.show({
       severity: "error",
       summary: "Error",

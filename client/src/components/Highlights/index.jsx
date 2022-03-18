@@ -7,33 +7,6 @@ function Highlights() {
 
   const { highlights } = useHighlights();
 
-  const images = [
-    {
-      name: "Spiderman: No Way Home",
-      year: 2021,
-      backdrop:
-        "https://www.themoviedb.org/t/p/original/1Rr5SrvHxMXHu5RjKpaMba8VTzi.jpg",
-      poster:
-        "https://www.themoviedb.org/t/p/original/j5f5bRlpChRuyHdexmeSnQmklDt.jpg",
-    },
-    {
-      name: "Shang Chi and the Legend of the Ten Rings",
-      year: 2021,
-      backdrop:
-        "https://www.themoviedb.org/t/p/original/cinER0ESG0eJ49kXlExM0MEWGxW.jpg",
-      poster:
-        "https://www.themoviedb.org/t/p/original/65MHN2VZ9kwQ0X9pi3QvbJjZGR1.jpg",
-    },
-    {
-      name: "Avengers: Endgame",
-      year: 2019,
-      backdrop:
-        "https://www.themoviedb.org/t/p/original/orjiB3oUIsyz60hoEqkiGpy5CeO.jpg",
-      poster:
-        "https://www.themoviedb.org/t/p/original/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
-    },
-  ];
-
   const itemTemplate = (item) => {
     console.log(item)
     if (item.highlightType === "movie") {
