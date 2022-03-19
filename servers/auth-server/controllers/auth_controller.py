@@ -254,7 +254,7 @@ def add_user(user):
 @authenticate
 def fetch_users(user):
 
-    users = User.query.all()
+    users = User.query.with_entities(User.id, User.name).all()
 
     res = jsonify({
         "status": 200,

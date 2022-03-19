@@ -85,6 +85,18 @@ const auth = {
         });
     });
   },
+  fetchUsers: ()=>{
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/auth/users/all")
+        .then(({ data }) => {
+          resolve(data.users);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
 };
 
 export default auth;
