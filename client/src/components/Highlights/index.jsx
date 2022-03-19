@@ -8,7 +8,6 @@ function Highlights() {
   const { highlights } = useHighlights();
 
   const itemTemplate = (item) => {
-    console.log(item)
     if (item.highlightType === "movie") {
       return (
         <div className={styles.itemContainer}>
@@ -41,8 +40,8 @@ function Highlights() {
           </div>
         ) : (
           <div>
-            <h3>{item.Show.name}</h3>
-            <p>{item.Show.year}</p>
+            <h3>{item['Show.name']}</h3>
+            <p>{item['Show.year']}</p>
           </div>
         )}
       </div>

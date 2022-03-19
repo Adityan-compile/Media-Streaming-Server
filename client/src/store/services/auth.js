@@ -71,21 +71,21 @@ const auth = {
         .delete("/auth/logout")
         .then(() => {
           storage.clear();
-          emitter.emit('logout');
+          emitter.emit("logout");
           resolve(true);
         })
         .catch((e) => {
-          if(e.response.status === 400){
+          if (e.response.status === 400) {
             storage.clear();
-            emitter.emit('logout');
+            emitter.emit("logout");
             resolve(true);
-          }else{
+          } else {
             reject(e);
           }
         });
     });
   },
-  fetchUsers: ()=>{
+  fetchUsers: () => {
     return new Promise((resolve, reject) => {
       axios
         .get("/auth/users/all")
@@ -96,7 +96,36 @@ const auth = {
           reject(err);
         });
     });
-  }
+  },
+  deleteUser: (id) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete("/auth/users/delete", {
+          id,
+        })
+        .then(({ data }) => {
+          resolve(true);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  addUser: (body) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/auth/users/new", {
+          name: body.name,
+          password: body.password
+        })
+        .then(({ data }) => {
+          resolve(data.user);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
 };
 
 export default auth;

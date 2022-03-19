@@ -89,9 +89,7 @@ function ManageHighlights() {
         <div className="m-20">
           <Button label="New Highlight" icon="pi pi-plus" onClick={() => setVisible(true)} />
         </div>
-        <div className="flex" style={{
-          justifyContent: 'center'
-        }}>
+        <div className="flex">
           {
             highlights.map(el => <HighlightCard key={el.id} data={el} successHandler={deleteSuccess} errorHandler={deleteError} deleteHighlight={deleteHighlight} />)
           }

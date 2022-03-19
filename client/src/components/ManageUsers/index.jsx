@@ -1,40 +1,96 @@
-import {Button} from "primereact/button";
+import { Button } from "primereact/button";
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import React from 'react'
+import { Dialog } from 'primereact/dialog';
+import { InputText } from "primereact/inputtext";
 import styles from "./styles.module.css";
 import useManageUsers from '../../hooks/users';
+import { useState } from 'react'
 import useToast from "../../hooks/toast";
 
 function ManageUsers() {
-    
-    const toastRef = useToast();
 
-    const { users } = useManageUsers((err)=>{
+    const toastRef = useToast();
+    const [visible, setVisible] = useState(false);
+
+    const { users, deleteUser } = useManageUsers((err) => {
+        setVisible(false);
         let errObj = {
             severity: "error",
             summary: "Error",
             detail: "",
             life: 3000,
         };
-        if(err === "fetchUsersError"){
-            errObj.detail = "Cannot Fetch Users"
+        if (err === "fetchUsersError") {
+            errObj.detail = "Cannot Fetch Users";
+        } else if (err === "deleteUserError") {
+            errObj.detail = "Cannot Delete User";
+        } else if (err === "createUserError") {
+            errObj.detail = "Cannot Create User";
         }
-        toastRef.current.show(errObj);
-    });
 
-    console.log(users)
+        toastRef.current.show(errObj);
+    }, (res) => {
+        setVisible(false);
+        let messageObj = {
+            severity: "success",
+            summary: "Success",
+            detail: "",
+            life: 3000,
+        };
+        if (res === "addUser") {
+            messageObj.detail = "User Added";
+        } else if (res === "deleteUser") {
+            messageObj.detail = "User Deleted";
+        }
+
+        toastRef.current.show(messageObj);
+    });
 
     return (
         <div className='m-20'>
             <h1 className="heading">Manage Users</h1>
+            <Dialog header="New User" visible={visible} onHide={() => setVisible(false)}>
+                <div>
+                    <div>
+                        <span className="p-input-icon-left m-2 input-container">
+                            <i className="pi pi-user"></i>
+                            <InputText
+                                id="username"
+                                className="input"
+                                placeholder="Username"
+                            ></InputText>
+                        </span>
+                        <span className="p-input-icon-left m-2 input-container">
+                            <i className="pi pi-lock"></i>
+                            <InputText
+                                id="password"
+                                type="password"
+                                className="input"
+                                placeholder="Password"
+                            ></InputText>
+                        </span>
+                    </div>
+                    <div className="ml-10">
+                        <Button label="Add" icon="pi pi-chevron-right" iconPos="right" className="p-shadow-6" />
+                    </div>
+                </div>
+            </Dialog>
             <div>
-                <DataTable value={users}  responsiveLayout="scroll">
-                    <Column field="0" header="Id" body={el=><h3>{el[0]}</h3>}/>
-                    <Column field="1" header="Name" body={el=><h3>{el[1]}</h3>} />
-                    <Column header="Privilage" body={<h3>Root</h3>} />
-                    <Column header="Delete" body={item=><Button label="Delete" className="p-button-danger"/>}/>
-                </DataTable>
+                <div className="m-20">
+                    <Button label="Add User" icon="pi pi-plus" onClick={() => setVisible(true)} />
+                </div>
+                <div className="m-20">
+                    <DataTable value={users} responsiveLayout="scroll">
+                        <Column field="0" header="Id" body={el => <h3>{el[0]}</h3>} />
+                        <Column field="1" header="Name" body={el => <h3>{el[1]}</h3>} />
+                        <Column header="Privilage" body={<h3>Root</h3>} />
+                        <Column header="Delete" body={el => <Button label="Delete" className="p-button-danger" onClick={e => {
+                            e.preventDefault();
+                            deleteUser(el[0]);
+                        }} />} />
+                    </DataTable>
+                </div>
             </div>
         </div>
     )

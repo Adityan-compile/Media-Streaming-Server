@@ -244,6 +244,28 @@ def add_user(user):
 
 
 '''
+* Path: /users/delete
+* Method: DELETE
+* Description: Authenticate Current User and Delete Specified User
+'''
+
+
+@auth.route('/users/delete', methods=['DELETE'])
+@authenticate
+def delete_user(user):
+    body = request.body
+    User.query.filter_by(id=body['id']).delete()
+    db.session.commit()
+
+    res = jsonify({
+        "status": 204,
+        "message": "User Deleted",
+    })
+
+    return res, 204
+
+
+'''
 * Path: /users/all
 * Method: GET
 * Description: Authenticate Current User and Get List of All Users
