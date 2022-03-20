@@ -218,17 +218,17 @@ def refresh_token():
 
 
 '''
-* Path: /users/add
+* Path: /users/new
 * Method: POST
 * Description: Authenticate Current User and Add new User
 '''
 
 
-@auth.route('/users/add', methods=['POST'])
+@auth.route('/users/new', methods=['POST'])
 @authenticate
 def add_user(user):
-    body = request.body
-    new_user = User(name=body['name'], password=body['password'])
+    body = request.get_json()
+    new_user = User(name=body['username'], password=body['password'])
     db.session.add(new_user)
     db.session.commit()
 
@@ -237,7 +237,7 @@ def add_user(user):
     res = jsonify({
         "status": 200,
         "message": "Setup Success",
-        "user": new_user
+        "user": new_user.to_dict()
     })
 
     return res, 200
@@ -253,8 +253,9 @@ def add_user(user):
 @auth.route('/users/delete', methods=['DELETE'])
 @authenticate
 def delete_user(user):
-    body = request.body
-    User.query.filter_by(id=body['id']).delete()
+    id = request.args.get('id')
+
+    User.query.filter_by(id=id).delete()
     db.session.commit()
 
     res = jsonify({

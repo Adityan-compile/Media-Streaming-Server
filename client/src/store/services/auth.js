@@ -98,11 +98,10 @@ const auth = {
     });
   },
   deleteUser: (id) => {
+
     return new Promise((resolve, reject) => {
       axios
-        .delete("/auth/users/delete", {
-          id,
-        })
+        .delete(`/auth/users/delete?id=${id}`)
         .then(({ data }) => {
           resolve(true);
         })
@@ -114,10 +113,7 @@ const auth = {
   addUser: (body) => {
     return new Promise((resolve, reject) => {
       axios
-        .post("/auth/users/new", {
-          name: body.name,
-          password: body.password
-        })
+        .post("/auth/users/new", body)
         .then(({ data }) => {
           resolve(data.user);
         })

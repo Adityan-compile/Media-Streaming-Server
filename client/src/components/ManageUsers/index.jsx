@@ -12,8 +12,9 @@ function ManageUsers() {
 
     const toastRef = useToast();
     const [visible, setVisible] = useState(false);
-
-    const { users, deleteUser } = useManageUsers((err) => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const { users, deleteUser, addUser } = useManageUsers((err) => {
         setVisible(false);
         let errObj = {
             severity: "error",
@@ -31,6 +32,8 @@ function ManageUsers() {
 
         toastRef.current.show(errObj);
     }, (res) => {
+        setUsername("");
+        setPassword("");
         setVisible(false);
         let messageObj = {
             severity: "success",
@@ -59,6 +62,8 @@ function ManageUsers() {
                                 id="username"
                                 className="input"
                                 placeholder="Username"
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
                             ></InputText>
                         </span>
                         <span className="p-input-icon-left m-2 input-container">
@@ -68,11 +73,18 @@ function ManageUsers() {
                                 type="password"
                                 className="input"
                                 placeholder="Password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
                             ></InputText>
                         </span>
                     </div>
                     <div className="ml-10">
-                        <Button label="Add" icon="pi pi-chevron-right" iconPos="right" className="p-shadow-6" />
+                        <Button label="Add" icon="pi pi-chevron-right" iconPos="right" className="p-shadow-6" onClick={e => {
+                            e.preventDefault();
+                            addUser({
+                                username, password
+                            });
+                        }} />
                     </div>
                 </div>
             </Dialog>
