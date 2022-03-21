@@ -4,6 +4,7 @@ import Context from '../../store';
 import ManageContent from "../ManageContent";
 import ManageHighlights from "../ManageHighlights";
 import ManageUsers from "../ManageUsers";
+import Settings from "../Settings";
 import { TabMenu } from "primereact/tabmenu";
 import styles from "./styles.module.css";
 import useToast from "../../hooks/toast";
@@ -19,11 +20,13 @@ function DashboardScreen() {
   const RenderActiveTab = () => {
     switch (activeTab) {
       case "manage-content":
-        return <ManageContent />
+        return <ManageContent />;
       case "manage-highlights":
         return <ManageHighlights />;
       case "manage-users":
-        return <ManageUsers />
+        return <ManageUsers />;
+      case "settings":
+        return <Settings />;
       default:
         return null;
     }
@@ -62,11 +65,11 @@ function DashboardScreen() {
       icon: "pi pi-users",
       command: () => setActiveTab("manage-users")
     },
-    {
-      label: "File Manager",
-      icon: "pi pi-file",
-      command: () => setActiveTab("file-manager")
-    },
+    // {
+    //   label: "File Manager",
+    //   icon: "pi pi-file",
+    //   command: () => setActiveTab("file-manager")
+    // },
     {
       label: "Settings",
       icon: "pi pi-cog",
