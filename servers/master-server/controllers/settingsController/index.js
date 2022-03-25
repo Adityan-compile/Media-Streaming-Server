@@ -1,5 +1,6 @@
 const { server } = require("../../models");
 const { isIncluded } = require("../../utils");
+const { serverSettingsDump } = require("../../utils/settings");
 
 exports.saveServerSettings = async(req, res) => {
   const secretKey = req.headers["secret_key"];
@@ -42,4 +43,11 @@ exports.saveServerSettings = async(req, res) => {
         });
     }
 
+};
+
+exports.getServerSettings = (req,res)=>{
+    res.status(200).json({
+      status: 200,
+      settings: serverSettingsDump
+    });
 };

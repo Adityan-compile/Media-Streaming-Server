@@ -24,3 +24,11 @@ exports.loadServerSettings = () => {
     }
   });
 };
+
+exports.serverSettingsDump = {
+  servername: process.env.SERVER_NAME,
+  tmdbKey: process.env.TMDB_API_KEY,
+  videoQuality: process.env.VIDEO_QUALITY,
+  audioQuality: process.env.AUDIO_QUALITY,
+  transcoder: process.env.TRANSCODER_ENABLED,
+};

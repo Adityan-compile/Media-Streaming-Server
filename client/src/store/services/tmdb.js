@@ -16,7 +16,6 @@ const tmdb = {
       axios
         .get(`/media/tmdb/shows/search?q=${query}`)
         .then(({ data }) => {
-          console.log(data);
           resolve(data.results);
         })
         .catch((e) => reject(e));

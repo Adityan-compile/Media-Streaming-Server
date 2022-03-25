@@ -122,6 +122,18 @@ const auth = {
         });
     });
   },
+  fetchServerSettings: ()=>{
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/server/settings")
+        .then(({ data }) => {
+          resolve(data.settings);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
 };
 
 export default auth;

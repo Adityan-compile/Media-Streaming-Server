@@ -3,6 +3,7 @@ import { InputText } from "primereact/inputtext";
 import React from "react";
 import { SelectButton } from 'primereact/selectbutton';
 import styles from "./styles.module.css";
+
 function Settings() {
 
   const videoQualityList = [
