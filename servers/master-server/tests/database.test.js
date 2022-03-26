@@ -24,7 +24,7 @@ describe("Database Tests", () => {
 
   test("Can Create Show", async () => {
     expect.assertions(5);
-    const newServer = await server.create({
+    const newShow = await server.create({
       name: "test",
       description: "test",
       lang: "en",
@@ -39,17 +39,17 @@ describe("Database Tests", () => {
 
   test("Can Create Server", async ()=>{
     expect.assertions(5);
-    const newShow = await shows.create({
+    const newServer = await shows.create({
       name: "test",
       tmdbKey: "test key",
       videoQuality: "1920x?",
       audioQuality: "256k"
     });
-    expect(newShow.id.toString().length).toBe(20);
-    expect(newShow.name).toBe("test");
-    expect(newShow.tmdbKey).toBe("test key");
-    expect(newShow.videoQuality).toBe("1920x?");
-    expect(newShow.audioQuality).toBe("256k");
-    expect(newShow.transcoder).toBe(true);
+    expect(newServer.id.toString().length).toBe(20);
+    expect(newServer.name).toBe("test");
+    expect(newServer.tmdbKey).toBe("test key");
+    expect(newServer.videoQuality).toBe("1920x?");
+    expect(newServer.audioQuality).toBe("256k");
+    expect(newServer.transcoder).toBe(true);
   });
 });

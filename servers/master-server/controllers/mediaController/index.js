@@ -1,27 +1,50 @@
 const { movies, highlights, shows, Sequelize } = require("../../models");
 const streamer = require("express-stream-video");
+const ResponseBuilder = require("../../utils/response");
 
 exports.getMovies = async (req, res) => {
   try {
     const results = await movies.findAll({});
-    res.status(200).json({
-      status: 200,
-      movies: results,
-    });
+    res.status(200).json(
+      new ResponseBuilder()
+        .setStatus(200)
+        .setBody({
+          movies: results,
+        })
+        .build()
+    );
   } catch (e) {
-    res.status(500).json({ status: 500, message: "Error Getting Movies" });
+    res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Error Getting Movies")
+          .build()
+      );
   }
 };
 
 exports.getShows = async (req, res) => {
   try {
     const results = await shows.findAll({});
-    res.status(200).json({
-      status: 200,
-      shows: results,
-    });
+    res.status(200).json(
+      new ResponseBuilder()
+        .setStatus(200)
+        .setBody({
+          shows: results,
+        })
+        .build()
+    );
   } catch (e) {
-    res.status(500).json({ status: 500, message: "Error Getting Shows" });
+    res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Error Getting Shows")
+          .build()
+      );
   }
 };
 
@@ -29,10 +52,14 @@ exports.streamMovie = (req, res) => {
   const filename = req.query.file;
 
   if (!filename) {
-    return res.status(400).json({
-      status: 400,
-      message: "Bad Request, Filename Required",
-    });
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder()
+          .setStatus(400)
+          .setMessage("Bad Request, Filename Required")
+          .build()
+      );
   }
 
   const filePath = `/var/app/uploads/${filename}`;
@@ -46,23 +73,34 @@ exports.getHighlights = async (req, res) => {
       raw: true,
       include: ["Movie", "Show"],
     });
-    res.status(200).json({
-      status: 200,
-      highlights: results,
-    });
+    res.status(200).json(
+      new ResponseBuilder()
+        .setStatus(200)
+        .setBody({
+          highlights: results,
+        })
+        .build()
+    );
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ status: 500, message: "Error Getting Highlights" });
+    res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Error Getting Highlights")
+          .build()
+      );
   }
 };
 
 exports.createHighlight = async (req, res) => {
   const body = req.body;
   if (!body || Object.keys(body).length === 0) {
-    return res.status(400).json({
-      status: 400,
-      message: "Bad Request",
-    });
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
   }
   try {
     const created = await highlights.create({
@@ -74,59 +112,74 @@ exports.createHighlight = async (req, res) => {
     const newHighlight = await highlights.findAll({
       where: { id: created.id },
       include: ["Movie", "Show"],
-      raw: true
+      raw: true,
     });
 
-    res.status(200).json({
-      status: 200,
-      message: "Highlight Created",
-      highlight: newHighlight,
-    });
+    res.status(200).json(
+      new ResponseBuilder()
+        .setStatus(200)
+        .setMessage("Highlight Created")
+        .setBody({
+          highlight: newHighlight,
+        })
+    );
   } catch (e) {
     console.error(e);
-    res.status(500).json({
-      status: 500,
-      message: "Error Creating Highlight",
-    });
+    res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Error Creating Highlight")
+          .build()
+      );
   }
 };
 
-exports.deleteHighlight = async (req,res)=>{
+exports.deleteHighlight = async (req, res) => {
   const id = req.query.id;
-  if(!id) return res.status(400).json({
-    status: 400,
-    message: "Bad Request"
-  });
+  if (!id)
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
 
   try {
     await highlights.destroy({
       where: {
-        id
-      }
+        id,
+      },
     });
-    res.status(204).json({
-      status: 204,
-      message: "Highlight Deleted"
-    });
+    res
+      .status(204)
+      .json(
+        new ResponseBuilder()
+          .setStatus(204)
+          .setMessage("Highlight Deleted")
+          .build()
+      );
   } catch (err) {
-    res.status(500).json({
-      status: 500,
-      message: "Failed to Delete Highlight",
-      id
-    }); 
+    res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(400)
+          .setMessage("Failed to Delete Highlight")
+          .build()
+      );
   }
-
-
-}
+};
 
 exports.search = async (req, res) => {
   const query = req.query.q;
 
   if (!query) {
-    return res.status(400).json({
-      status: 400,
-      message: "Bad Request",
-    });
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
   }
 
   try {
@@ -155,17 +208,25 @@ exports.search = async (req, res) => {
 
     const compiled_results = combined.filter((el) => query_regex.test(el.name));
 
-    return res.status(200).json({
-      status: 200,
-      message: "Search Successful",
-      results: compiled_results,
-    });
+    return res.status(200).json(
+      new ResponseBuilder()
+        .setStatus(200)
+        .setMessage("Search Successful")
+        .setBody({
+          results: compiled_results,
+        })
+        .build()
+    );
   } catch (err) {
     console.error(err);
-    return res.status(500).json({
-      status: 500,
-      message: "Database Query Error",
-    });
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Database Query Error")
+          .build()
+      );
   }
 };
 
@@ -173,10 +234,11 @@ exports.deleteMovie = async (req, res) => {
   const id = req.query.id;
 
   if (!id) {
-    return res.status(400).json({
-      status: 400,
-      message: "Bad Request",
-    });
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
   }
 
   try {
@@ -185,15 +247,20 @@ exports.deleteMovie = async (req, res) => {
         id: id,
       },
     });
-    res.status(204).json({
-      status: 204,
-      message: "Movie Deleted",
-    });
+    res
+      .status(204)
+      .json(
+        new ResponseBuilder().setStatus(204).setMessage("Movie Deleted").build()
+      );
   } catch (err) {
-    res.status(500).json({
-      status: 500,
-      message: "Cannot Delete Movie",
-    });
+    res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Cannot Delete Movie")
+          .build()
+      );
   }
 };
 
@@ -209,19 +276,27 @@ exports.getTopRated = async (req, res) => {
       limit: 10,
     });
 
-    return res.status(200).json({
-      status: 200,
-      message: "Search Successful",
-      results: {
-        movies: movie_results,
-        shows: show_results,
-      },
-    });
+    return res.status(200).json(
+      new ResponseBuilder()
+        .setStatus(200)
+        .setMessage("Search Success")
+        .setBody({
+          results: {
+            movies: movie_results,
+            shows: show_results,
+          },
+        })
+        .build()
+    );
   } catch (err) {
     console.error(err);
-    return res.status(500).json({
-      status: 500,
-      message: "Database Query Error",
-    });
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Database Query Error")
+          .build()
+      );
   }
 };

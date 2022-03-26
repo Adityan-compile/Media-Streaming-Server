@@ -1,14 +1,16 @@
 const { shows, movies } = require("../../models");
 const transcoder = require("../../utils/transcoder");
 const axios = require("../../config/axios");
+const ResponseBuilder = require("../../utils/response");
 
 exports.addMovie = async (req, res) => {
   const movieId = req.query.id;
   if (!movieId) {
-    return res.status(400).json({
-      status: 400,
-      message: "Bad Request",
-    });
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
   }
 
   try {
@@ -62,24 +64,36 @@ exports.addMovie = async (req, res) => {
         backdrop: movieData.backdrop_path,
       });
 
-      res.status(201).json({
-        status: 201,
-        message: "Show Created Successfully",
-        movie: newMovie.toJSON(),
-      });
+      res.status(201).json(
+        new ResponseBuilder()
+          .setStatus(201)
+          .setMessage("Show Created Successfully")
+          .setBody({
+            movie: newMovie.toJSON(),
+          })
+          .build()
+      );
     } catch (e) {
       console.error(e);
-      res.status(500).json({
-        status: 500,
-        message: "Cannot Create Show",
-      });
+      res
+        .status(500)
+        .json(
+          new ResponseBuilder()
+            .setStatus(500)
+            .setMessage("Cannot Create Show")
+            .build()
+        );
     }
   } catch (e) {
     console.error(e);
-    res.status(503).json({
-      status: 503,
-      message: "TMDB Unavailable",
-    });
+    res
+      .status(503)
+      .json(
+        new ResponseBuilder()
+          .setStatus(503)
+          .setMessage("TMDB Unavailable")
+          .build()
+      );
   }
 };
 
@@ -88,10 +102,14 @@ exports.uploadMovieFile = async (req, res) => {
   const file = req.file;
 
   if (!file) {
-    return res.status(400).json({
-      status: 400,
-      message: "Movie File Required for upload",
-    });
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder()
+          .setStatus(400)
+          .setMessage("Movie File Required for Upload")
+          .build()
+      );
   }
   let updated = {};
   try {
@@ -108,26 +126,41 @@ exports.uploadMovieFile = async (req, res) => {
       }
     );
   } catch (e) {
-    return res.status(500).json({ status: 500, message: "Cannot Save Movie" });
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Cannot Save Movie")
+          .build()
+      );
   }
   if (process.env.TRANSCODER_ENABLED) {
     try {
       await transcoder.transcode(file.filename);
     } catch (err) {
-      return res.status(206).json({
-        status: 206,
-        message: "Transcode Error, File Saved Successfully",
-      });
+      return res
+        .status(206)
+        .json(
+          new ResponseBuilder()
+            .setStatus(206)
+            .setMessage("Transcode Error, File Saved Successfully")
+            .build()
+        );
     }
   } else {
     transcoder.moveFile(file.filename);
   }
 
-  return res.status(201).json({
-    status: 201,
-    movie: updated[1].toJSON(),
-    message: "File Saved Successfully",
-  });
+  return res.status(201).json(
+    new ResponseBuilder()
+      .setStatus(201)
+      .setMessage("File Saved Successfully")
+      .setBody({
+        movie: updated[1].toJSON(),
+      })
+      .build()
+  );
 };
 
 exports.uploadShowFile = async (req, res) => {
@@ -135,10 +168,14 @@ exports.uploadShowFile = async (req, res) => {
   const file = req.file;
 
   if (!file) {
-    return res.status(400).json({
-      status: 400,
-      message: "Movie File Required for upload",
-    });
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder()
+          .setStatus(400)
+          .setMessage("Movie File Required for Upload")
+          .build()
+      );
   }
   let updated = {};
   try {
@@ -155,35 +192,51 @@ exports.uploadShowFile = async (req, res) => {
       }
     );
   } catch (e) {
-    return res.status(500).json({ status: 500, message: "Cannot Save Movie" });
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Cannot Save Show")
+          .build()
+      );
   }
   if (process.env.TRANSCODER_ENABLED) {
     try {
       await transcoder.transcode(file.filename);
     } catch (err) {
-      return res.status(206).json({
-        status: 206,
-        message: "Transcode Error, File Saved Successfully",
-      });
+      return res
+        .status(206)
+        .json(
+          new ResponseBuilder()
+            .setStatus(206)
+            .setMessage("Transcode Error, File Saved Successfully")
+            .build()
+        );
     }
   } else {
     transcoder.moveFile(file.filename);
   }
 
-  return res.status(201).json({
-    status: 201,
-    movie: updated[1].toJSON(),
-    message: "File Saved Successfully",
-  });
+  return res.status(201).json(
+    new ResponseBuilder()
+      .setStatus(201)
+      .setMessage("File Saved Successfully")
+      .setBody({
+        show: updated[1].toJSON(),
+      })
+      .build()
+  );
 };
 
 exports.addShow = async (req, res) => {
   const showId = req.query.id;
   if (!showId) {
-    return res.status(400).json({
-      status: 400,
-      message: "Bad Request",
-    });
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
   }
 
   try {
@@ -227,20 +280,18 @@ exports.addShow = async (req, res) => {
 
     try {
       let reqPath = `/tv/${showId}?append_to_response=`;
-      seasonNumbers.forEach((el,idx) => {
-        if(idx >= 20) return;
-          reqPath = reqPath.concat(el,',');
+      seasonNumbers.forEach((el, idx) => {
+        if (idx >= 20) return;
+        reqPath = reqPath.concat(el, ",");
       });
       const { data: seasonData } = await axios.get(reqPath);
 
-      seasonNumbers.forEach(
-        (el, idx) => {
-          if(idx >= 20) return;
-          showData.seasons[idx].episodes = seasonData[el].episodes
-        }
-      );
+      seasonNumbers.forEach((el, idx) => {
+        if (idx >= 20) return;
+        showData.seasons[idx].episodes = seasonData[el].episodes;
+      });
     } catch (err) {
-      console.error("Episode Fetch Error",err);
+      console.error("Episode Fetch Error", err);
       res.status(500).json({
         status: 500,
         message: "Cannot Create Show",
@@ -266,23 +317,34 @@ exports.addShow = async (req, res) => {
         seasons: showData.seasons,
       });
 
-      res.status(201).json({
-        status: 201,
-        message: "Show Created Successfully",
-        movie: newShow.toJSON(),
-      });
+      res.status(201).json(
+        new ResponseBuilder()
+          .setStatus(201)
+          .setMessage("Show Created Successfully")
+          .setBody({
+            movie: newShow.toJSON(),
+          })
+          .build()
+      );
     } catch (e) {
       console.error(e);
-      res.status(500).json({
-        status: 500,
-        message: "Cannot Create Show",
-      });
+      res
+        .status(500)
+        .json(
+          new ResponseBuilder()
+            .setStatus(500)
+            .setMessage("Cannot Create Show")
+            .build()
+        );
     }
   } catch (e) {
-    console.error("Show Fetch Error",e);
-    res.status(500).json({
-      status: 500,
-      message: "Cannot Create Show",
-    });
+    res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Cannot Create Show")
+          .build()
+      );
   }
 };
