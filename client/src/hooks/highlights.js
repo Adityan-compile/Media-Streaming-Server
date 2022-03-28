@@ -38,11 +38,13 @@ function useHighlights() {
     successHandler = () => {},
     onError = () => {}
   ) => {
-    deletehighlight(id).then(()=>{
-      let temp = highlights.filter(el=> el.id !== id);
-      setHighlights(temp);
-      return successHandler();
-      }).catch(e=>onError(e));
+    deletehighlight(id)
+      .then(() => {
+        let temp = highlights.filter((el) => el.id !== id);
+        setHighlights(temp);
+        return successHandler();
+      })
+      .catch((e) => onError(e));
   };
 
   return {

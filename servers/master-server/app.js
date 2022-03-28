@@ -13,6 +13,7 @@ const cache = require("./config/cache");
 const migrate = require("./config/database/migrate");
 const {loadServerSettings} = require("./utils/settings");
 const server = http.createServer(app);
+const rateLimiter = require('express-rate-limit');
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -23,6 +24,13 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
+
+app.use(rateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 200, 
+	standardHeaders: true,
+	legacyHeaders: false,  
+}));
 
 // Run Migrations and Load Server Settings
 migrate((e)=>{

@@ -103,6 +103,27 @@ exports.createHighlight = async (req, res) => {
       );
   }
   try {
+    const count = await highlights.count();
+    if (count >= 5) {
+      return res
+        .status(422)
+        .json(
+          new ResponseBuilder()
+            .setStatus(422)
+            .setMessage("Maximum Number of Highlights reached")
+        );
+    }
+  } catch (err) {
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Error Creating Highlight")
+          .build()
+      );
+  }
+  try {
     const created = await highlights.create({
       highlightType: body.highlightType,
       movie: body.highlightType === "movie" ? body.highlight : null,
@@ -300,3 +321,9 @@ exports.getTopRated = async (req, res) => {
       );
   }
 };
+
+
+exports.setWatching = (req,res)=>{};
+exports.resetWatching = (req,res)=>{};
+exports.updateWatching = (req,res)=>{};
+

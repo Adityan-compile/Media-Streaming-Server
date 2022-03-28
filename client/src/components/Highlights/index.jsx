@@ -7,19 +7,20 @@ function Highlights() {
 
   const { highlights } = useHighlights();
 
+
   const itemTemplate = (item) => {
     if (item.highlightType === "movie") {
       return (
         <div className={styles.itemContainer}>
-          <img src={`https://www.themoviedb.org/t/p/original${item['Movie.poster']}`} className={styles.poster} />
-          <img src={`https://www.themoviedb.org/t/p/original${item['Movie.backdrop']}`} className={styles.carousel} />
+          <img src={`https://www.themoviedb.org/t/p/original${item["Movie.poster"]}`} className={styles.poster} />
+          <img src={`https://www.themoviedb.org/t/p/original${item["Movie.backdrop"]}`} className={styles.carousel} />
         </div>
       );
     } else {
       return (
         <div className={styles.itemContainer}>
-          <img src={`https://www.themoviedb.org/t/p/original${item['Show.poster']}`} className={styles.poster} />
-          <img src={`https://www.themoviedb.org/t/p/original${item['Show.backdrop']}`} className={styles.carousel} />
+          <img src={`https://www.themoviedb.org/t/p/original${item["Show.poster"]}`} className={styles.poster} />
+          <img src={`https://www.themoviedb.org/t/p/original${item["Show.backdrop"]}`} className={styles.carousel} />
         </div>
       );
     }

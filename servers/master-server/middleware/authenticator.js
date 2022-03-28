@@ -1,15 +1,13 @@
 const axios = require("axios");
 const { SECRET_KEY } = process.env;
+const ResponseBuilder = require("../utils/response");
 
 module.exports = {
   authenticate: (req, res, next) => {
     const token = req.cookies.accessToken;
 
     if (!token)
-      return res.status(401).json({
-        status: 401,
-        message: "Authorization Credentials Required",
-      });
+      return res.status(401).json(new ResponseBuilder().setStatus(401).setMessage("Authorization Credentials Required"));
 
     axios
       .post(
@@ -30,11 +28,11 @@ module.exports = {
       })
       .catch((e) => {
         if (e.response.status === 401) {
-          return res.status(401).json({ status: 401, messge: "Unauthorized" });
+          return res.status(401).json(new ResponseBuilder().setStatus(401).setMessage("Unauthorized"));
         }
         return res
           .status(503)
-          .json({ status: 503, message: "Authentication Server Unavailable" });
+          .json(new ResponseBuilder().setStatus(503).setMessage("Authentication Server Unavailable"));
       });
   },
 };
