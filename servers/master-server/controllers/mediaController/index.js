@@ -366,7 +366,7 @@ exports.setWatching = async (req, res) => {
           new ResponseBuilder()
             .setStatus(200)
             .setMessage("Watching List Updated")
-            .setBody(updated)
+            .setBody({ updated })
         );
     }
 
@@ -386,7 +386,7 @@ exports.setWatching = async (req, res) => {
         new ResponseBuilder()
           .setStatus(200)
           .setMessage("Watching List Updated")
-          .setBody(added.toJSON())
+          .setBody({ added: added.toJSON() })
       );
   } catch (err) {
     return res
@@ -399,5 +399,59 @@ exports.setWatching = async (req, res) => {
       );
   }
 };
-exports.resetWatching = (req, res) => {};
-exports.updateWatching = (req, res) => {};
+exports.resetWatching = async (req, res) => {
+  const body = req.body;
+  const user = req.user;
+
+  if (!body || Object.keys(body).length === 0) {
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
+  }
+
+  try {
+    await watching.destroy({
+      where: {
+        mediaId: body.id,
+        user: user.id,
+      },
+    });
+
+    return res
+      .status(200)
+      .json(new ResponseBuilder().setStatus(200).setMessage("Watching Reset"));
+  } catch (err) {
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Database Error")
+          .build()
+      );
+  }
+};
+
+exports.getWatching = async (req, res) => {
+  try {
+    const watchingList = await watching.findAll({
+      where: {
+        user: req.user.id,
+      },
+    });
+    return res
+      .status(200)
+      .json(new ResponseBuilder().setStatus(200).setBody(watchingList));
+  } catch (err) {
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Database Error")
+          .build()
+      );
+  }
+};

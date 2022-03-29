@@ -1,6 +1,10 @@
+
+/*
+* All Test Cases in this file Currently Fails due to Dockerization Issues 
+*/
+
 const request = require("supertest");
 const express = require("express");
-const router = require("../routes/main.js");
 
 const mediaRouter = require("../routes/media");
 const indexRouter = require("../routes/index");
@@ -33,7 +37,14 @@ beforeAll(() => {
   });
 });
 
+
 describe("api tests", () => {
+
+  describe("api ping test", ()=>{
+    const res = request(app).get("/api/ping");
+    console.log(res);
+  });
+
   describe("/api routes", () => {
     test.todo("responds to /server/settings/save");
     test.todo("responds to /server/settings");

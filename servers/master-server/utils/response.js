@@ -4,7 +4,7 @@ class Response {
   body = null;
   date = null;
 
-  constructor(status, message="", body) {
+  constructor(status, message="", body={}) {
     this.status = status;
     this.message = message;
     this.date = new Date();
@@ -21,7 +21,7 @@ class ResponseBuilder {
     this.message = message;
     return this;
   }
-  setBody(body) {
+  setBody(body={}) {
     this.body = body;
     return this;
   }
