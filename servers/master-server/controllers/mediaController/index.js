@@ -1,4 +1,10 @@
-const { movies, highlights, shows, Sequelize } = require("../../models");
+const {
+  movies,
+  highlights,
+  shows,
+  Sequelize,
+  watching,
+} = require("../../models");
 const streamer = require("express-stream-video");
 const ResponseBuilder = require("../../utils/response");
 
@@ -322,8 +328,76 @@ exports.getTopRated = async (req, res) => {
   }
 };
 
+exports.setWatching = async (req, res) => {
+  const body = req.body;
+  const user = req.user;
 
-exports.setWatching = (req,res)=>{};
-exports.resetWatching = (req,res)=>{};
-exports.updateWatching = (req,res)=>{};
+  if (!body || Object.keys(body).length === 0) {
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
+  }
 
+  try {
+    const count = await watching.count({
+      where: {
+        mediaId: body.id,
+      },
+    });
+
+    if (count > 0) {
+      const updated = await watching.update(
+        {
+          timestamp: body.timestamp,
+        },
+        {
+          where: {
+            mediaId: body.id,
+            user: user.id,
+          },
+        }
+      );
+
+      return res
+        .status(200)
+        .json(
+          new ResponseBuilder()
+            .setStatus(200)
+            .setMessage("Watching List Updated")
+            .setBody(updated)
+        );
+    }
+
+    const added = await watching.create({
+      user: user.id,
+      timestamp: body.timestamp,
+      filename: body.filename,
+      mediaType: body.type,
+      mediaId: body.id,
+      title: body.title,
+      poster: body.poster,
+    });
+
+    return res
+      .status(200)
+      .json(
+        new ResponseBuilder()
+          .setStatus(200)
+          .setMessage("Watching List Updated")
+          .setBody(added.toJSON())
+      );
+  } catch (err) {
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Database Error")
+          .build()
+      );
+  }
+};
+exports.resetWatching = (req, res) => {};
+exports.updateWatching = (req, res) => {};
