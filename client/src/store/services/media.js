@@ -52,6 +52,16 @@ const media = {
         .catch((e) => reject(e));
     });
   },
+  fetchWatching: ()=>{
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/media/watching/all")
+        .then(({ data }) => {
+          resolve(data.watching);
+        })
+        .catch((e) => reject(e));
+    });
+  }
 };
 
 export default media;

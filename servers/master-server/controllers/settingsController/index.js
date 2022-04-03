@@ -1,6 +1,6 @@
 const { server } = require("../../models");
 const { isIncluded } = require("../../utils");
-const { serverSettingsDump } = require("../../utils/settings");
+const { getServerSettingsDump } = require("../../utils/settings");
 const ResponseBuilder = require("../../utils/response");
 
 exports.saveServerSettings = async (req, res) => {
@@ -60,7 +60,7 @@ exports.getServerSettings = (req, res) => {
     new ResponseBuilder()
       .setStatus(200)
       .setBody({
-        settings: serverSettingsDump,
+        settings: getServerSettingsDump(),
       })
       .build()
   );

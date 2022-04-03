@@ -4,18 +4,22 @@ import Context from '../../store';
 import ManageContent from "../ManageContent";
 import ManageHighlights from "../ManageHighlights";
 import ManageUsers from "../ManageUsers";
+import ServerStatsScreen from "../ServerStatsScreen";
 import Settings from "../Settings";
 import { TabMenu } from "primereact/tabmenu";
 import styles from "./styles.module.css";
+import useSettings from "../../hooks/settings";
 import useToast from "../../hooks/toast";
 
 function DashboardScreen() {
 
-  const [activeTab, setActiveTab] = useState("manage-content");
+  const [activeTab, setActiveTab] = useState("server-stats");
 
   const { logout } = useContext(Context);
 
   const toastRef = useToast();
+
+  const { settings } = useSettings();
 
   const RenderActiveTab = () => {
     switch (activeTab) {
@@ -27,6 +31,8 @@ function DashboardScreen() {
         return <ManageUsers />;
       case "settings":
         return <Settings />;
+      case "server-stats":
+        return <ServerStatsScreen />;
       default:
         return null;
     }
@@ -45,10 +51,9 @@ function DashboardScreen() {
 
   const menuItems = [
     {
-      label: "Server Name",
+      label: settings.serverName || "Streamflix",
       icon: "pi pi-server",
-      disabled: true,
-      command: () => { return; }
+      command: () => { setActiveTab("server-stats") }
     },
     {
       label: "Manage Content",
@@ -65,11 +70,6 @@ function DashboardScreen() {
       icon: "pi pi-users",
       command: () => setActiveTab("manage-users")
     },
-    // {
-    //   label: "File Manager",
-    //   icon: "pi pi-file",
-    //   command: () => setActiveTab("file-manager")
-    // },
     {
       label: "Settings",
       icon: "pi pi-cog",
@@ -86,7 +86,7 @@ function DashboardScreen() {
       <div className={styles.menu}>
         <TabMenu
           model={menuItems}
-          activeIndex={1}
+          activeIndex={0}
         />
       </div>
       <RenderActiveTab />

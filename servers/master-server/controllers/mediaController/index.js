@@ -443,7 +443,9 @@ exports.getWatching = async (req, res) => {
     });
     return res
       .status(200)
-      .json(new ResponseBuilder().setStatus(200).setBody(watchingList));
+      .json(
+        new ResponseBuilder().setStatus(200).setBody({ watching: watchingList })
+      );
   } catch (err) {
     return res
       .status(500)

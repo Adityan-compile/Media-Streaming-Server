@@ -5,6 +5,7 @@ import Highlights from "../Highlights";
 import styles from "./styles.module.css";
 import useRating from "../../hooks/rating";
 import useToast from "../../hooks/toast";
+import useWatching from "../../hooks/watching";
 
 function HomeScreen() {
 
@@ -18,7 +19,8 @@ function HomeScreen() {
       life: 3000,
     });
   };
-  const {fetchTopRated, topRated} = useRating(onError)
+  const { watching } = useWatching(onError);
+  const { fetchTopRated, topRated } = useRating(onError)
 
 
   useEffect(() => {
