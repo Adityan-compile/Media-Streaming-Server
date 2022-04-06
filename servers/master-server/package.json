@@ -11,6 +11,7 @@
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@types/jest": "^27.0.3",
     "axios": "^0.24.0",
+    "check-disk-space": "^3.3.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -28,6 +29,7 @@
     "redis": "^4.0.1",
     "sequelize": "^6.12.0-alpha.1",
     "socket.io": "^4.4.1",
+    "systeminformation": "^5.11.9",
     "umzug": "^3.0.0"
   },
   "devDependencies": {

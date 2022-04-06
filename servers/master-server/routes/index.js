@@ -9,13 +9,13 @@ const {
 
 const authenticator = require("../middleware/authenticator");
 
-const pingRoute = (req, res) => {
+const pingRoute = async (req, res) => {
   res.status(200).json(
     new ResponseBuilder()
       .setStatus(200)
       .setMessage("Pong")
       .setBody({
-        server: { stats: getServerStats() },
+        server: { stats: await getServerStats() },
       })
   );
 };

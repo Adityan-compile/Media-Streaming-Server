@@ -2,7 +2,7 @@ import {useContext, useEffect, useState} from "react";
 
 import Context from "../store";
 
-const useServerStats = () => {
+const useServerStats = (updateRate=30000) => {
     const [stats,setStats] = useState({});
     
     const {pingServer} = useContext(Context);
@@ -11,7 +11,7 @@ const useServerStats = () => {
         pingServer().then(res=>{setStats(res)}).catch(err=>{});
         const intervalId = setInterval(()=>{
             pingServer().then(res=>{setStats(res)}).catch(err=>{});
-        },30000);
+        },updateRate);
         return ()=>clearInterval(intervalId);
     },[]);
     
