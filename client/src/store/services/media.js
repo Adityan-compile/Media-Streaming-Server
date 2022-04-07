@@ -57,7 +57,7 @@ const media = {
       axios
         .get("/media/watching/all")
         .then(({ data }) => {
-          resolve(data.watching);
+          resolve(data.body.watching);
         })
         .catch((e) => reject(e));
     });

@@ -58,9 +58,16 @@ function HomeScreen() {
       <div id="continue">
         <h2 className={styles.homeTitle}>Continue Watching,</h2>
         <div className="continue container">
-          {Array.from(Array(2).keys()).map((el) => (
-            <Card key={el} />
-          ))}
+          {
+            watching.length === 0 ? (<h3 className="warning">
+              Start Watching to see the Movies and TV Magically Show up Here {" "}
+            </h3>) : (
+              watching.map((el) => (
+                <Card key={el.id} data={el} type={el.mediaType === "movie" ? "m" : "s"} />
+              ))
+            )
+          }
+
         </div>
       </div>
     </div>

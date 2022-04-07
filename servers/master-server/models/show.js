@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
   class show extends Model {
     static associate(models) {
       show.hasMany(models.highlights, { foreignKey: "show", sourceKey: "id" });
-      show.hasMany(models.watching, { foreignKey: "shows", sourceKey: "id" });
     }
   }
   show.init(

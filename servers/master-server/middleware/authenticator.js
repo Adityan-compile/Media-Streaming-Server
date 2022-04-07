@@ -22,8 +22,10 @@ module.exports = {
           },
         }
       )
-      .then((res) => {
-        req.user = res.user;
+      .then(({data}) => {
+        req.user = {
+          id: data.user.payload
+        };
         return next();
       })
       .catch((e) => {
