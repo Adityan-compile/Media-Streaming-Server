@@ -15,7 +15,6 @@ function VideoPlayerScreen() {
 
   const [player, setPlayer] = useState(0);
 
-  // Implement Stream Ended State Navigation
   const handleStreamStateChange = (state) => {
     if (state.playState === 'inactive') {
       const playerState = player.inspect();

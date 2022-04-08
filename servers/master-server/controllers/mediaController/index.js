@@ -344,6 +344,7 @@ exports.setWatching = async (req, res) => {
     const count = await watching.count({
       where: {
         mediaId: body.id,
+        user: user.id
       },
     });
 
@@ -399,6 +400,7 @@ exports.setWatching = async (req, res) => {
       );
   }
 };
+
 exports.resetWatching = async (req, res) => {
   const body = req.body;
   const user = req.user;

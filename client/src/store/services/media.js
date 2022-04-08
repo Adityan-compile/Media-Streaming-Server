@@ -61,6 +61,11 @@ const media = {
         })
         .catch((e) => reject(e));
     });
+  },
+  updateWatching: (body)=>{
+    return new Promise((resolve,reject)=>{
+      axios.post("/media/watching/update", body).then(({data})=>resolve(data.body.updated)).catch(err=>reject(err))
+    });
   }
 };
 
