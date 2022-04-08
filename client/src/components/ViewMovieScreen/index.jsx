@@ -93,7 +93,7 @@ function ViewMovieScreen() {
               className={["p-button-secondary p-button-outlined", styles.btnPlay].join(" ")}
               onClick={() =>
                 navigate("/player", {
-                  state: { data },
+                  state: { data, type: "movie" },
                 })
               }
             ></Button>
