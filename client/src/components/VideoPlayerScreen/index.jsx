@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Replay } from "vimond-replay";
 import styles from "./styles.module.css";
 import { useState } from "react";
+import { useThrottledCallback } from "use-debounce";
+import useWatching from "../../hooks/watching";
 
 function VideoPlayerScreen() {
 
@@ -15,7 +17,24 @@ function VideoPlayerScreen() {
 
   const [player, setPlayer] = useState(0);
 
+  const { updateWatching } = useWatching();
+
+  // Update Watching Position Every 10 Seconds
+  const throttledUpdate = useThrottledCallback((pos)=>{
+    updateWatching({
+      timestamp: pos,
+      filename: data.file,
+      type: mediaType,
+      mediaId: data.id,
+      title: data.name,
+      poster: data.poster
+    });
+  },10000);
+
   const handleStreamStateChange = (state) => {
+    if(state.hasOwnProperty("position")){
+      throttledUpdate(state.position);
+    }
     if (state.playState === 'inactive') {
       const playerState = player.inspect();
       if (playerState.duration !== 0 && playerState.position !== 0) {

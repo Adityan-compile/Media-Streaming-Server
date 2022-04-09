@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 
 import Context from "../store";
 
-function useWatching({ onError = () => {} }) {
+function useWatching(onError = () => {}) {
   const [watching, setWatching] = useState([]);
   const { fetchWatching, updateWatching: update } = useContext(Context);
 
@@ -15,15 +15,15 @@ function useWatching({ onError = () => {} }) {
   const updateWatching = (body) => {
     update()
       .then((res) => {
-        // TODO: Re-implement to prevent Duplication 
-        if (watching.indexOf(res) === -1) {
-          const temp = watching;
-          temp.push(res);
-          setWatching(temp);
-        } else {
-          const temp = watching;
-          temp[indexOf(res)] = res;
-        }
+        // TODO: Re-implement to prevent Duplication
+        // if (watching.indexOf(res) === -1) {
+        //   const temp = watching;
+        //   temp.push(res);
+        //   setWatching(temp);
+        // } else {
+        //   const temp = watching;
+        //   temp[indexOf(res)] = res;
+        // }
       })
       .catch((err) => {});
   };
