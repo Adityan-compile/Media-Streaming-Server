@@ -13,8 +13,9 @@ function useWatching(onError = () => {}) {
   }, []);
 
   const updateWatching = (body) => {
-    update()
+    update(body)
       .then((res) => {
+        console.log(res)
         // TODO: Re-implement to prevent Duplication
         // if (watching.indexOf(res) === -1) {
         //   const temp = watching;

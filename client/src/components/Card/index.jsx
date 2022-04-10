@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
 
-function Card({ data, admin = false, type = "m" }) {
+function Card({ data, admin = false, type = "m", mode = "" }) {
 
   const navigate = useNavigate();
 
@@ -11,19 +11,20 @@ function Card({ data, admin = false, type = "m" }) {
       <div
         onClick={(e) => {
           e.preventDefault();
-          if (type === "m") {
-            navigate(`/movies/edit/`, {
-              state: {
-                data
-              }
-            });
-          } else {
-            navigate(`/shows/edit/`, {
-              state: {
-                data
-              }
-            });
-          }
+
+            if (type === "m") {
+              navigate(`/movies/edit/`, {
+                state: {
+                  data
+                }
+              });
+            } else {
+              navigate(`/shows/edit/`, {
+                state: {
+                  data
+                }
+              });
+            }
         }}
       >
         <div
@@ -39,19 +40,27 @@ function Card({ data, admin = false, type = "m" }) {
     return (
       <div
         onClick={(e) => {
-          e.preventDefault(); 
-          if (type === "m") {
-            navigate("/movies/view", {
+          e.preventDefault();
+          if(mode ==="continue"){
+            navigate("/player", {
               state: {
                 data
               }
-            });
-          } else {
-            navigate("/shows/view", {
-              state: {
-                data
-              }
-            });
+            })
+          }else{
+            if (type === "m") {
+              navigate("/movies/view", {
+                state: {
+                  data
+                }
+              });
+            } else {
+              navigate("/shows/view", {
+                state: {
+                  data
+                }
+              });
+            }
           }
 
         }}

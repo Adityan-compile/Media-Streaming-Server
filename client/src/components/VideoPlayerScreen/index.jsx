@@ -1,10 +1,10 @@
 import "vimond-replay/index.css";
 
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Replay } from "vimond-replay";
 import styles from "./styles.module.css";
-import { useState } from "react";
 import { useThrottledCallback } from "use-debounce";
 import useWatching from "../../hooks/watching";
 
@@ -18,6 +18,12 @@ function VideoPlayerScreen() {
   const [player, setPlayer] = useState(0);
 
   const { updateWatching } = useWatching();
+
+  useEffect(()=>{
+    if(data?.mode==="continue"){
+      player.setPosition(data.position);
+    }
+  },[]);
 
   // Update Watching Position Every 10 Seconds
   const throttledUpdate = useThrottledCallback((pos)=>{
@@ -39,13 +45,18 @@ function VideoPlayerScreen() {
       const playerState = player.inspect();
       if (playerState.duration !== 0 && playerState.position !== 0) {
 
-        setTimeout(() => {
-          if (mediaType === "movie") {
-            navigate("/movies/view", { state: { data } })
-          } else {
-            navigate("/shows/view", { state: { data } })
-          }
+        //Implement Reset Watching Logic Here
 
+        setTimeout(() => {
+          if(data.mode === "continue"){
+            navigate("/");
+          }else{
+            if (mediaType === "movie") {
+              navigate("/movies/view", { state: { data } })
+            } else {
+              navigate("/shows/view", { state: { data } })
+            }
+          }
         }, 3000);
       }
     }
@@ -56,10 +67,14 @@ function VideoPlayerScreen() {
       <Replay
         onPlaybackActionsReady={setPlayer}
         onExit={() => {
-          if (mediaType === "movie") {
-            navigate("/movies/view", { state: { data } })
-          } else {
-            navigate("/shows/view", { state: { data } })
+          if(data.mode==="continue"){
+            navigate("/");
+          }else{
+            if (mediaType === "movie") {
+              navigate("/movies/view", { state: { data } })
+            } else {
+              navigate("/shows/view", { state: { data } })
+            }
           }
         }}
         initialPlaybackProps={{

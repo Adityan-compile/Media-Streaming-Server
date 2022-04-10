@@ -66,6 +66,6 @@ router.route("/toprated").get([authenticator.authenticate], getTopRated);
 
 router.route("/watching/all").get([authenticator.authenticate], getWatching);
 
-router.route("/watching/update").get([authenticator.authenticate], setWatching);
+router.route("/watching/update").post([authenticator.authenticate], setWatching);
 
 module.exports = router;

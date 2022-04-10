@@ -343,8 +343,8 @@ exports.setWatching = async (req, res) => {
   try {
     const count = await watching.count({
       where: {
-        mediaId: body.id,
-        user: user.id
+        mediaId: body.mediaId,
+        user: user.id,
       },
     });
 
@@ -355,7 +355,7 @@ exports.setWatching = async (req, res) => {
         },
         {
           where: {
-            mediaId: body.id,
+            mediaId: body.mediaId,
             user: user.id,
           },
         }
@@ -376,7 +376,7 @@ exports.setWatching = async (req, res) => {
       timestamp: body.timestamp,
       filename: body.filename,
       mediaType: body.type,
-      mediaId: body.id,
+      mediaId: body.mediaId,
       title: body.title,
       poster: body.poster,
     });
@@ -387,9 +387,10 @@ exports.setWatching = async (req, res) => {
         new ResponseBuilder()
           .setStatus(200)
           .setMessage("Watching List Updated")
-          .setBody({ added: added.toJSON() })
+          .setBody({ updated: added.toJSON() })
       );
   } catch (err) {
+    console.error(err);
     return res
       .status(500)
       .json(

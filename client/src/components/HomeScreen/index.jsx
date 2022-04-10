@@ -63,7 +63,7 @@ function HomeScreen() {
               Start Watching to see the Movies and TV Magically Show up Here {" "}
             </h3>) : (
               watching.map((el) => (
-                <Card key={el.id} data={el} type={el.mediaType === "movie" ? "m" : "s"} />
+                <Card key={el.id} data={el} type={el.mediaType === "movie" ? "m" : "s"} mode="continue" />
               ))
             )
           }
