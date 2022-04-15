@@ -12,21 +12,10 @@ function useWatching(onError = () => {}) {
       .catch((err) => onError("fetch-error"));
   }, []);
 
-  const updateWatching = (body) => {
-    update(body)
-      .then((res) => {
-        console.log(res)
-        // TODO: Re-implement to prevent Duplication
-        // if (watching.indexOf(res) === -1) {
-        //   const temp = watching;
-        //   temp.push(res);
-        //   setWatching(temp);
-        // } else {
-        //   const temp = watching;
-        //   temp[indexOf(res)] = res;
-        // }
-      })
-      .catch((err) => {});
+  const updateWatching = async (body) => {
+    await update(body);
+    // .then((res) =>{})
+    // .catch((err) => {});
   };
 
   return {

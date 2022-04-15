@@ -374,7 +374,7 @@ exports.setWatching = async (req, res) => {
     const added = await watching.create({
       user: user.id,
       timestamp: body.timestamp,
-      filename: body.filename,
+      file: body.filename,
       mediaType: body.type,
       mediaId: body.mediaId,
       title: body.title,

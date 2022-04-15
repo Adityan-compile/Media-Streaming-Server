@@ -12,19 +12,19 @@ function Card({ data, admin = false, type = "m", mode = "" }) {
         onClick={(e) => {
           e.preventDefault();
 
-            if (type === "m") {
-              navigate(`/movies/edit/`, {
-                state: {
-                  data
-                }
-              });
-            } else {
-              navigate(`/shows/edit/`, {
-                state: {
-                  data
-                }
-              });
-            }
+          if (type === "m") {
+            navigate(`/movies/edit/`, {
+              state: {
+                data
+              }
+            });
+          } else {
+            navigate(`/shows/edit/`, {
+              state: {
+                data
+              }
+            });
+          }
         }}
       >
         <div
@@ -41,13 +41,14 @@ function Card({ data, admin = false, type = "m", mode = "" }) {
       <div
         onClick={(e) => {
           e.preventDefault();
-          if(mode ==="continue"){
+          if (mode === "continue") {
+            data.mode = "continue";
             navigate("/player", {
               state: {
                 data
               }
             })
-          }else{
+          } else {
             if (type === "m") {
               navigate("/movies/view", {
                 state: {

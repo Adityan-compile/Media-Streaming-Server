@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamp: {
         type: DataTypes.STRING,
       },
-      filename: {
+      file: {
         type: DataTypes.STRING,
       },
       mediaType: {

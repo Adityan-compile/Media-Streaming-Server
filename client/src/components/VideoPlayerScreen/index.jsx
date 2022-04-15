@@ -16,29 +16,38 @@ function VideoPlayerScreen() {
   const mediaType = state.type;
 
   const [player, setPlayer] = useState(0);
+  const [streamObj, setStreamObj] = useState({});
 
   const { updateWatching } = useWatching();
 
-  useEffect(()=>{
-    if(data?.mode==="continue"){
-      player.setPosition(data.position);
-    }
-  },[]);
+  useEffect(() => {
+    setStreamObj((data?.mode === "continue") ? () => {
+      return {
+        streamUrl: `/api/media/movies/stream?file=${data.file}`,
+        startPosition: parseInt(data?.timestamp || 0),
+      }
+    } : `/api/media/movies/stream?file=${data.file}`);
+    player.play?.();
+  }, []);
 
   // Update Watching Position Every 10 Seconds
-  const throttledUpdate = useThrottledCallback((pos)=>{
-    updateWatching({
-      timestamp: pos,
+  const throttledUpdate = useThrottledCallback((pos) => {
+    const updateObj = {
+      timestamp: Math.trunc(pos),
       filename: data.file,
       type: mediaType,
       mediaId: data.id,
       title: data.name,
       poster: data.poster
-    });
-  },10000);
+    }
+    if (data.mode === "continue") {
+      updateObj.mediaId = data.mediaId
+    }
+    updateWatching(updateObj);
+  }, 10000);
 
   const handleStreamStateChange = (state) => {
-    if(state.hasOwnProperty("position")){
+    if (state.hasOwnProperty("position") && state.position !== 0) {
       throttledUpdate(state.position);
     }
     if (state.playState === 'inactive') {
@@ -48,9 +57,9 @@ function VideoPlayerScreen() {
         //Implement Reset Watching Logic Here
 
         setTimeout(() => {
-          if(data.mode === "continue"){
+          if (data.mode === "continue") {
             navigate("/");
-          }else{
+          } else {
             if (mediaType === "movie") {
               navigate("/movies/view", { state: { data } })
             } else {
@@ -67,9 +76,9 @@ function VideoPlayerScreen() {
       <Replay
         onPlaybackActionsReady={setPlayer}
         onExit={() => {
-          if(data.mode==="continue"){
+          if (data.mode === "continue") {
             navigate("/");
-          }else{
+          } else {
             if (mediaType === "movie") {
               navigate("/movies/view", { state: { data } })
             } else {
@@ -78,9 +87,9 @@ function VideoPlayerScreen() {
           }
         }}
         initialPlaybackProps={{
-          volume: 0.6
+          volume: 0.6,
         }}
-        source={`/api/media/movies/stream?file=${data.file}`}
+        source={streamObj}
         onStreamStateChange={handleStreamStateChange}
       />
     </div>

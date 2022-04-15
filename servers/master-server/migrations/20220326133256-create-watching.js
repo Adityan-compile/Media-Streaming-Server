@@ -9,7 +9,7 @@ module.exports = {
       user: {
         type: Sequelize.STRING,
       },
-      filename: {
+      file: {
         type: Sequelize.STRING,
       },
       timestamp: {
