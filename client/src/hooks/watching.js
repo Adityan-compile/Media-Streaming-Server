@@ -4,7 +4,11 @@ import Context from "../store";
 
 function useWatching(onError = () => {}) {
   const [watching, setWatching] = useState([]);
-  const { fetchWatching, updateWatching: update } = useContext(Context);
+  const {
+    fetchWatching,
+    updateWatching: update,
+    resetWatching: reset,
+  } = useContext(Context);
 
   useEffect(() => {
     fetchWatching()
@@ -14,13 +18,16 @@ function useWatching(onError = () => {}) {
 
   const updateWatching = async (body) => {
     await update(body);
-    // .then((res) =>{})
-    // .catch((err) => {});
+  };
+
+  const resetWatching = async (mediaId) => {
+    await reset(mediaId);
   };
 
   return {
     watching,
     updateWatching,
+    resetWatching,
   };
 }
 

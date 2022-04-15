@@ -403,10 +403,10 @@ exports.setWatching = async (req, res) => {
 };
 
 exports.resetWatching = async (req, res) => {
-  const body = req.body;
+  const mediaId = req.query.mediaId;
   const user = req.user;
 
-  if (!body || Object.keys(body).length === 0) {
+  if (!mediaId || mediaId.length === 0) {
     return res
       .status(400)
       .json(
@@ -417,7 +417,7 @@ exports.resetWatching = async (req, res) => {
   try {
     await watching.destroy({
       where: {
-        mediaId: body.id,
+        mediaId,
         user: user.id,
       },
     });

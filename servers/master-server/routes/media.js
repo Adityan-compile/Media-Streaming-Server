@@ -18,6 +18,7 @@ const {
   deleteHighlight,
   getWatching,
   setWatching,
+  resetWatching,
 } = require("../controllers/mediaController");
 const authenticator = require("../middleware/authenticator");
 const { checkMovie } = require("../middleware/check");
@@ -66,6 +67,11 @@ router.route("/toprated").get([authenticator.authenticate], getTopRated);
 
 router.route("/watching/all").get([authenticator.authenticate], getWatching);
 
-router.route("/watching/update").post([authenticator.authenticate], setWatching);
+router
+  .route("/watching/update")
+  .post([authenticator.authenticate], setWatching);
+router
+  .route("/watching/reset")
+  .delete([authenticator.authenticate], resetWatching);
 
 module.exports = router;

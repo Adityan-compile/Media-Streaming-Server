@@ -52,7 +52,7 @@ const media = {
         .catch((e) => reject(e));
     });
   },
-  fetchWatching: ()=>{
+  fetchWatching: () => {
     return new Promise((resolve, reject) => {
       axios
         .get("/media/watching/all")
@@ -62,11 +62,22 @@ const media = {
         .catch((e) => reject(e));
     });
   },
-  updateWatching: (body)=>{
-    return new Promise((resolve,reject)=>{
-      axios.post("/media/watching/update", body).then(({data})=>resolve(data.body.updated)).catch(err=>reject(err))
+  updateWatching: (body) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/media/watching/update", body)
+        .then(({ data }) => resolve(data.body.updated))
+        .catch((err) => reject(err));
     });
-  }
+  },
+  resetWatching: (mediaId) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/media/watching/reset?mediaId=${mediaId}`)
+        .then(resolve)
+        .catch(reject);
+    });
+  },
 };
 
 export default media;

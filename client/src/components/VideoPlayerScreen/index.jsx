@@ -18,7 +18,7 @@ function VideoPlayerScreen() {
   const [player, setPlayer] = useState(0);
   const [streamObj, setStreamObj] = useState({});
 
-  const { updateWatching } = useWatching();
+  const { updateWatching, resetWatching } = useWatching();
 
   useEffect(() => {
     setStreamObj((data?.mode === "continue") ? () => {
@@ -54,7 +54,12 @@ function VideoPlayerScreen() {
       const playerState = player.inspect();
       if (playerState.duration !== 0 && playerState.position !== 0) {
 
-        //Implement Reset Watching Logic Here
+        // Reset the Watching List
+        if (data.mode === "continue") {
+          resetWatching(data.mediaId);
+        } else {
+          resetWatching(data.id);
+        }
 
         setTimeout(() => {
           if (data.mode === "continue") {
