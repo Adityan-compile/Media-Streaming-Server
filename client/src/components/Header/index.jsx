@@ -13,8 +13,6 @@ function Header() {
 
   const [visible, setVisible] = useState(true);
 
-
-
   const location = useLocation();
 
   useEffect(() => {
@@ -41,7 +39,7 @@ function Header() {
       }
     },
     {
-      label: "TV Shows",
+      label: "Shows",
       icon: "pi pi-desktop",
       command: () => {
         navigate('/shows');

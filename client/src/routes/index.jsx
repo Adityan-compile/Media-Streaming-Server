@@ -10,6 +10,7 @@ import AuthProvider from "../store/providers/authProvider";
 import Context from "../store";
 import Dashboard from "../pages/Dashboard";
 import EditMovie from "../pages/EditMovie";
+import EditShow from "../pages/EditShow";
 import Header from "../components/Header";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -119,6 +120,14 @@ function Routes() {
             element={
               <RouteGuard>
                 <EditMovie />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path={"/shows/edit"}
+            element={
+              <RouteGuard>
+                <EditShow />
               </RouteGuard>
             }
           />

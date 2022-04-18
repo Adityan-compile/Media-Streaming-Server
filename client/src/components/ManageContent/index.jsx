@@ -17,7 +17,7 @@ function ManageContent() {
   const [movies, setMovies] = useState([]);
   const [shows, setShows] = useState([]);
 
-  const { getMovies } = useContext(Context);
+  const { getMovies, getShows } = useContext(Context);
 
   useEffect(() => {
     getMovies().then(res => {
@@ -38,6 +38,25 @@ function ManageContent() {
         life: 3000,
       });
     });
+    getShows().then(res => {
+      if (res.length === 0) {
+        toastRef.current.show({
+          severity: "warning",
+          summary: "Info",
+          detail: "No Shows Found",
+          life: 3000,
+        });
+      }
+      setShows(res);
+    }).catch(e => {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Cannot Load Shows",
+        life: 3000,
+      });
+    });
+
   }, []);
 
   const onMovieSuccess = (newMovie) => {
@@ -105,11 +124,22 @@ function ManageContent() {
         onSuccess={onShowSuccess}
         onError={onShowError}
       />
-      <h3>Movies</h3>
-      <div className={styles.content}>
-        {movies.map((movie, index) => (
-          <Card key={index} admin={true} data={movie} />
-        ))}
+
+      <div className="m-20">
+        <h3>Movies</h3>
+        <div className={styles.content}>
+          {movies.map((movie, index) => (
+            <Card key={index} admin={true} data={movie} />
+          ))}
+        </div>
+      </div>
+      <div className="m-20">
+        <h3>Shows</h3>
+        <div className={styles.content}>
+          {shows.map((movie, index) => (
+            <Card key={index} admin={true} data={movie} type="s" />
+          ))}
+        </div>
       </div>
     </div>
   );
