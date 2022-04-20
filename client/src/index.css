@@ -60,6 +60,9 @@
 .m-20 {
   margin: 20px;
 }
+.m-10 {
+  margin: 10px;
+}
 
 .ml-10 {
   margin-left: 10px;
@@ -109,7 +112,7 @@
 
 .grid{
   display: grid;
-  grid-template-columns: repeat(2,50%);
+  grid-template-columns: repeat(2,1fr);
   grid-gap: 20px;
   padding: 20px;
   justify-content: center;

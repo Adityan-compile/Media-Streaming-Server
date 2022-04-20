@@ -1,0 +1,30 @@
+.edit{
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.title{
+    margin: 50px;
+    text-align: center;
+}
+
+.infoGrid{
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+.editFormGrid{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.editInput{
+    margin: 10px;
+    width:40%;
+}
+
+.textArea, .saveBtn{
+    margin: 10px;
+    width: 82%;
+}

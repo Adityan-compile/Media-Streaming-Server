@@ -3,8 +3,9 @@ import { useContext, useState } from "react";
 import Context from "../store";
 
 function useEditShow(data, onDelete = () => {}, onError = () => {}) {
+  console.log(data);
   const [poster, setPoster] = useState(data.poster);
-  const [file, setFile] = useState(data.file);
+  const [seasons,setSeasons] = useState(data.seasons);
   const [title, setTitle] = useState(data.name);
   const [tagline, setTagline] = useState(data.tagline);
   const [description, setDescription] = useState(data.description);
@@ -31,7 +32,6 @@ function useEditShow(data, onDelete = () => {}, onError = () => {}) {
   return {
     state: {
       poster,
-      file,
       title,
       tagline,
       description,
@@ -42,10 +42,10 @@ function useEditShow(data, onDelete = () => {}, onError = () => {}) {
       releaseDate,
       runtime,
       studio,
+      seasons
     },
     methods: {
       setPoster,
-      setFile,
       setTitle,
       setTagline,
       setDescription,
@@ -56,6 +56,7 @@ function useEditShow(data, onDelete = () => {}, onError = () => {}) {
       setReleaseDate,
       setRuntime,
       setStudio,
+      setSeasons,
       editShow,
       deleteShow,
     },

@@ -11,8 +11,6 @@ function ViewShowScreen() {
     const { state } = useLocation();
     const data = state.data;
 
-    console.log(data)
-
     return (
         <div className="screen-container">
             <div className="info-grid">

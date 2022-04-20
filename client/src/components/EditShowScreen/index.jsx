@@ -10,6 +10,7 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { ProgressBar } from "primereact/progressbar";
 import { ProgressSpinner } from "primereact/progressspinner";
+import SeasonTab from "../SeasonTab";
 import axios from "axios";
 import styles from "./styles.module.css";
 import useEditShow from "../../hooks/editShow";
@@ -48,23 +49,23 @@ function EditShowScreen() {
     const [uploading, setUploading] = useState(0);
 
     const request = axios.CancelToken.source();
-    useEffect(() => {
-        let filesTemp = [
-            {
-                name: data.trailer,
-                type: "Trailer",
-                platform: "Youtube",
-            },
-        ];
-        if (data.file.length > 0) {
-            filesTemp.push({
-                name: data.file,
-                type: "File",
-                platform: "Local",
-            });
-        }
-        setFiles(filesTemp);
-    }, []);
+    // useEffect(() => {
+    // let filesTemp = [
+    //     {
+    //         name: data.trailer,
+    //         type: "Trailer",
+    //         platform: "Youtube",
+    //     },
+    // ];
+    // if (data.file.length > 0) {
+    //     filesTemp.push({
+    //         name: data.file,
+    //         type: "File",
+    //         platform: "Local",
+    //     });
+    // }
+    // setFiles(filesTemp);
+    // }, []);
 
     const { uploadShowFile } = useUploadShowFile();
 
@@ -164,6 +165,7 @@ function EditShowScreen() {
                             className={styles.editInput}
                             placeholder="TMDB Poster Path (/example.jpg)"
                             defaultValue={ShowService.state.poster}
+                            onChange={e=>ShowService.methods.setPoster(e.target.value)}
                         />
                         <InputText
                             className={styles.editInput}
@@ -199,7 +201,7 @@ function EditShowScreen() {
                     </form>
                 </div>
             </div>
-            {ShowService.state.file.length === 0 && (
+            {/* {ShowService.state.file.length === 0 && (
                 <div>
                     <div
                         style={{
@@ -240,8 +242,8 @@ function EditShowScreen() {
                         />
                     </div>
                 </div>
-            )}
-            <div>
+            )} */}
+            {/* <div>
                 <h1 className={styles.title}>File Browser</h1>
                 <DataTable value={files}>
                     <Column header="Name" field="name" />
@@ -255,6 +257,10 @@ function EditShowScreen() {
                         )}
                     />
                 </DataTable>
+            </div> */}
+            <div className="seasons">
+                <h2 className="title m-20">Seasons</h2>
+                <SeasonTab data={{ seasons: ShowService.state.seasons }} />
             </div>
         </div>
     );
