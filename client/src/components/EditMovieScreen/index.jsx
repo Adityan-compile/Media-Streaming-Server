@@ -31,6 +31,14 @@ function EditScreen() {
     setTimeout(() => navigate('/dashboard'), 3000);
   };
 
+  const onEdit = () => {
+    toastRef.current.show({
+      severity: "success",
+      summary: "Movie Edited",
+      life: 3000,
+    });
+  };
+
   const onError = (err) => {
     toastRef.current.show({
       severity: "error",
@@ -40,7 +48,7 @@ function EditScreen() {
     });
   };
 
-  const movieService = useEditMovie(data, onDelete, onError);
+  const movieService = useEditMovie(data, onDelete, onError, onEdit);
 
   const [files, setFiles] = useState([]);
   const [progress, setProgress] = useState(0);
@@ -134,26 +142,26 @@ function EditScreen() {
               className={styles.editInput}
               placeholder="Title"
               value={movieService.state.title}
-              onChange={e=>movieService.methods.setTitle(e.target.value)}
+              onChange={e => movieService.methods.setTitle(e.target.value)}
             />
             <InputText
               className={styles.editInput}
               placeholder="Tagline"
               value={movieService.state.tagline}
-              onChange={e=>movieService.methods.setTagline(e.target.value)}
+              onChange={e => movieService.methods.setTagline(e.target.value)}
             />
             <InputTextarea
               placeholder="Description"
               className={styles.textArea}
               value={movieService.state.description}
-              onChange={e=>movieService.methods.setDescription(e.target.value)}
+              onChange={e => movieService.methods.setDescription(e.target.value)}
               autoResize
             />
             <InputText
               className={styles.editInput}
               value={movieService.state.language}
               placeholder="Language"
-              onChange={e=>movieService.methods.setLanguage(e.target.value)}
+              onChange={e => movieService.methods.setLanguage(e.target.value)}
             />
             {/* <InputText
               className={styles.editInput}
@@ -165,19 +173,19 @@ function EditScreen() {
               className={styles.editInput}
               placeholder="Trailer ID (dQw4w9WgXcQ)"
               value={movieService.state.trailer}
-              onChange={e=>movieService.methods.setTrailer(e.target.value)}
+              onChange={e => movieService.methods.setTrailer(e.target.value)}
             />
             <InputText
               className={styles.editInput}
               placeholder="TMDB Poster Path (/example.jpg)"
               value={movieService.state.poster}
-              onChange={e=>movieService.methods.setPoster(e.target.value)}
+              onChange={e => movieService.methods.setPoster(e.target.value)}
             />
             <InputText
               className={styles.editInput}
               placeholder="Rating"
               value={movieService.state.rating}
-              onChange={e=>movieService.methods.setRating(e.target.value)}
+              onChange={e => movieService.methods.setRating(e.target.value)}
             />
             {/* <Dropdown
               className={styles.editInput}
@@ -199,15 +207,18 @@ function EditScreen() {
               className={styles.editInput}
               value={movieService.state.releaseDate}
               placeholder="Release Date"
-              onChange={e=>movieService.methods.setReleaseDate(e.target.value)}
+              onChange={e => movieService.methods.setReleaseDate(e.target.value)}
             />
             <InputText
               className={styles.editInput}
               value={movieService.state.runtime}
               placeholder="Runtime"
-              onChange={e=>movieService.methods.setRuntime(e.target.value)}
+              onChange={e => movieService.methods.setRuntime(e.target.value)}
             />
-            <Button label="Save" className={styles.saveBtn} />
+            <Button label="Save" className={styles.saveBtn} onClick={e => {
+              e.preventDefault();
+              movieService.methods.editMovie();
+            }} />
           </form>
         </div>
       </div>

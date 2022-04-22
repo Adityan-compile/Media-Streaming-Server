@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 
 import Context from "../store";
 
-function useEditMovie(data, onDelete = () => {}, onError = () => {}) {
+function useEditMovie(data, onDelete = () => {}, onError = () => {}, onEdit=()=>{}) {
   const [poster, setPoster] = useState(data.poster);
   const [file, setFile] = useState(data.file);
   const [title, setTitle] = useState(data.name);
@@ -16,7 +16,8 @@ function useEditMovie(data, onDelete = () => {}, onError = () => {}) {
   );
   const [runtime, setRuntime] = useState(data.runtime);
 
-  const { deleteMovie: deleteMovieService } = useContext(Context);
+  const { deleteMovie: deleteService, editMovie: editService } =
+    useContext(Context);
 
   const editMovie = () => {
     const body = {
@@ -34,10 +35,13 @@ function useEditMovie(data, onDelete = () => {}, onError = () => {}) {
         runtime,
       },
     };
+    editService(body)
+      .then((res) => onEdit())
+      .catch((err) => onError(err));
   };
 
   const deleteMovie = () => {
-    deleteMovieService(data.id)
+    deleteService(data.id)
       .then((res) => onDelete(res))
       .catch((err) => onError(err));
   };

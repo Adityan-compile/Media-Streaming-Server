@@ -20,6 +20,7 @@ const {
   setWatching,
   resetWatching,
   deleteShow,
+  editMovie,
 } = require("../controllers/mediaController");
 const authenticator = require("../middleware/authenticator");
 const { checkMovie } = require("../middleware/check");
@@ -76,5 +77,7 @@ router
 router
   .route("/watching/reset")
   .delete([authenticator.authenticate], resetWatching);
+
+router.route("/movies/edit").patch([authenticator.authenticate], editMovie);
 
 module.exports = router;
