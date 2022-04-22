@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 
 import Context from "../store";
 
-function useEditMovie(data, onDelete=()=>{}, onError=()=>{}) {
+function useEditMovie(data, onDelete = () => {}, onError = () => {}) {
   const [poster, setPoster] = useState(data.poster);
   const [file, setFile] = useState(data.file);
   const [title, setTitle] = useState(data.name);
@@ -10,18 +10,36 @@ function useEditMovie(data, onDelete=()=>{}, onError=()=>{}) {
   const [description, setDescription] = useState(data.description);
   const [trailer, setTrailer] = useState(data.trailer);
   const [language, setLanguage] = useState(data.lang);
-  const [studio, setStudio] = useState(data.studio);
   const [rating, setRating] = useState(data.rating);
-  const [adult, setAdult] = useState(data.adult);
-  const [releaseDate, setReleaseDate] = useState(new Date(data.createdAt).getFullYear());
+  const [releaseDate, setReleaseDate] = useState(
+    new Date(data.createdAt).getFullYear()
+  );
   const [runtime, setRuntime] = useState(data.runtime);
 
-  const {deleteMovie:deleteMovieService} = useContext(Context);
+  const { deleteMovie: deleteMovieService } = useContext(Context);
 
-  const editMovie = () => {};
+  const editMovie = () => {
+    const body = {
+      id: data.id,
+      updatedFields: {
+        poster,
+        file,
+        title,
+        tagline,
+        description,
+        trailer,
+        lang: language,
+        rating,
+        releaseDate,
+        runtime,
+      },
+    };
+  };
 
-  const deleteMovie = ()=>{
-    deleteMovieService(data.id).then(res=>onDelete(res)).catch(err=>onError(err));
+  const deleteMovie = () => {
+    deleteMovieService(data.id)
+      .then((res) => onDelete(res))
+      .catch((err) => onError(err));
   };
 
   return {
@@ -34,10 +52,8 @@ function useEditMovie(data, onDelete=()=>{}, onError=()=>{}) {
       trailer,
       language,
       rating,
-      adult,
       releaseDate,
       runtime,
-      studio
     },
     methods: {
       setPoster,
@@ -48,12 +64,10 @@ function useEditMovie(data, onDelete=()=>{}, onError=()=>{}) {
       setTrailer,
       setLanguage,
       setRating,
-      setAdult,
       setReleaseDate,
       setRuntime,
-      setStudio,
       editMovie,
-      deleteMovie
+      deleteMovie,
     },
   };
 }

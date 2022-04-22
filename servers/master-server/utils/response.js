@@ -17,7 +17,7 @@ class ResponseBuilder {
     this.status = status;
     return this;
   }
-  setMessage(message) {
+  setMessage(message="Success") {
     this.message = message;
     return this;
   }

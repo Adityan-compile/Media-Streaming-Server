@@ -133,48 +133,56 @@ function EditScreen() {
             <InputText
               className={styles.editInput}
               placeholder="Title"
-              defaultValue={movieService.state.title}
+              value={movieService.state.title}
+              onChange={e=>movieService.methods.setTitle(e.target.value)}
             />
             <InputText
               className={styles.editInput}
               placeholder="Tagline"
-              defaultValue={movieService.state.tagline}
+              value={movieService.state.tagline}
+              onChange={e=>movieService.methods.setTagline(e.target.value)}
             />
             <InputTextarea
               placeholder="Description"
               className={styles.textArea}
-              defaultValue={movieService.state.description}
+              value={movieService.state.description}
+              onChange={e=>movieService.methods.setDescription(e.target.value)}
               autoResize
             />
             <InputText
               className={styles.editInput}
-              defaultValue={movieService.state.language}
+              value={movieService.state.language}
               placeholder="Language"
+              onChange={e=>movieService.methods.setLanguage(e.target.value)}
             />
-            <InputText
+            {/* <InputText
               className={styles.editInput}
-              defaultValue={movieService.state.studio}
+              value={movieService.state.studio}
+              onChange={e=>movieService.methods.setStudio(e.target.value)}
               placeholder="Studio"
-            />
+            /> */}
             <InputText
               className={styles.editInput}
               placeholder="Trailer ID (dQw4w9WgXcQ)"
-              defaultValue={movieService.state.trailer}
+              value={movieService.state.trailer}
+              onChange={e=>movieService.methods.setTrailer(e.target.value)}
             />
             <InputText
               className={styles.editInput}
               placeholder="TMDB Poster Path (/example.jpg)"
-              defaultValue={movieService.state.poster}
+              value={movieService.state.poster}
+              onChange={e=>movieService.methods.setPoster(e.target.value)}
             />
             <InputText
               className={styles.editInput}
               placeholder="Rating"
-              defaultValue={movieService.state.rating}
+              value={movieService.state.rating}
+              onChange={e=>movieService.methods.setRating(e.target.value)}
             />
-            <Dropdown
+            {/* <Dropdown
               className={styles.editInput}
               placeholder="Age Rating"
-              defaultValue={movieService.state.adult}
+              value={movieService.state.adult}
               options={[
                 {
                   label: "Adult",
@@ -185,16 +193,19 @@ function EditScreen() {
                   value: false,
                 },
               ]}
-            />
+              onChange={e=>console.log(e)}
+            /> */}
             <InputText
               className={styles.editInput}
-              defaultValue={movieService.state.releaseDate}
+              value={movieService.state.releaseDate}
               placeholder="Release Date"
+              onChange={e=>movieService.methods.setReleaseDate(e.target.value)}
             />
             <InputText
               className={styles.editInput}
-              defaultValue={movieService.state.runtime}
+              value={movieService.state.runtime}
               placeholder="Runtime"
+              onChange={e=>movieService.methods.setRuntime(e.target.value)}
             />
             <Button label="Save" className={styles.saveBtn} />
           </form>

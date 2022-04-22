@@ -5,9 +5,8 @@ import Context from "../store";
 function useEditShow(data, onDelete = () => {}, onError = () => {}) {
   console.log(data);
   const [poster, setPoster] = useState(data.poster);
-  const [seasons,setSeasons] = useState(data.seasons);
+  const [seasons, setSeasons] = useState(data.seasons);
   const [title, setTitle] = useState(data.name);
-  const [tagline, setTagline] = useState(data.tagline);
   const [description, setDescription] = useState(data.description);
   const [trailer, setTrailer] = useState(data.trailer);
   const [language, setLanguage] = useState(data.lang);
@@ -33,7 +32,6 @@ function useEditShow(data, onDelete = () => {}, onError = () => {}) {
     state: {
       poster,
       title,
-      tagline,
       description,
       trailer,
       language,
@@ -42,12 +40,11 @@ function useEditShow(data, onDelete = () => {}, onError = () => {}) {
       releaseDate,
       runtime,
       studio,
-      seasons
+      seasons,
     },
     methods: {
       setPoster,
       setTitle,
-      setTagline,
       setDescription,
       setTrailer,
       setLanguage,

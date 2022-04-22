@@ -291,6 +291,40 @@ exports.deleteMovie = async (req, res) => {
   }
 };
 
+exports.deleteShow = async (req, res) => {
+  const id = req.query.id;
+
+  if (!id) {
+    return res
+      .status(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
+  }
+
+  try {
+    await shows.destroy({
+      where: {
+        id: id,
+      },
+    });
+    res
+      .status(204)
+      .json(
+        new ResponseBuilder().setStatus(204).setMessage("Show Deleted").build()
+      );
+  } catch (err) {
+    res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Cannot Delete Show")
+          .build()
+      );
+  }
+};
+
 exports.getTopRated = async (req, res) => {
   try {
     const movie_results = await movies.findAll({
@@ -456,6 +490,38 @@ exports.getWatching = async (req, res) => {
         new ResponseBuilder()
           .setStatus(500)
           .setMessage("Database Error")
+          .build()
+      );
+  }
+};
+
+exports.editMovie = async (req, res) => {
+  const body = req.body;
+
+  if (!body || body.length === 0)
+    return res
+      .statue(400)
+      .json(
+        new ResponseBuilder().setStatus(400).setMessage("Bad Request").build()
+      );
+
+  try {
+    const updated = movies.update(body.updatedFields, {
+      where: {
+        id: body.id,
+      },
+    });
+
+    return res
+      .status(200)
+      .json(new ResponseBuilder().setStatus(200).setMessage().setBody(updated));
+  } catch (err) {
+    return res
+      .status(500)
+      .json(
+        new ResponseBuilder()
+          .setStatus(500)
+          .setMessage("Record Update Error")
           .build()
       );
   }

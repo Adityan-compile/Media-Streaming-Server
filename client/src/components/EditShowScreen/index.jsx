@@ -137,8 +137,8 @@ function EditShowScreen() {
                         />
                         <InputText
                             className={styles.editInput}
-                            placeholder="Tagline"
-                            defaultValue={ShowService.state.tagline}
+                            defaultValue={ShowService.state.studio}
+                            placeholder="Studio"
                         />
                         <InputTextarea
                             placeholder="Description"
@@ -151,11 +151,7 @@ function EditShowScreen() {
                             defaultValue={ShowService.state.language}
                             placeholder="Language"
                         />
-                        <InputText
-                            className={styles.editInput}
-                            defaultValue={ShowService.state.studio}
-                            placeholder="Studio"
-                        />
+
                         <InputText
                             className={styles.editInput}
                             placeholder="Trailer ID (dQw4w9WgXcQ)"
@@ -165,7 +161,7 @@ function EditShowScreen() {
                             className={styles.editInput}
                             placeholder="TMDB Poster Path (/example.jpg)"
                             defaultValue={ShowService.state.poster}
-                            onChange={e=>ShowService.methods.setPoster(e.target.value)}
+                            onChange={e => ShowService.methods.setPoster(e.target.value)}
                         />
                         <InputText
                             className={styles.editInput}
@@ -175,7 +171,7 @@ function EditShowScreen() {
                         <Dropdown
                             className={styles.editInput}
                             placeholder="Age Rating"
-                            defaultValue={ShowService.state.adult}
+                            value={ShowService.state.adult}
                             options={[
                                 {
                                     label: "Adult",

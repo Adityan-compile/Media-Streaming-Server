@@ -1,15 +1,29 @@
 import axios from "./axios";
 
 const show = {
-  saveShow: (showId)=>{
-    return new Promise((resolve,reject)=>{
-        axios.post(`/media/shows/new?id=${showId}`).then(({data})=>resolve(data.show)).catch(err=>reject(err));
+  saveShow: (showId) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`/media/shows/new?id=${showId}`)
+        .then(({ data }) => resolve(data.show))
+        .catch((err) => reject(err));
     });
   },
-  getShows: ()=>{
-    return new Promise((resolve,reject)=>{
-      axios.get('/media/shows/all').then(({data})=>resolve(data.shows)).catch(err=>reject(err));
-  });
+  getShows: () => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/media/shows/all")
+        .then(({ data }) => resolve(data.shows))
+        .catch((err) => reject(err));
+    });
+  },
+  deleteShow: (showId) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/media/shows/delete?id=${showId}`)
+        .then(({ data }) => resolve(data.show))
+        .catch((err) => reject(err));
+    });
   },
 };
 

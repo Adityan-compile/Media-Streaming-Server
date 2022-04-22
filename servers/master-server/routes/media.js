@@ -19,6 +19,7 @@ const {
   getWatching,
   setWatching,
   resetWatching,
+  deleteShow,
 } = require("../controllers/mediaController");
 const authenticator = require("../middleware/authenticator");
 const { checkMovie } = require("../middleware/check");
@@ -50,6 +51,8 @@ router.route("/movies/stream").get([authenticator.authenticate], streamMovie);
 router
   .route("/movies/delete")
   .delete([authenticator.authenticate], deleteMovie);
+
+router.route("/shows/delete").delete([authenticator.authenticate], deleteShow);
 
 router.route("/search").get([authenticator.authenticate], search);
 
